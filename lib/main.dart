@@ -1,23 +1,59 @@
+import 'package:events_flutter/blocs/global_bloc.dart';
+import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:flutter/material.dart';
+import 'splash_screen.dart';
+
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// App is implemented using BLoC pattern..
+// we have only one GlobalBloc for now.. wrapped with GlobalProvider
+// which is an inherited widget, made the root of the app (in build method of MyAppState)
+// you can get reference of Global bloc as following (anywhere as its the root)
+// globalBloc = GlobalProvider.of(context)
+//
+// MyApp is stateful because we need to override 'dispose' plus greater flexibility for future
+//
+// all the network stuff is handled in facebook_api.dart
+
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+//root widget of app
+class MyApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EventsFlutter',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'EventFlutter'),
-    );
+  MyAppState createState() {
+    return new MyAppState();
   }
 }
+
+class MyAppState extends State<MyApp> {
+  final GlobalBloc globalBloc = GlobalBloc();
+
+  @override
+  Widget build(BuildContext context) {
+    return GlobalProvider(
+      globalBloc: globalBloc,
+      child: MaterialApp(
+        title: 'EventsFlutter',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SplashScreen(), //show splashscreen at start
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    //dispose all sinks of global block here
+    globalBloc.dispose();
+    super.dispose();
+  }
+}
+
+// =========================OLD CONTENT BELOW THIS, WILL BE DELETED============
 
 class Post {}
 
@@ -40,12 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isLoggedIn = false;
   int loginStatus = -1;
 
-  void onLoginStatusChanged(bool isLoggedIn, int loginStatus) {
-    setState(() {
-      this.isLoggedIn = isLoggedIn;
-      this.loginStatus = loginStatus;
-    });
-  }
 
   void setPostIds(List<String> postIds) {
     setState(() {
@@ -78,35 +108,10 @@ class _MyHomePageState extends State<MyHomePage> {
           "&access_token=${facebookLoginResult.accessToken.token}");
       var s = json.decode(response2.body)["full_picture"];
       print(json.decode(response2.body));
-      if(s!=null)
-        picUrls.add(s);
+      if (s != null) picUrls.add(s);
     }
     print(picUrls);
     setPicUrls(picUrls);
-  }
-
-  void loginFb() async {
-    var facebookLogin = FacebookLogin();
-    facebookLoginResult =
-        await facebookLogin.loginWithPublishPermissions(['manage_pages']);
-
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        print("Error");
-        onLoginStatusChanged(false, 1);
-
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        onLoginStatusChanged(false, 2);
-
-        break;
-      case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-        onLoginStatusChanged(true, 0);
-
-        break;
-    }
   }
 
   @override
@@ -116,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body:
-          Container(child: isLoggedIn ? buildAfterLogin() : buildBeforeLogin()),
+          Container(),
       floatingActionButton: isLoggedIn
           ? FloatingActionButton(
               onPressed: fetchPostIds,
@@ -141,16 +146,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Center buildBeforeLogin() {
-    return Center(
-      child: RaisedButton(
-        onPressed: loginFb,
-        color: Colors.blue,
-        child: Text(
-          "Login",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
 }

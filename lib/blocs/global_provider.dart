@@ -1,0 +1,27 @@
+import 'package:events_flutter/blocs/global_bloc.dart';
+import 'package:flutter/widgets.dart';
+
+//this is a wrapper around bloc, to be used as the parent
+//so that it can be accessed anywhere (using of method) down the tree like a scoped model...
+
+//TODO : handle globalbloc.dispose in app (not here)
+
+class GlobalProvider extends InheritedWidget {
+  final GlobalBloc globalBloc;
+
+  GlobalProvider({
+    Key key,
+    @required this.globalBloc,
+    Widget child,
+  }) : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return true;
+  }
+
+  static GlobalBloc of(BuildContext context){
+    return (context.inheritFromWidgetOfExactType(GlobalProvider) as GlobalProvider).globalBloc;
+  }
+
+}
