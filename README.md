@@ -26,14 +26,15 @@ A facebook api based app for
 
 ```
 1.Start -> SplashLoaderScreen
-2.SplashLoaderScreen
-    if(has valid token in sharedprefs)
-        yes -> MainScreen
-        no -> LoginScreen 
-3.LoginScreen
-    if(success)
-        yes -> MainScreen
-4.MainScreen
+2.SplashScreen
+    show loading bar initially
+    if(has valid token in db) // tokens are of atleast 2 month validity
+        yes -> 'MainScreen'
+        no -> show login button
+                if(success) // onclick login button
+                    yes -> MainScreen
+                    no -> display error
+3.MainScreen
     layout: Tabs as in screens section ^^
 
     

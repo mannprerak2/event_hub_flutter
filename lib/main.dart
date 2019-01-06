@@ -1,5 +1,8 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
+import 'package:events_flutter/main_screen.dart';
+import 'package:events_flutter/models/hub_states.dart';
+import 'package:events_flutter/resources/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 
@@ -40,7 +43,21 @@ class MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: SplashScreen(), //show splashscreen at start
+        home: StreamBuilder( // HUB state builder
+          stream: globalBloc.hubStateStreamController.stream,
+          initialData: ShowSplashState(),
+          builder: (context, snapshot) {
+            //sometimes the process will be so fast that splashscreen may not even be shown
+            //if we need to slow it down.. we must use a timer before we call SharedPrefs.getToken
+            if (snapshot.data is ShowSplashState) {
+              SharedPrefs().getToken(globalBloc);
+              return SplashScreen();
+            } else if (snapshot.data is ShowMainState) {
+              globalBloc.disposeSplashController();
+              return MainScreen();
+            }
+          },
+        ),
       ),
     );
   }
@@ -75,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
   FacebookLoginResult facebookLoginResult;
   bool isLoggedIn = false;
   int loginStatus = -1;
-
 
   void setPostIds(List<String> postIds) {
     setState(() {
@@ -120,8 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body:
-          Container(),
+      body: Container(),
       floatingActionButton: isLoggedIn
           ? FloatingActionButton(
               onPressed: fetchPostIds,
@@ -145,5 +160,4 @@ class _MyHomePageState extends State<MyHomePage> {
       )),
     );
   }
-
 }

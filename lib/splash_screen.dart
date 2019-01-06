@@ -1,26 +1,15 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
-import 'package:events_flutter/models/login_states.dart';
+import 'package:events_flutter/models/hub_states.dart';
+import 'package:events_flutter/models/splash_states.dart';
 import 'package:flutter/material.dart';
 
-import './resources/facebook_api.dart';
-
-
-class SplashScreen extends StatefulWidget {
-  @override
-  SplashScreenState createState() {
-    return new SplashScreenState();
-  }
-}
-
-class SplashScreenState extends State<SplashScreen> {
-  Stream loginStream = null;
+class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     final globalBloc = GlobalProvider.of(context);
-    //get loginStream
-    // loginStream = globalBloc.facebookAPI.initFbLogin();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -35,15 +24,22 @@ class SplashScreenState extends State<SplashScreen> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          StreamBuilder<LoginState>(
-            stream: loginStream,
-            initialData: LoginReady(),
+          StreamBuilder(
+            stream: globalBloc.splashStateStreamController.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data is LoginInProgress) {
+                //for token states
+                if (snapshot.data is TokenExpired ||
+                    snapshot.data is TokenNotFound) {
+                  return loginButton(globalBloc);
+                } else if (snapshot.data is TokenValid) {
+                  //show mainscreen here
+                  globalBloc.hubStateStreamController.add(ShowMainState());
+                } else if (snapshot.data is LoginInProgress) {
                   return Text("Please wait...");
                 } else if (snapshot.data is LoginSuccess) {
-                  return Text("Success");
+                  //show mainscreen here
+                  globalBloc.hubStateStreamController.add(ShowMainState());
                 } else if (snapshot.data is LoginCancelled) {
                   return Column(
                     children: <Widget>[
@@ -58,12 +54,9 @@ class SplashScreenState extends State<SplashScreen> {
                       loginButton(globalBloc)
                     ],
                   );
-                } else if (snapshot.data is LoginReady) {
-                  return loginButton(globalBloc);
                 }
               }
-              // runs the first time..
-              return Text("...");
+              return Container();
             },
           )
         ],
@@ -73,12 +66,10 @@ class SplashScreenState extends State<SplashScreen> {
 
   RaisedButton loginButton(GlobalBloc globalBloc) {
     return RaisedButton(
-                  onPressed: () {
-                    setState(() {
-                      loginStream = globalBloc.facebookAPI.initFbLogin();
-                    });
-                  },
-                  child: Text("Login"),
-                );
+      onPressed: () {
+        globalBloc.facebookAPI.initFbLogin(globalBloc);
+      },
+      child: Text("Login"),
+    );
   }
 }
