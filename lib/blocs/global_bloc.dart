@@ -21,7 +21,7 @@ class GlobalBloc{
 
   // for controlling the view states in main screen
   final StreamController<MainState> mainStateStreamController = StreamController<MainState>();
-  
+  int currentMainTab = 0;
   // create sinks(Streamcontrollers) here to store data..
   // create streams from these sinks, for ui to listen to
   // fetch data from network and add it to respective sinks

@@ -3,3 +3,7 @@
 
 class MainState{}
 
+class TabState extends MainState{
+  int tabIndex;
+  TabState(this.tabIndex);
+}
