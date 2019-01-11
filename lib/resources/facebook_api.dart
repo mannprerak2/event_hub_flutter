@@ -5,7 +5,7 @@ import 'package:events_flutter/resources/shared_prefs.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
-import 'package:events_flutter/models/splash_states.dart';
+import 'package:events_flutter/states/splash_states.dart';
 import './../blocs/global_bloc.dart';
 
 // the only class which handles all facebook api network related stuff 

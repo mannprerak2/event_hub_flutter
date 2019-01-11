@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:events_flutter/blocs/global_bloc.dart';
-import 'package:events_flutter/models/splash_states.dart';
+import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,10 +25,10 @@ class SharedPrefs {
           FacebookAccessToken.fromMap(map);
       //check validity
       //checking if token validity has atleast 1-2 days
-      if (facebookAccessToken.expires.isAfter(DateTime.now()) &&
-          facebookAccessToken.expires.day > DateTime.now().day - 1) {
+      if (facebookAccessToken.expires.isAfter(DateTime.now().add(Duration(days: 1)))) {
         print("Token Valid");
-        globalBloc.splashStateStreamController.add(TokenValid(facebookAccessToken));
+        globalBloc.splashStateStreamController
+            .add(TokenValid(facebookAccessToken));
       } else {
         print("Token expired");
         sp.remove("token");

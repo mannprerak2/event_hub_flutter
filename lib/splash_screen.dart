@@ -1,7 +1,7 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
-import 'package:events_flutter/models/hub_states.dart';
-import 'package:events_flutter/models/splash_states.dart';
+import 'package:events_flutter/states/hub_states.dart';
+import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {

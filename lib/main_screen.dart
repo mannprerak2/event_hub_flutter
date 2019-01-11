@@ -1,6 +1,6 @@
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
-import 'package:events_flutter/models/main_states.dart';
+import 'package:events_flutter/states/main_states.dart';
 import 'package:events_flutter/ui/tabs/discover_tab.dart';
 import 'package:events_flutter/ui/tabs/event_tab.dart';
 import 'package:events_flutter/ui/tabs/saved_tab.dart';

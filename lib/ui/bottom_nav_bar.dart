@@ -1,4 +1,4 @@
-import 'package:events_flutter/models/main_states.dart';
+import 'package:events_flutter/states/main_states.dart';
 import 'package:flutter/material.dart';
 
 import './../blocs/global_bloc.dart';
@@ -19,6 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     globalBloc = GlobalProvider.of(context);
 
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
         currentIndex: currentItem,
         onTap: (i) {
           globalBloc.mainStateStreamController.add(TabState(i));

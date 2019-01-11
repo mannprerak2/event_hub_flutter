@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:events_flutter/models/hub_states.dart';
-import 'package:events_flutter/models/splash_states.dart';
-import 'package:events_flutter/models/main_states.dart';
+import 'package:events_flutter/states/hub_states.dart';
+import 'package:events_flutter/states/splash_states.dart';
+import 'package:events_flutter/states/main_states.dart';
 import 'package:rxdart/rxdart.dart';
 import './../resources/facebook_api.dart';
 
