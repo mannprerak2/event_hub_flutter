@@ -5,7 +5,6 @@ import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final globalBloc = GlobalProvider.of(context);
@@ -28,25 +27,11 @@ class SplashScreen extends StatelessWidget {
             stream: globalBloc.splashStateStreamController.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                //for token states
-                if (snapshot.data is TokenExpired ||
-                    snapshot.data is TokenNotFound) {
-                  return loginButton(globalBloc);
-                } else if (snapshot.data is TokenValid) {
-                  //show mainscreen here
-                  globalBloc.hubStateStreamController.add(ShowMainState());
-                } else if (snapshot.data is LoginInProgress) {
+                if (snapshot.data is LoginInProgress) {
                   return Text("Please wait...");
                 } else if (snapshot.data is LoginSuccess) {
                   //show mainscreen here
                   globalBloc.hubStateStreamController.add(ShowMainState());
-                } else if (snapshot.data is LoginCancelled) {
-                  return Column(
-                    children: <Widget>[
-                      Text("Login was cancelled by user"),
-                      loginButton(globalBloc)
-                    ],
-                  );
                 } else if (snapshot.data is LoginError) {
                   return Column(
                     children: <Widget>[
@@ -67,9 +52,9 @@ class SplashScreen extends StatelessWidget {
   RaisedButton loginButton(GlobalBloc globalBloc) {
     return RaisedButton(
       onPressed: () {
-        globalBloc.facebookAPI.initFbLogin(globalBloc);
+        globalBloc.firebase.firebaseLogin(globalBloc);
       },
-      child: Text("Login"),
+      child: Text("Retry"),
     );
   }
 }

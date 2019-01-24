@@ -6,7 +6,6 @@ import 'package:events_flutter/resources/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -34,6 +33,13 @@ class MyAppState extends State<MyApp> {
   final GlobalBloc globalBloc = GlobalBloc();
 
   @override
+  void initState() {
+    // try login to firebase on app start
+    globalBloc.firebase.firebaseLogin(globalBloc);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GlobalProvider(
       globalBloc: globalBloc,
@@ -43,14 +49,12 @@ class MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StreamBuilder( // HUB state builder
+        home: StreamBuilder(
+          // HUB state builder
           stream: globalBloc.hubStateStreamController.stream,
           initialData: ShowSplashState(),
           builder: (context, snapshot) {
-            //sometimes the process will be so fast that splashscreen may not even be shown
-            //if we need to slow it down.. we must use a timer before we call SharedPrefs.getToken
             if (snapshot.data is ShowSplashState) {
-              SharedPrefs().getToken(globalBloc);
               return SplashScreen();
             } else if (snapshot.data is ShowMainState) {
               globalBloc.disposeSplashController();
@@ -67,97 +71,5 @@ class MyAppState extends State<MyApp> {
     //dispose all sinks of global block here
     globalBloc.dispose();
     super.dispose();
-  }
-}
-
-// =========================OLD CONTENT BELOW THIS, WILL BE DELETED============
-
-class Post {}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final String fbapi = "https://graph.facebook.com/v3.2/";
-  final List<String> pageIds = ["458226214198430"];
-
-  List<String> postIds = [];
-  List<String> picUrls = [];
-  FacebookLoginResult facebookLoginResult;
-  bool isLoggedIn = false;
-  int loginStatus = -1;
-
-  void setPostIds(List<String> postIds) {
-    setState(() {
-      this.postIds = postIds;
-    });
-  }
-
-  void setPicUrls(List<String> picUrls) {
-    setState(() {
-      this.picUrls = picUrls;
-    });
-  }
-
-  void fetchPostIds() async {
-    List<String> postIds = [];
-    List<String> picUrls = [];
-    http.Response response = await http.get(fbapi +
-        "${pageIds[0]}" +
-        "/posts?fields=id"
-        "&access_token=${facebookLoginResult.accessToken.token}");
-    var dataObj = json.decode(response.body)["data"];
-    for (var obj in dataObj) {
-      postIds.add(obj["id"]);
-    }
-    setPostIds(postIds);
-    for (int i = 0; i < postIds.length; i++) {
-      http.Response response2 = await http.get(fbapi +
-          "${postIds[i]}" +
-          "?fields=full_picture" +
-          "&access_token=${facebookLoginResult.accessToken.token}");
-      var s = json.decode(response2.body)["full_picture"];
-      print(json.decode(response2.body));
-      if (s != null) picUrls.add(s);
-    }
-    print(picUrls);
-    setPicUrls(picUrls);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(),
-      floatingActionButton: isLoggedIn
-          ? FloatingActionButton(
-              onPressed: fetchPostIds,
-              child: Text("Fetch"),
-            )
-          : null,
-    );
-  }
-
-  Padding buildAfterLogin() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          child: ListView.builder(
-        itemCount: picUrls.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Image.network(picUrls[index]),
-          );
-        },
-      )),
-    );
   }
 }
