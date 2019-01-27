@@ -1,5 +1,6 @@
 import 'package:events_flutter/ui/tiles/event_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
 
 class EventTab extends StatelessWidget {
   @override
