@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/resources/firebase.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
@@ -27,7 +28,10 @@ class GlobalBloc{
   // create sinks(Streamcontrollers) here to store data..
   // create streams from these sinks, for ui to listen to
   // fetch data from network and add it to respective sinks
-
+  
+  
+  
+  final List<DocumentSnapshot> eventList = [];
   FirebaseUser user;
 
   
