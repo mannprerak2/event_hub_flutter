@@ -1,15 +1,17 @@
+import 'package:events_flutter/blocs/global_bloc.dart';
+import 'package:events_flutter/blocs/global_provider.dart';
+import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class EventListTile extends StatelessWidget {
-  final String name, url;
+  final String id, name, url;
   final DateTime date;
 
   final DateFormat formatter = DateFormat('MMM');
 
-  EventListTile(
-      {Key key, this.name, this.date, this.url})
+  EventListTile({Key key, this.id, this.name, this.date, this.url})
       : super(key: key);
 
   @override
@@ -63,7 +65,9 @@ class EventListTile extends StatelessWidget {
                       Text(
                         formatter.format(date).toUpperCase(),
                         style: TextStyle(color: Colors.green),
-                      )
+                      ),
+                      BookmarkButton(id,
+                          GlobalProvider.of(context).savedEvents.contains(id))
                     ]),
               ],
             ),

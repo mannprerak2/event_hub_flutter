@@ -2,7 +2,6 @@ import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/main_screen.dart';
 import 'package:events_flutter/states/hub_states.dart';
-import 'package:events_flutter/resources/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 
@@ -36,6 +35,8 @@ class MyAppState extends State<MyApp> {
   void initState() {
     // try login to firebase on app start
     globalBloc.firebase.firebaseLogin(globalBloc);
+    //get savedItems
+    globalBloc.sqlite.getAllSavedEventIds(globalBloc);
     super.initState();
   }
 

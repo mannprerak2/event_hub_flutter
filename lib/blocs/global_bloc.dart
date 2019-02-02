@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/resources/firebase.dart';
+import 'package:events_flutter/resources/shared_prefs.dart';
+import 'package:events_flutter/resources/sqlite_db.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:events_flutter/states/main_states.dart';
@@ -33,7 +35,9 @@ class GlobalBloc{
   
   final List<DocumentSnapshot> eventList = [];
   FirebaseUser user;
-
+  final List<String> savedEvents =[];
+  final SharedPrefs sharedPrefs = SharedPrefs();
+  final SQLite sqlite = SQLite();
   
 
 
