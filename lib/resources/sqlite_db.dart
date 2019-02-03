@@ -30,15 +30,23 @@ class SQLite {
     provider.delete(snapshot.documentID);
   }
 
-  void getAllSavedEventIds(GlobalBloc globalBloc) async {
+  Future<bool> hasEvent(String id) async {
     provider ??= SavedEventProvider();
     dbPath ??= await getDatabasesPath() + "saved.db";
     await provider.open(dbPath);
 
-    List<String> list = await provider.getAllIds();
-    globalBloc.savedEvents.clear();
-    globalBloc.savedEvents.addAll(list);
+    return await provider.exists(id);
   }
+
+  // void getAllSavedEventIds(GlobalBloc globalBloc) async {
+  //   provider ??= SavedEventProvider();
+  //   dbPath ??= await getDatabasesPath() + "saved.db";
+  //   await provider.open(dbPath);
+
+  //   List<String> list = await provider.getAllIds();
+  //   globalBloc.savedEvents.clear();
+  //   globalBloc.savedEvents.addAll(list);
+  // }
 
   Future<List<Map<String, dynamic>>> getSavedEvents(
       int batchSize, int page) async {

@@ -66,8 +66,7 @@ class EventListTile extends StatelessWidget {
                         formatter.format(date).toUpperCase(),
                         style: TextStyle(color: Colors.green),
                       ),
-                      BookmarkButton(id,
-                          GlobalProvider.of(context).savedEvents.contains(id))
+                      BookmarkButton(id, GlobalProvider.of(context))
                     ]),
               ],
             ),

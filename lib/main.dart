@@ -35,8 +35,6 @@ class MyAppState extends State<MyApp> {
   void initState() {
     // try login to firebase on app start
     globalBloc.firebase.firebaseLogin(globalBloc);
-    //get savedItems
-    globalBloc.sqlite.getAllSavedEventIds(globalBloc);
     super.initState();
   }
 

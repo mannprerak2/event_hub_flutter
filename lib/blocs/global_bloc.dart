@@ -14,39 +14,39 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // Root level bloc, can be accessed from anywhere using GlobalProvider
 
-class GlobalBloc{
+class GlobalBloc {
   final MFirebase firebase = MFirebase();
 
   // for controlling the Root view state of app used (main.dart), e.g splash screen or mainscreen etc...
-  final StreamController<HubState> hubStateStreamController = StreamController<HubState>();
+  final StreamController<HubState> hubStateStreamController =
+      StreamController<HubState>();
 
   // for controlling the view states in splash screen
-  final StreamController<SplashState> splashStateStreamController = StreamController<SplashState>();
+  final StreamController<SplashState> splashStateStreamController =
+      StreamController<SplashState>();
 
   // for controlling the view states in main screen
-  final StreamController<MainState> mainStateStreamController = StreamController<MainState>();
-  
-  
+  final StreamController<MainState> mainStateStreamController =
+      StreamController<MainState>();
+
   // create sinks(Streamcontrollers) here to store data..
   // create streams from these sinks, for ui to listen to
   // fetch data from network and add it to respective sinks
-  
-  
-  
+
   final List<DocumentSnapshot> eventList = [];
   FirebaseUser user;
-  final List<String> savedEvents =[];
+  // final List<String> savedEvents = [];
   final SharedPrefs sharedPrefs = SharedPrefs();
   final SQLite sqlite = SQLite();
-  
-
 
   //call this from main.dart to dispose off sinks
-  void dispose(){
+  void dispose() {
     hubStateStreamController.close();
     mainStateStreamController.close();
+    sqlite.provider.close();
   }
-  void disposeSplashController(){
+
+  void disposeSplashController() {
     splashStateStreamController.close();
   }
 }

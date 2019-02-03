@@ -30,6 +30,19 @@ create table $tableName (
     }
   }
 
+  Future<bool> exists(String id) async {
+    List<Map> maps = await db.query(tableName,
+        columns: [
+          columnId,
+        ],
+        where: '$columnId = ?',
+        whereArgs: [id]);
+    if (maps.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   void insert(DocumentSnapshot snapshot) async {
     Map<String, dynamic> map = Map();
     map['id'] = snapshot.documentID;
@@ -37,8 +50,8 @@ create table $tableName (
     map['location'] = snapshot.data['location'];
     map['image'] = snapshot.data['image'];
     map['date'] = snapshot.data['date'].toString();
-
-    await db.insert(tableName, map);
+    await db.insert(tableName, map,
+        conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   Future<Map<String, dynamic>> getEvent(String id) async {

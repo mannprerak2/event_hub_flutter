@@ -4,17 +4,28 @@ import 'package:flutter/material.dart';
 
 class BookmarkButton extends StatefulWidget {
   final String id;
-  final bool marked;
-  BookmarkButton(this.id, this.marked);
+  final GlobalBloc globalBloc;
+  BookmarkButton(this.id, this.globalBloc);
 
   @override
-  _BookmarkButtonState createState() => _BookmarkButtonState(marked);
+  _BookmarkButtonState createState() => _BookmarkButtonState();
 }
 
 class _BookmarkButtonState extends State<BookmarkButton> {
   bool marked;
 
-  _BookmarkButtonState(this.marked);
+  _BookmarkButtonState();
+
+  @override
+  void initState() {
+    marked = false;
+    () async {
+      marked = await widget.globalBloc.sqlite.hasEvent(widget.id);
+      print('marked:' + marked.toString());
+      if (this.mounted) setState(() {});
+    }();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +39,20 @@ class _BookmarkButtonState extends State<BookmarkButton> {
         GlobalBloc globalBloc = GlobalProvider.of(context);
         if (marked) {
           // globalBloc.sharedPrefs.removeSavedEvent(widget.id, globalBloc);
-          if (globalBloc.savedEvents.contains(widget.id)) {
-            globalBloc.savedEvents.remove(widget.id);
-            globalBloc.sqlite.removeEvent(globalBloc.eventList.firstWhere((e) {
-              return (e.documentID == widget.id);
-            }));
-            setState(() {
-              marked = false;
-            });
-          }
+          globalBloc.sqlite.removeEvent(globalBloc.eventList.firstWhere((e) {
+            return (e.documentID == widget.id);
+          }));
+          setState(() {
+            marked = false;
+          });
         } else {
           // globalBloc.sharedPrefs.addSavedEvent(widget.id, globalBloc);
-          if (!globalBloc.savedEvents.contains(widget.id)) {
-            globalBloc.savedEvents.add(widget.id);
-            globalBloc.sqlite.saveEvent(globalBloc.eventList.firstWhere((e) {
-              return (e.documentID == widget.id);
-            }));
-            setState(() {
-              marked = true;
-            });
-          }
+          globalBloc.sqlite.saveEvent(globalBloc.eventList.firstWhere((e) {
+            return (e.documentID == widget.id);
+          }));
+          setState(() {
+            marked = true;
+          });
         }
       },
     );
