@@ -16,12 +16,12 @@ class EventTab extends StatelessWidget {
       pageSize: batchSize,
       pageFuture: (pageIndex) {
         return Future<List<DocumentSnapshot>>(() async {
-          if (globalBloc.eventList.length <= pageIndex * batchSize) {
+          if (globalBloc.eventListCache.length <= pageIndex * batchSize) {
             if (!moreAvailable) return List<DocumentSnapshot>();
             print('fetching...');
             DocumentSnapshot last;
-            if (globalBloc.eventList.length > 0)
-              last = globalBloc.eventList.last;
+            if (globalBloc.eventListCache.length > 0)
+              last = globalBloc.eventListCache.last;
             //fetch
             QuerySnapshot snapshot = await Firestore.instance
                 .collection('events')
@@ -31,16 +31,16 @@ class EventTab extends StatelessWidget {
                 .getDocuments();
             //store it to list
             if (snapshot.documents.length < batchSize) moreAvailable = false;
-            globalBloc.eventList.addAll(snapshot.documents);
+            globalBloc.eventListCache.addAll(snapshot.documents);
             print(snapshot.documents.length);
             return snapshot.documents;
           } else {
             print('from list');
             //show from stored list
             int end = pageIndex * batchSize + batchSize;
-            if (globalBloc.eventList.length < end)
-              end = globalBloc.eventList.length;
-            return globalBloc.eventList
+            if (globalBloc.eventListCache.length < end)
+              end = globalBloc.eventListCache.length;
+            return globalBloc.eventListCache
                 .getRange(pageIndex * batchSize, end)
                 .toList();
           }

@@ -58,7 +58,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 "Saved",
               ),
               icon: Icon(
-                Icons.file_download,
+                Icons.bookmark,
               )),
         ]);
   }

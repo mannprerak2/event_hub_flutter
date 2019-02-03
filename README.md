@@ -2,7 +2,7 @@
 
 ### Base Idea
 ```
-A facebook api based app for 
+A Firebase app for 
     -finding events in institutes around you,
     -following organisers and institutes for events, 
 ```
@@ -10,7 +10,17 @@ A facebook api based app for
 * blocs -> has buisness logic components
 * models -> has response data models which we will recieve
 * resources -> has repository classes and network call implemented classes
-* ui -> user screens
+* ui
+    * tabs ->  user screens
+    * tiles -> reusable tiles
+
+## Caching and Storage
+* GlobalBloc level:
+    * eventtab list stored in eventListCache
+    * eventpage documents stored in eventPageCache
+* SQL
+    * Stored bookmarks in SQLite 
+        > Converted documentSnapshot to map, with *documentId* mapped as *id* 
 
 ## Screens
 
@@ -27,17 +37,14 @@ A facebook api based app for
 ```
 1.Start -> SplashLoaderScreen
 2.SplashScreen
-    show loading bar initially
-    if(has valid token in db) // tokens are of atleast 2 month validity
+    Login
+    if(success) // tokens are of atleast 2 month validity
         yes -> 'MainScreen'
-        no -> show login button
+        no -> show error and try again button
                 if(success) // onclick login button
                     yes -> MainScreen
-                    no -> display error
 3.MainScreen
     layout: Tabs as in screens section ^^
-
-    
 
 
 ```

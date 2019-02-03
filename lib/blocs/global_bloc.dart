@@ -33,7 +33,9 @@ class GlobalBloc {
   // create streams from these sinks, for ui to listen to
   // fetch data from network and add it to respective sinks
 
-  final List<DocumentSnapshot> eventList = [];
+  final List<DocumentSnapshot> eventListCache = [];
+  final List<DocumentSnapshot> eventPageCache = [];
+
   FirebaseUser user;
   // final List<String> savedEvents = [];
   final SharedPrefs sharedPrefs = SharedPrefs();

@@ -4,6 +4,7 @@ import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:events_flutter/ui/tabs/event_page.dart';
 
 class EventListTile extends StatelessWidget {
   final String id, name, url;
@@ -16,61 +17,68 @@ class EventListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 2,
-        margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: CachedNetworkImageProvider(url),
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          name,
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                      ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                EventDetailPage(id, GlobalProvider.of(context))));
+      },
+      child: Card(
+          elevation: 2,
+          margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: CachedNetworkImageProvider(url),
+                          fit: BoxFit.cover),
                     ),
                   ),
-                ),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        date.day.toString(),
-                        style: TextStyle(
-                          fontSize: 30,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            name,
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          date.day.toString(),
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
                         ),
-                      ),
-                      Text(
-                        formatter.format(date).toUpperCase(),
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      BookmarkButton(id, GlobalProvider.of(context))
-                    ]),
-              ],
+                        Text(
+                          formatter.format(date).toUpperCase(),
+                          style: TextStyle(color: Colors.green),
+                        ),
+                        BookmarkButton(id, GlobalProvider.of(context))
+                      ]),
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

@@ -21,8 +21,7 @@ class _BookmarkButtonState extends State<BookmarkButton> {
     marked = false;
     () async {
       marked = await widget.globalBloc.sqlite.hasEvent(widget.id);
-      print('marked:' + marked.toString());
-      if (this.mounted) setState(() {});
+      if (marked && this.mounted) setState(() {});
     }();
     super.initState();
   }
@@ -35,19 +34,17 @@ class _BookmarkButtonState extends State<BookmarkButton> {
         color: Colors.yellow[800],
       ),
       onPressed: () {
-        //save this to sharedpref and sqlite here
+        //save this to sqlite here
         GlobalBloc globalBloc = GlobalProvider.of(context);
         if (marked) {
-          // globalBloc.sharedPrefs.removeSavedEvent(widget.id, globalBloc);
-          globalBloc.sqlite.removeEvent(globalBloc.eventList.firstWhere((e) {
+          globalBloc.sqlite.removeEvent(globalBloc.eventListCache.firstWhere((e) {
             return (e.documentID == widget.id);
           }));
           setState(() {
             marked = false;
           });
         } else {
-          // globalBloc.sharedPrefs.addSavedEvent(widget.id, globalBloc);
-          globalBloc.sqlite.saveEvent(globalBloc.eventList.firstWhere((e) {
+          globalBloc.sqlite.saveEvent(globalBloc.eventListCache.firstWhere((e) {
             return (e.documentID == widget.id);
           }));
           setState(() {
