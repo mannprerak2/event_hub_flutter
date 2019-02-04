@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/ui/tiles/bookmark_button.dart';
@@ -7,13 +8,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:events_flutter/ui/tabs/event_page.dart';
 
 class EventListTile extends StatelessWidget {
-  final String id, name, url;
-  final DateTime date;
-
+  final Map<String, dynamic> snapshot;
   final DateFormat formatter = DateFormat('MMM');
 
-  EventListTile({Key key, this.id, this.name, this.date, this.url})
-      : super(key: key);
+  EventListTile(DocumentSnapshot snapshot, {Key key})
+      : this.snapshot = snapshot.data,
+        super(key: key) {
+    this.snapshot['id'] = snapshot.documentID;
+  }
+
+  EventListTile.bookmark(Map<String, dynamic> snapshot, {Key key})
+      : this.snapshot = snapshot,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class EventListTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                EventDetailPage(id, GlobalProvider.of(context))));
+                EventDetailPage(snapshot['id'], GlobalProvider.of(context))));
       },
       child: Card(
           elevation: 2,
@@ -39,7 +45,7 @@ class EventListTile extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: CachedNetworkImageProvider(url),
+                          image: CachedNetworkImageProvider(snapshot['image']),
                           fit: BoxFit.cover),
                     ),
                   ),
@@ -52,7 +58,7 @@ class EventListTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            name,
+                            snapshot['name'],
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w600),
                           ),
@@ -64,16 +70,17 @@ class EventListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          date.day.toString(),
+                          snapshot['date'].day.toString(),
                           style: TextStyle(
                             fontSize: 30,
                           ),
                         ),
                         Text(
-                          formatter.format(date).toUpperCase(),
+                          formatter.format(snapshot['date']).toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
-                        BookmarkButton(id, GlobalProvider.of(context))
+                        BookmarkButton(
+                            snapshot, GlobalProvider.of(context))
                       ]),
                 ],
               ),

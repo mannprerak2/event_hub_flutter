@@ -24,12 +24,7 @@ class BookmarkTab extends StatelessWidget {
         });
       },
       itemBuilder: (context, entry, i) {
-        return EventListTile(
-          id: entry['id'],
-          name: entry['name'],
-          date: entry['date'],
-          url: entry['image'],
-        );
+        return EventListTile.bookmark(entry);
       },
     );
   }

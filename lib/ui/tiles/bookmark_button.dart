@@ -1,11 +1,10 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
-import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:flutter/material.dart';
 
 class BookmarkButton extends StatefulWidget {
-  final String id;
+  final Map<String, dynamic> snapshot;
   final GlobalBloc globalBloc;
-  BookmarkButton(this.id, this.globalBloc);
+  BookmarkButton(this.snapshot, this.globalBloc);
 
   @override
   _BookmarkButtonState createState() => _BookmarkButtonState();
@@ -20,7 +19,7 @@ class _BookmarkButtonState extends State<BookmarkButton> {
   void initState() {
     marked = false;
     () async {
-      marked = await widget.globalBloc.sqlite.hasEvent(widget.id);
+      marked = await widget.globalBloc.sqlite.hasEvent(widget.snapshot['id']);
       if (marked && this.mounted) setState(() {});
     }();
     super.initState();
@@ -35,18 +34,13 @@ class _BookmarkButtonState extends State<BookmarkButton> {
       ),
       onPressed: () {
         //save this to sqlite here
-        GlobalBloc globalBloc = GlobalProvider.of(context);
         if (marked) {
-          globalBloc.sqlite.removeEvent(globalBloc.eventListCache.firstWhere((e) {
-            return (e.documentID == widget.id);
-          }));
+          widget.globalBloc.sqlite.removeEvent(widget.snapshot['id']);
           setState(() {
             marked = false;
           });
         } else {
-          globalBloc.sqlite.saveEvent(globalBloc.eventListCache.firstWhere((e) {
-            return (e.documentID == widget.id);
-          }));
+          widget.globalBloc.sqlite.saveEvent(widget.snapshot);
           setState(() {
             marked = true;
           });

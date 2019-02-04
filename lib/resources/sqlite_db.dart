@@ -14,7 +14,7 @@ class SQLite {
   String dbPath;
   SavedEventProvider provider;
 
-  void saveEvent(DocumentSnapshot snapshot) async {
+  void saveEvent(Map<String, dynamic> snapshot) async {
     provider ??= SavedEventProvider();
     dbPath ??= await getDatabasesPath() + "saved.db";
     await provider.open(dbPath);
@@ -22,12 +22,12 @@ class SQLite {
     provider.insert(snapshot);
   }
 
-  void removeEvent(DocumentSnapshot snapshot) async {
+  void removeEvent(String id) async {
     provider ??= SavedEventProvider();
     dbPath ??= await getDatabasesPath() + "saved.db";
     await provider.open(dbPath);
 
-    provider.delete(snapshot.documentID);
+    provider.delete(id);
   }
 
   Future<bool> hasEvent(String id) async {

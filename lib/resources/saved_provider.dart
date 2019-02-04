@@ -43,13 +43,9 @@ create table $tableName (
     return false;
   }
 
-  void insert(DocumentSnapshot snapshot) async {
-    Map<String, dynamic> map = Map();
-    map['id'] = snapshot.documentID;
-    map['name'] = snapshot.data['name'];
-    map['location'] = snapshot.data['location'];
-    map['image'] = snapshot.data['image'];
-    map['date'] = snapshot.data['date'].toString();
+  void insert(Map<String, dynamic> snapshot) async {
+    Map<String, dynamic> map = Map.from(snapshot);
+    map['date'] = snapshot['date'].toString();
     await db.insert(tableName, map,
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }

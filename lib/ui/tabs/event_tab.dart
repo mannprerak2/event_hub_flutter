@@ -47,12 +47,7 @@ class EventTab extends StatelessWidget {
         });
       },
       itemBuilder: (context, entry, i) {
-        return EventListTile(
-          id: entry.documentID,
-          name: entry['name'],
-          date: entry['date'],
-          url: entry['image'],
-        );
+        return EventListTile(entry);
       },
     );
   }
