@@ -25,6 +25,8 @@ dependencies:
   intl: ^0.15.7
   flutter_pagewise: ^1.2.0
   cached_network_image: ^0.5.1
+  photo_view: ^0.1.3
+
 
 
 

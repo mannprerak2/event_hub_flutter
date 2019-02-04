@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
-import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/states/event_page_states.dart';
+import 'package:events_flutter/ui/tabs/photo_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -104,9 +104,15 @@ class EventDetailPageState extends State<EventDetailPage> {
                       title: _showTitle ? Text(doc['name']) : null,
                       expandedHeight: kExpandedHeight,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: CachedNetworkImage(
-                          imageUrl: doc['image'],
-                          fit: BoxFit.cover,
+                        background: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PhotoPage(doc['image'])));
+                          },
+                          child: CachedNetworkImage(
+                            imageUrl: doc['image'],
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
