@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/states/main_states.dart';
@@ -9,34 +11,57 @@ import 'ui/bottom_nav_bar.dart';
 
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  MainScreenState createState() {
+    return new MainScreenState();
+  }
+}
+
+class MainScreenState extends State<MainScreen> {
+  PageController controller;
+  StreamController<int> pageChangeStream;
+  @override
+  void initState() {
+    controller = PageController();
+    pageChangeStream = StreamController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalBloc globalBloc = GlobalProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("EventHub"),
       ),
-      bottomNavigationBar: BottomNavBar(),
-      body: StreamBuilder(
-        initialData: TabState(0),
-        stream: globalBloc.mainStateStreamController.stream,
-        builder: (context, snapshot) {
-          if (snapshot.data is TabState) {
-            switch ((snapshot.data as TabState).tabIndex) {
-              case 0:
-                return EventTab();
-              case 1:
-                return DiscoverTab();
-              case 2:
-                return SubsTab();
-              case 3:
-                return BookmarkTab();
-            }
+      bottomNavigationBar:
+          BottomNavBar(controller.animateToPage, pageChangeStream.stream),
+      body: PageView.builder(
+        itemCount: 4,
+        onPageChanged: (i) {
+          pageChangeStream.add(i);
+        },
+        controller: controller,
+        itemBuilder: (context, i) {
+          switch (i) {
+            case 0:
+              return EventTab();
+            case 1:
+              return DiscoverTab();
+            case 2:
+              return SubsTab();
+            case 3:
+              return BookmarkTab();
           }
-          return Container();
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    pageChangeStream.close();
+    controller.dispose();
+    super.dispose();
   }
 }

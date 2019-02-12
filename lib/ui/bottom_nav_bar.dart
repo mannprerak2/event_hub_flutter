@@ -1,30 +1,41 @@
-import 'package:events_flutter/states/main_states.dart';
 import 'package:flutter/material.dart';
-
-import './../blocs/global_bloc.dart';
-import './../blocs/global_provider.dart';
 
 // using setstate here because this is a very trivial case
 // and performance would be similar even with reactive programming
 class BottomNavBar extends StatefulWidget {
+  final Function animateTo;
+  final Stream pageChangeStream; //data is int for page Index
+  BottomNavBar(this.animateTo, this.pageChangeStream);
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  GlobalBloc globalBloc;
   int currentItem = 0;
+
+  @override
+  void initState() {
+    widget.pageChangeStream.listen((snapshot) {
+      if (snapshot != null) {
+        setState(() {
+          currentItem = snapshot;
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    globalBloc = GlobalProvider.of(context);
-
     return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentItem,
         onTap: (i) {
-          globalBloc.mainStateStreamController.add(TabState(i));
           setState(() {
             currentItem = i;
+            widget.animateTo(i,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn);
           });
         },
         items: [
