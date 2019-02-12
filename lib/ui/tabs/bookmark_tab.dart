@@ -23,6 +23,9 @@ class BookmarkTab extends StatelessWidget {
           return documents;
         });
       },
+      noItemsFoundBuilder: (context){
+        return Text("No Bookmarks");
+      },
       itemBuilder: (context, entry, i) {
         return EventListTile.bookmark(entry);
       },

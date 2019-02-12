@@ -46,6 +46,9 @@ class EventTab extends StatelessWidget {
           }
         });
       },
+      noItemsFoundBuilder: (context){
+        return Text("Its Empty In Here...");
+      },
       itemBuilder: (context, entry, i) {
         return EventListTile(entry);
       },
