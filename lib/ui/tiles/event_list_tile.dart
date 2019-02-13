@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/ui/tabs/photo_page.dart';
 import 'package:events_flutter/ui/tiles/bookmark_button.dart';
@@ -82,6 +81,11 @@ class EventListTile extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey),
                           ),
+                          Text(
+                            "Organiser \u25CF college",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          )
                         ],
                       ),
                     ),
