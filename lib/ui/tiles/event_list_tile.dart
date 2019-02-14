@@ -30,7 +30,7 @@ class EventListTile extends StatelessWidget {
                 EventDetailPage(snapshot['id'], GlobalProvider.of(context))));
       },
       child: Card(
-          elevation: 2,
+          elevation: 0.5,
           margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
           child: Padding(
             padding: EdgeInsets.all(10),

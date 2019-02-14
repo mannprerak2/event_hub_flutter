@@ -1,16 +1,16 @@
 import 'package:sqflite/sqflite.dart';
 // not to be used directly, will be used from sqlite_db
 
-final String tableName = 'saved_events';
+final String tableName = 'subscriptions';
 final String columnId = 'id';
 final String columnName = 'name';
+final String columnDesc = 'desc';
 final String columnImage = 'image';
-final String columnDate = 'date';
-final String columnLocation = 'location';
+final String columnCollege = 'college';
 
 // get method returns a document snapshot with no ID as its only setter..
 // id is set as a field in snapshot.data only
-class SavedEventProvider {
+class SubsProvider {
   Database db;
 
   Future open(String path) async {
@@ -19,11 +19,11 @@ class SavedEventProvider {
           onCreate: (Database db, int version) async {
         await db.execute('''
 create table $tableName ( 
-  $columnId text primary key, 
+  $columnId text primary key,
   $columnName text not null,
+  $columnDesc text not null,
   $columnImage text not null,
-  $columnLocation text not null,
-  $columnDate text not null)
+  $columnCollege text not null)
 ''');
       });
     }
@@ -44,52 +44,44 @@ create table $tableName (
 
   void insert(Map<String, dynamic> snapshot) async {
     Map<String, dynamic> map = Map.from(snapshot);
-    map['date'] = snapshot['date'].toString();
     await db.insert(tableName, map,
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
-  Future<Map<String, dynamic>> getEvent(String id) async {
+  Future<Map<String, dynamic>> getSub(String id) async {
     List<Map> maps = await db.query(tableName,
         columns: [
           columnId,
           columnName,
+          columnDesc,
           columnImage,
-          columnDate,
-          columnLocation
+          columnCollege,
         ],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       Map<String, dynamic> snapshot = Map();
       maps.first.forEach((key, object) {
-        if (object == 'date')
-          snapshot[key] = DateTime.parse(object);
-        else
-          snapshot[key] = object;
+        snapshot[key] = object;
       });
       return snapshot;
     }
     return null;
   }
 
-  Future<List<Map<String, dynamic>>> getEvents(int batchSize, int page) async {
+  Future<List<Map<String, dynamic>>> getSubs(int batchSize, int page) async {
     List<Map<String, dynamic>> list = [];
     List<Map> map = await db.query(
       tableName,
-      columns: [columnId, columnName, columnDate, columnImage, columnLocation],
+      columns: [columnId, columnName, columnDesc, columnImage, columnCollege],
       limit: batchSize,
       offset: page * batchSize,
-      orderBy: "$columnDate ASC",
+      orderBy: "rowid DSC", // so that we get latest subscriptions first
     );
     map.forEach((imap) {
       Map<String, dynamic> snapshot = Map();
       imap.forEach((key, object) {
-        if (key == 'date')
-          snapshot[key] = DateTime.parse(object);
-        else {
-          snapshot[key] = object;
-        }
+        snapshot[key] = object;
       });
       list.add(snapshot);
     });

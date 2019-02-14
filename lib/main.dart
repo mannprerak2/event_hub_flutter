@@ -35,6 +35,9 @@ class MyAppState extends State<MyApp> {
   void initState() {
     // try login to firebase on app start
     globalBloc.firebase.firebaseLogin(globalBloc);
+
+    // add subscriptions to list
+    globalBloc.sqlite.getAllSubsIds(globalBloc);
     super.initState();
   }
 
@@ -46,7 +49,8 @@ class MyAppState extends State<MyApp> {
         title: 'EventsFlutter',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
+          primaryColor: Color(0xffB54646)
         ),
         home: StreamBuilder(
           // HUB state builder

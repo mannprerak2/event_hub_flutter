@@ -38,6 +38,10 @@ class GlobalBloc {
 
   final List<DocumentSnapshot> subEventListCache = [];
 
+  //this is filled when app starts 
+  //used in subscription tabs to show chips and for query in events of subs
+  final List<String> subsIdList = [];
+
   FirebaseUser user;
   // final List<String> savedEvents = [];
   final SharedPrefs sharedPrefs = SharedPrefs();
@@ -47,7 +51,8 @@ class GlobalBloc {
   void dispose() {
     hubStateStreamController.close();
     mainStateStreamController.close();
-    sqlite.provider.close();
+    sqlite.eventsProvider.close();
+    sqlite.subsProvider.close();
   }
 
   void disposeSplashController() {

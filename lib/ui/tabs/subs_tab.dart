@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
@@ -15,7 +16,36 @@ class SubsTab extends StatelessWidget {
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: Container(
-            child: Text('subs organisers appear here'),
+            height: 50,
+            child: globalBloc.subsIdList.length == 0
+                ? Center(
+                    child: Text("No subscriptions"),
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: globalBloc.subsIdList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, i) {
+                            return Padding(
+                              padding: const EdgeInsets.all(3),
+                              child: Chip(
+                                label: Text(globalBloc.subsIdList[i]),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      FlatButton(
+                        child: Text(
+                          "ALL",
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
           ),
         ),
         PagewiseSliverList(
