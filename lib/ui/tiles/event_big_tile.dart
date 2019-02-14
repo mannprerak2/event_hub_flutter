@@ -1,19 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:events_flutter/blocs/global_provider.dart';
+import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//to be used inside a container because this tile has no height contraint
 class EventBigTile extends StatelessWidget {
-  final String title, imageUrl, organiser, college;
-  final DateTime date;
+  final Map<String, dynamic> snapshot;
   final DateFormat formatter = DateFormat('MMM');
 
-  EventBigTile({
-    @required this.title,
-    @required this.imageUrl,
-    @required this.date,
-    @required this.organiser,
-    @required this.college,
-  });
+  EventBigTile(DocumentSnapshot snapshot, {Key key})
+      : this.snapshot = snapshot.data,
+        super(key: key) {
+    this.snapshot['id'] = snapshot.documentID;
+  }
+
+  EventBigTile.fromMap(Map<String, dynamic> snapshot, {Key key})
+      : this.snapshot = snapshot,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,12 @@ class EventBigTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
       elevation: 10,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
             child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              fit: BoxFit.fitHeight,
+              imageUrl: snapshot['image'],
+              fit: BoxFit.cover,
             ),
           ),
           Padding(
@@ -37,7 +43,7 @@ class EventBigTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        title,
+                        snapshot['name'],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -46,13 +52,14 @@ class EventBigTile extends StatelessWidget {
                             color: Colors.grey[800]),
                       ),
                       Text(
-                        "$organiser \u25CF $college",
+                        "organiser \u25CF college",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                     ],
                   ),
                 ),
+                BookmarkButton(snapshot, GlobalProvider.of(context)),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                   child: Column(
@@ -60,11 +67,11 @@ class EventBigTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Text(
-                        date.day.toString(),
+                        snapshot['date'].day.toString(),
                         style: TextStyle(fontSize: 18, color: Colors.grey[800]),
                       ),
                       Text(
-                        formatter.format(date).toUpperCase(),
+                        formatter.format(snapshot['date']).toUpperCase(),
                         style: TextStyle(color: Colors.green),
                       ),
                     ],

@@ -24,13 +24,13 @@ class EventTab extends StatelessWidget {
               itemCount: 3,
               viewportFraction: 0.9,
               itemBuilder: (context, i) {
-                return EventBigTile(
-                  title: "Spandan the best fest haha what else ",
-                  date: DateTime.now(),
-                  imageUrl: "https://scontent.fdel7-1.fna.fbcdn.net/v/t1.0-9/51924515_1938831596242544_4988788759811063808_n.jpg?_nc_cat=105&_nc_ht=scontent.fdel7-1.fna&oh=01143cae5db48ba2551741bae5757459&oe=5CF4ACA3",
-                  organiser: "Engifest",
-                  college: "DTU",
-                );
+                Map<String, dynamic> snapshot = Map();
+                snapshot['name'] = "Spandan the best fest haha what else ";
+                snapshot['date'] = DateTime.now();
+                snapshot['id'] = "LKDSNFLABEGKLN"; // SOME RANDOM STRING TESTING..
+                snapshot['image'] =
+                    "https://scontent.fdel7-1.fna.fbcdn.net/v/t1.0-9/51924515_1938831596242544_4988788759811063808_n.jpg?_nc_cat=105&_nc_ht=scontent.fdel7-1.fna&oh=01143cae5db48ba2551741bae5757459&oe=5CF4ACA3";
+                return EventBigTile.fromMap(snapshot);
               },
             ),
           ),

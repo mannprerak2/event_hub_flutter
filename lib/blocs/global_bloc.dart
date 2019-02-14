@@ -36,6 +36,8 @@ class GlobalBloc {
   final List<DocumentSnapshot> eventListCache = [];
   final List<DocumentSnapshot> eventPageCache = [];
 
+  final List<DocumentSnapshot> subEventListCache = [];
+
   FirebaseUser user;
   // final List<String> savedEvents = [];
   final SharedPrefs sharedPrefs = SharedPrefs();
