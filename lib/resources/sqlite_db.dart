@@ -12,7 +12,7 @@ import 'package:sqflite/sqflite.dart';
 // 2. For saved events, which will be completely stored in this database
 
 class SQLite {
-  String eventsDbPath,subsDbPath;
+  String eventsDbPath, subsDbPath;
   SavedEventProvider eventsProvider;
   SubsProvider subsProvider;
   // for bookmarks
@@ -64,16 +64,20 @@ class SQLite {
     return list;
   }
 
-  void getAllSubsIds(GlobalBloc globalbloc) async {
+  void getAllSubsNames(GlobalBloc globalbloc) async {
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
     await subsProvider.open(subsDbPath);
 
-    List<String> list = await subsProvider.getAllIds();
-    globalbloc.subsIdList.addAll(list);
+    List<String> list = await subsProvider.getAllNames();
+
+    globalbloc.subsNameList.clear();
+    globalbloc.subsNameList.addAll(list);
   }
 
-  void saveSub(Map<String, dynamic> snapshot) async {
+  void saveSub(Map<String, dynamic> snapshot, GlobalBloc globalBloc) async {
+    globalBloc.subsNameList.add(snapshot['name']);
+
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
     await subsProvider.open(subsDbPath);
@@ -81,12 +85,14 @@ class SQLite {
     subsProvider.insert(snapshot);
   }
 
-  void removeSub(String id) async {
+  void removeSub(Map<String, dynamic> snapshot, GlobalBloc globalBloc) async {
+    globalBloc.subsNameList.remove(snapshot['name']);
+
     subsProvider ??= SubsProvider();
     eventsDbPath ??= await getDatabasesPath() + "subs.db";
     await subsProvider.open(eventsDbPath);
 
-    subsProvider.delete(id);
+    subsProvider.delete(snapshot['id']);
   }
 
   Future<bool> hasSub(String id) async {

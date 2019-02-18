@@ -6,6 +6,7 @@ final String columnId = 'id';
 final String columnName = 'name';
 final String columnImage = 'image';
 final String columnDate = 'date';
+final String columnSocietyName = 'society';
 final String columnLocation = 'location';
 
 // get method returns a document snapshot with no ID as its only setter..
@@ -21,6 +22,7 @@ class SavedEventProvider {
 create table $tableName ( 
   $columnId text primary key, 
   $columnName text not null,
+  $columnSocietyName text not null,
   $columnImage text not null,
   $columnLocation text not null,
   $columnDate text not null)
@@ -54,6 +56,7 @@ create table $tableName (
         columns: [
           columnId,
           columnName,
+          columnSocietyName,
           columnImage,
           columnDate,
           columnLocation
@@ -77,7 +80,14 @@ create table $tableName (
     List<Map<String, dynamic>> list = [];
     List<Map> map = await db.query(
       tableName,
-      columns: [columnId, columnName, columnDate, columnImage, columnLocation],
+      columns: [
+        columnId,
+        columnName,
+        columnSocietyName,
+        columnDate,
+        columnImage,
+        columnLocation
+      ],
       limit: batchSize,
       offset: page * batchSize,
       orderBy: "$columnDate ASC",

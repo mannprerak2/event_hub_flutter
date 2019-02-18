@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:events_flutter/blocs/global_bloc.dart';
+import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/ui/tiles/society_tile_left.dart';
-import 'package:events_flutter/ui/tiles/society_tile_right.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 
@@ -9,19 +11,46 @@ class DiscoverTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, i) {
-        Map<String, dynamic> snapshot = Map();
-        snapshot['id'] = 'KASFNKSAKJSDNKAJSD'; //random string
-        snapshot['name'] = "name";
-        snapshot['image'] =
-            "https://scontent.fdel7-1.fna.fbcdn.net/v/t1.0-9/45645078_2190851034464667_6509144927044108288_n.jpg?_nc_cat=101&_nc_ht=scontent.fdel7-1.fna&oh=5ae612363a04aa8b9a2f403e8772bf03&oe=5CEBE62D";
-        snapshot['college'] = "college";
-        snapshot['desc'] = "descripption............";
-
-        
-          return SocietyTileLeft.fromMap(snapshot);
+    GlobalBloc globalBloc = GlobalProvider.of(context);
+    return PagewiseListView(
+      pageSize: batchSize,
+      pageFuture: (pageIndex) {
+        return Future<List<DocumentSnapshot>>(() async {
+          if (globalBloc.societyListCache.length <= pageIndex * batchSize) {
+            if (!moreAvailable) return List<DocumentSnapshot>();
+            print('fetching...');
+            DocumentSnapshot last;
+            if (globalBloc.societyListCache.length > 0)
+              last = globalBloc.societyListCache.last;
+            //fetch
+            QuerySnapshot snapshot = await Firestore.instance
+                .collection('societies')
+                .orderBy('name')
+                .startAfter([last == null ? null : last['name']])
+                .limit(batchSize)
+                .getDocuments();
+            //store it to list
+            if (snapshot.documents.length < batchSize) moreAvailable = false;
+            globalBloc.societyListCache.addAll(snapshot.documents);
+            print(snapshot.documents.length);
+            return snapshot.documents;
+          } else {
+            print('from list');
+            //show from stored list
+            int end = pageIndex * batchSize + batchSize;
+            if (globalBloc.societyListCache.length < end)
+              end = globalBloc.societyListCache.length;
+            return globalBloc.societyListCache
+                .getRange(pageIndex * batchSize, end)
+                .toList();
+          }
+        });
+      },
+      noItemsFoundBuilder: (context) {
+        return Text("Its Empty In Here...");
+      },
+      itemBuilder: (context, entry, i) {
+        return SocietyTileLeft(entry);
       },
     );
   }

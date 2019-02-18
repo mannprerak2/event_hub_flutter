@@ -35,12 +35,16 @@ class _SubscribeButtonState extends State<SubscribeButton> {
       onPressed: () {
         //save this to sqlite here
         if (marked) {
-          widget.globalBloc.sqlite.removeSub(widget.snapshot['id']);
+          widget.globalBloc.sqlite
+              .removeSub(widget.snapshot, widget.globalBloc);
           setState(() {
             marked = false;
+            // invalidate the subscription eventlist here
+            widget.globalBloc.lastFetch = 0;
+            widget.globalBloc.subsEventListCache.clear();
           });
         } else {
-          widget.globalBloc.sqlite.saveSub(widget.snapshot);
+          widget.globalBloc.sqlite.saveSub(widget.snapshot, widget.globalBloc);
           setState(() {
             marked = true;
           });

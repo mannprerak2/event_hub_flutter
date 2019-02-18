@@ -17,22 +17,22 @@ class SubsTab extends StatelessWidget {
         SliverToBoxAdapter(
           child: Container(
             height: 50,
-            child: globalBloc.subsIdList.length == 0
+            child: globalBloc.subsNameList.length == 0
                 ? Center(
-                    child: Text("No subscriptions"),
+                    child: Text("No Society Subscribed"),
                   )
                 : Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                          itemCount: globalBloc.subsIdList.length,
+                          itemCount: globalBloc.subsNameList.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, i) {
                             return Padding(
                               padding: const EdgeInsets.all(3),
                               child: Chip(
-                                label: Text(globalBloc.subsIdList[i]),
+                                label: Text(globalBloc.subsNameList[i]),
                               ),
                             );
                           },
@@ -41,6 +41,7 @@ class SubsTab extends StatelessWidget {
                       FlatButton(
                         child: Text(
                           "ALL",
+                          textAlign: TextAlign.end,
                         ),
                         onPressed: () {},
                       )
@@ -52,40 +53,61 @@ class SubsTab extends StatelessWidget {
           pageSize: batchSize,
           pageFuture: (pageIndex) {
             return Future<List<DocumentSnapshot>>(() async {
-              if (globalBloc.subEventListCache.length <=
+              print('in future');
+              if (globalBloc.subsEventListCache.length <=
                   pageIndex * batchSize) {
-                if (!moreAvailable) return List<DocumentSnapshot>();
+                String lastFetchName;
+                if (globalBloc.subsNameList.length > globalBloc.lastFetch)
+                  lastFetchName = globalBloc.subsNameList[globalBloc.lastFetch];
+
+                if (lastFetchName == null) {
+                  return List<DocumentSnapshot>();
+                }
+
                 print('fetching...');
+
                 DocumentSnapshot last;
-                if (globalBloc.subEventListCache.length > 0)
-                  last = globalBloc.subEventListCache.last;
+                if (globalBloc.subsEventListCache.length > 0)
+                  last = globalBloc.subsEventListCache.last;
+
                 //fetch
                 QuerySnapshot snapshot = await Firestore.instance
                     .collection('events')
-                    .where('location', isEqualTo: 'DTU')
+                    .where('society', isEqualTo: lastFetchName)
+                    .orderBy('date')
+                    .startAfter([last == null ? null : last['date']])
                     .limit(batchSize)
                     .getDocuments();
-                moreAvailable = false;
+
                 //store it to list
                 if (snapshot.documents.length < batchSize)
-                  moreAvailable = false;
-                globalBloc.subEventListCache.addAll(snapshot.documents);
+                  globalBloc.lastFetch++;
+
+                globalBloc.subsEventListCache.addAll(snapshot.documents);
                 print(snapshot.documents.length);
                 return snapshot.documents;
               } else {
                 print('from list');
                 //show from stored list
                 int end = pageIndex * batchSize + batchSize;
-                if (globalBloc.subEventListCache.length < end)
-                  end = globalBloc.subEventListCache.length;
-                return globalBloc.subEventListCache
+                if (globalBloc.subsEventListCache.length < end)
+                  end = globalBloc.subsEventListCache.length;
+                return globalBloc.subsEventListCache
                     .getRange(pageIndex * batchSize, end)
                     .toList();
               }
             });
           },
           noItemsFoundBuilder: (context) {
-            return Text("Its Empty In Here...");
+            if (globalBloc.subsNameList.length > 0)
+              return Center(child: Text("No Events From any Subscriptions"));
+            else {
+              return Center(
+                  child: RaisedButton(
+                child: Text("View All Societies"),
+                onPressed: () {},
+              ));
+            }
           },
           itemBuilder: (context, entry, i) {
             return Container(

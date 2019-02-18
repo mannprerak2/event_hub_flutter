@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 final String tableName = 'subscriptions';
 final String columnId = 'id';
 final String columnName = 'name';
-final String columnDesc = 'desc';
+final String columnDescp = 'descp';
 final String columnImage = 'image';
 final String columnCollege = 'college';
 
@@ -21,7 +21,7 @@ class SubsProvider {
 create table $tableName ( 
   $columnId text primary key,
   $columnName text not null,
-  $columnDesc text not null,
+  $columnDescp text not null,
   $columnImage text not null,
   $columnCollege text not null)
 ''');
@@ -53,7 +53,7 @@ create table $tableName (
         columns: [
           columnId,
           columnName,
-          columnDesc,
+          columnDescp,
           columnImage,
           columnCollege,
         ],
@@ -73,7 +73,7 @@ create table $tableName (
     List<Map<String, dynamic>> list = [];
     List<Map> map = await db.query(
       tableName,
-      columns: [columnId, columnName, columnDesc, columnImage, columnCollege],
+      columns: [columnId, columnName, columnDescp, columnImage, columnCollege],
       limit: batchSize,
       offset: page * batchSize,
       orderBy: "rowid DSC", // so that we get latest subscriptions first
@@ -93,11 +93,11 @@ create table $tableName (
     await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  Future<List<String>> getAllIds() async {
+  Future<List<String>> getAllNames() async {
     List<String> list = [];
     List<Map> map = await db.query(
       tableName,
-      columns: [columnId],
+      columns: [columnName],
     );
     print("map: " + map.toString());
     map.forEach((imap) {

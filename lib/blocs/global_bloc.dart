@@ -36,11 +36,17 @@ class GlobalBloc {
   final List<DocumentSnapshot> eventListCache = [];
   final List<DocumentSnapshot> eventPageCache = [];
 
-  final List<DocumentSnapshot> subEventListCache = [];
+  final Map<String, List<DocumentSnapshot>> subsEventMap = Map();
+  final List<DocumentSnapshot> subsEventListCache = [];
+  // String lastFetchName;
+  int lastFetch = 0;
 
-  //this is filled when app starts 
+  final List<DocumentSnapshot> societyListCache = [];
+  final List<DocumentSnapshot> societyPageCache = [];
+
+  //this is filled when app starts
   //used in subscription tabs to show chips and for query in events of subs
-  final List<String> subsIdList = [];
+  final List<String> subsNameList = [];
 
   FirebaseUser user;
   // final List<String> savedEvents = [];

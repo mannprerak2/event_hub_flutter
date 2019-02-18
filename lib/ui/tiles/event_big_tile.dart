@@ -52,7 +52,7 @@ class EventBigTile extends StatelessWidget {
                             color: Colors.grey[800]),
                       ),
                       Text(
-                        "organiser \u25CF college",
+                        "${snapshot['society']} \u25CF ${snapshot['location']}",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),

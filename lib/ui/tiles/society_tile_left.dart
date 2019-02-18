@@ -54,7 +54,7 @@ class SocietyTileLeft extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      snapshot['desc'],
+                      snapshot['descp'],
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w300,

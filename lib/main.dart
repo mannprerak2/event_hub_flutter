@@ -37,7 +37,7 @@ class MyAppState extends State<MyApp> {
     globalBloc.firebase.firebaseLogin(globalBloc);
 
     // add subscriptions to list
-    globalBloc.sqlite.getAllSubsIds(globalBloc);
+    globalBloc.sqlite.getAllSubsNames(globalBloc);
     super.initState();
   }
 
