@@ -32,7 +32,11 @@ class SubsTab extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.all(3),
                               child: Chip(
-                                label: Text(globalBloc.subsNameList[i]),
+                                label: Text(
+                                  globalBloc.subsNameList[i],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.blueGrey,
                               ),
                             );
                           },

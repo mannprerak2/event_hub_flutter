@@ -20,63 +20,65 @@ class SocietyTileLeft extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 160,
-      child: Card(
-        elevation: 0.5,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: 160,
-              padding: EdgeInsets.all(5),
-              child: CachedNetworkImage(
-                imageUrl: snapshot['image'],
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          snapshot['name'],
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        SubscribeButton(
-                            snapshot, GlobalProvider.of(context))
-                      ],
-                    ),
-                    Expanded(
-                        child: Text(
-                      snapshot['descp'],
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          snapshot['college'],
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.green[800],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+      child: GestureDetector(
+        onTap: () {},
+        child: Card(
+          elevation: 0.5,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 160,
+                padding: EdgeInsets.all(5),
+                child: CachedNetworkImage(
+                  imageUrl: snapshot['image'],
+                  fit: BoxFit.fitHeight,
                 ),
               ),
-            )
-          ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            snapshot['name'],
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w600),
+                          ),
+                          SubscribeButton(snapshot, GlobalProvider.of(context))
+                        ],
+                      ),
+                      Expanded(
+                          child: Text(
+                        snapshot['descp'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            snapshot['college'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.green[800],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -55,7 +55,7 @@ class EventTab extends StatelessWidget {
             });
           },
           noItemsFoundBuilder: (context) {
-            return Text("Its Empty In Here...");
+            return Text("No Upcoming Events");
           },
           itemBuilder: (context, entry, i) {
             return EventListTile(entry);

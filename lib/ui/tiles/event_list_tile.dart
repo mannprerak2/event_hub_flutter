@@ -85,6 +85,7 @@ class EventListTile extends StatelessWidget {
                             "${snapshot['society']} \u25CF college",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
+                            style: TextStyle(color: Colors.blueGrey),
                           )
                         ],
                       ),

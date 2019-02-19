@@ -10,19 +10,15 @@ class SplashScreen extends StatelessWidget {
     final globalBloc = GlobalProvider.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffB54646),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Center(
-            child: Text(
-              "EventHub",
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold),
-            ),
+          Text(
+            "EventHub",
+            style: TextStyle(color: Colors.white, fontSize: 40),
           ),
+          CircularProgressIndicator(),
           StreamBuilder(
             stream: globalBloc.splashStateStreamController.stream,
             builder: (context, snapshot) {

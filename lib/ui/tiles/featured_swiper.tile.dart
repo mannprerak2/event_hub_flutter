@@ -41,7 +41,7 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
           color: Colors.grey[200],
           height: 250,
           child: Center(
-            child: CircularProgressIndicator(),
+            child: Text("..."),
           ));
     }
   }
@@ -56,12 +56,3 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
     setState(() {});
   }
 }
-// Swiper(
-//           autoplay: true,
-//           itemCount: batchSize,
-//           viewportFraction: 0.9,
-//           itemBuilder: (context, i) {
-//             //get from list
-//             return EventBigTile(globalBloc.swiperEventListCache[i]);
-//           },
-//         ),
