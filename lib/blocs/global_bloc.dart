@@ -33,6 +33,8 @@ class GlobalBloc {
   // create streams from these sinks, for ui to listen to
   // fetch data from network and add it to respective sinks
 
+  final List<DocumentSnapshot> swiperEventListCache = [];
+
   final List<DocumentSnapshot> eventListCache = [];
   final List<DocumentSnapshot> eventPageCache = [];
 

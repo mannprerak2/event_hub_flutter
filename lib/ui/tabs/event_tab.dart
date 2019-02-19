@@ -1,5 +1,6 @@
 import 'package:events_flutter/ui/tiles/event_big_tile.dart';
 import 'package:events_flutter/ui/tiles/event_list_tile.dart';
+import 'package:events_flutter/ui/tiles/featured_swiper.tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
@@ -16,24 +17,7 @@ class EventTab extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
-          child: Container(
-            color: Colors.grey[200],
-            height: 250,
-            child: Swiper(
-              autoplay: true,
-              itemCount: 3,
-              viewportFraction: 0.9,
-              itemBuilder: (context, i) {
-                Map<String, dynamic> snapshot = Map();
-                snapshot['name'] = "Spandan the best fest haha what else ";
-                snapshot['date'] = DateTime.now();
-                snapshot['id'] = "LKDSNFLABEGKLN"; // SOME RANDOM STRING TESTING..
-                snapshot['image'] =
-                    "https://scontent.fdel7-1.fna.fbcdn.net/v/t1.0-9/51924515_1938831596242544_4988788759811063808_n.jpg?_nc_cat=105&_nc_ht=scontent.fdel7-1.fna&oh=01143cae5db48ba2551741bae5757459&oe=5CF4ACA3";
-                return EventBigTile.fromMap(snapshot);
-              },
-            ),
-          ),
+          child: FeaturedSwiper(),
         ),
         PagewiseSliverList(
           pageSize: batchSize,
