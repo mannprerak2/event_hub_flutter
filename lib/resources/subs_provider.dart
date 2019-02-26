@@ -76,7 +76,7 @@ create table $tableName (
       columns: [columnId, columnName, columnDescp, columnImage, columnCollege],
       limit: batchSize,
       offset: page * batchSize,
-      orderBy: "rowid DSC", // so that we get latest subscriptions first
+      orderBy: columnName
     );
     map.forEach((imap) {
       Map<String, dynamic> snapshot = Map();

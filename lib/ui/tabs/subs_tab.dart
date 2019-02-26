@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
+import 'package:events_flutter/states/main_states.dart';
+import 'package:events_flutter/ui/tabs/subs_societies_page.dart';
 import 'package:events_flutter/ui/tiles/event_big_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
@@ -47,7 +48,11 @@ class SubsTab extends StatelessWidget {
                           "ALL",
                           textAlign: TextAlign.end,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          //open subscribed societies here
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SubsSocietiesPage()));
+                        },
                       )
                     ],
                   ),
@@ -109,7 +114,10 @@ class SubsTab extends StatelessWidget {
               return Center(
                   child: RaisedButton(
                 child: Text("View All Societies"),
-                onPressed: () {},
+                onPressed: () {
+                  globalBloc.mainStateStreamController
+                      .add(TabState(1, true)); // 1 is for discover tab
+                },
               ));
             }
           },

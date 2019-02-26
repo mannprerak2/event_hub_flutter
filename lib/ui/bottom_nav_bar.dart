@@ -1,3 +1,4 @@
+import 'package:events_flutter/states/main_states.dart';
 import 'package:flutter/material.dart';
 
 // using setstate here because this is a very trivial case
@@ -18,7 +19,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
     widget.pageChangeStream.listen((snapshot) {
       if (snapshot != null) {
         setState(() {
-          currentItem = snapshot;
+          currentItem = (snapshot as TabState).tabIndex;
+          if ((snapshot as TabState).animate) {
+            widget.animateTo(currentItem,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn);
+          }
         });
       }
     });

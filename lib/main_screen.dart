@@ -20,27 +20,26 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   PageController controller;
-  StreamController<int> pageChangeStream;
   @override
   void initState() {
     controller = PageController();
-    pageChangeStream = StreamController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    GlobalBloc globalBloc = GlobalProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Image.asset('assets/eventhub.png'),
         title: Text("EventHub"),
       ),
-      bottomNavigationBar:
-          BottomNavBar(controller.animateToPage, pageChangeStream.stream),
+      bottomNavigationBar: BottomNavBar(controller.animateToPage,
+          globalBloc.mainStateStreamController.stream),
       body: PageView.builder(
         itemCount: 4,
         onPageChanged: (i) {
-          pageChangeStream.add(i);
+          globalBloc.mainStateStreamController.add(TabState(i, false));
         },
         controller: controller,
         itemBuilder: (context, i) {
@@ -61,7 +60,6 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    pageChangeStream.close();
     controller.dispose();
     super.dispose();
   }
