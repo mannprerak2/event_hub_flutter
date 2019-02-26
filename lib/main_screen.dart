@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
+import 'package:events_flutter/resources/search_delegate.dart';
 import 'package:events_flutter/states/main_states.dart';
 import 'package:events_flutter/ui/tabs/discover_tab.dart';
 import 'package:events_flutter/ui/tabs/event_tab.dart';
@@ -33,6 +34,18 @@ class MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         leading: Image.asset('assets/eventhub.png'),
         title: Text("EventHub"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                query: '',
+                delegate: MySearchDelegate(),
+              );
+            },
+          )
+        ],
       ),
       bottomNavigationBar: BottomNavBar(controller.animateToPage,
           globalBloc.mainStateStreamController.stream),
