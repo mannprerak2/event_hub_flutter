@@ -1,8 +1,6 @@
-import 'package:events_flutter/ui/tiles/event_big_tile.dart';
 import 'package:events_flutter/ui/tiles/event_list_tile.dart';
 import 'package:events_flutter/ui/tiles/featured_swiper.tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../blocs/global_provider.dart';

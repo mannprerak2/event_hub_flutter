@@ -6,7 +6,6 @@ import 'package:events_flutter/resources/sqlite_db.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:events_flutter/states/main_states.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // all streamcontrollers are 'sinks' to which network or i/o service add data to

@@ -53,6 +53,8 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
         .limit(batchSize)
         .getDocuments();
     globalBloc.swiperEventListCache.addAll(snapshot.documents);
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 }

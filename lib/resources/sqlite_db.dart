@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/resources/saved_provider.dart';
 import 'package:events_flutter/resources/subs_provider.dart';
@@ -89,16 +88,16 @@ class SQLite {
     globalBloc.subsNameList.remove(snapshot['name']);
 
     subsProvider ??= SubsProvider();
-    eventsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(eventsDbPath);
+    subsDbPath ??= await getDatabasesPath() + "subs.db";
+    await subsProvider.open(subsDbPath);
 
     subsProvider.delete(snapshot['id']);
   }
 
   Future<bool> hasSub(String id) async {
     subsProvider ??= SubsProvider();
-    eventsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(eventsDbPath);
+    subsDbPath ??= await getDatabasesPath() + "subs.db";
+    await subsProvider.open(subsDbPath);
 
     return await subsProvider.exists(id);
   }

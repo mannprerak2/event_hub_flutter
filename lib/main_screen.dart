@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/resources/search_delegate.dart';
@@ -36,14 +34,8 @@ class MainScreenState extends State<MainScreen> {
         title: Text("EventHub"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                query: '',
-                delegate: MySearchDelegate(),
-              );
-            },
+            icon: Icon(Icons.filter_list),
+            onPressed: () {},
           )
         ],
       ),

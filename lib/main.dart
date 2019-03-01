@@ -5,9 +5,6 @@ import 'package:events_flutter/states/hub_states.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 // App is implemented using BLoC pattern..
 // we have only one GlobalBloc for now.. wrapped with GlobalProvider
 // which is an inherited widget, made the root of the app (in build method of MyAppState)
