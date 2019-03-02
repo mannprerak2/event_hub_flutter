@@ -70,7 +70,7 @@ class EventListTile extends StatelessWidget {
                           Text(
                             snapshot['name'],
                             style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[800]),
                           ),
@@ -82,7 +82,7 @@ class EventListTile extends StatelessWidget {
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${snapshot['society']} \u25CF college",
+                            "${snapshot['society']} \u25CF ${snapshot['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(color: Colors.blueGrey),

@@ -59,7 +59,7 @@ class EventBigTile extends StatelessWidget {
                               color: Colors.grey[800]),
                         ),
                         Text(
-                          "${snapshot['society']} \u25CF ${snapshot['location']}",
+                          "${snapshot['location']} \u25CF ${snapshot['society']} \u25CF ${snapshot['college']}",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(color: Colors.blueGrey),

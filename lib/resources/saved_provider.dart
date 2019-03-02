@@ -8,6 +8,7 @@ final String columnImage = 'image';
 final String columnDate = 'date';
 final String columnSocietyName = 'society';
 final String columnLocation = 'location';
+final String columnCollege = 'college';
 
 // get method returns a document snapshot with no ID as its only setter..
 // id is set as a field in snapshot.data only
@@ -25,6 +26,7 @@ create table $tableName (
   $columnSocietyName text not null,
   $columnImage text not null,
   $columnLocation text not null,
+  $columnCollege text not null,
   $columnDate text not null)
 ''');
       });
@@ -45,8 +47,15 @@ create table $tableName (
   }
 
   void insert(Map<String, dynamic> snapshot) async {
-    Map<String, dynamic> map = Map.from(snapshot);
+    Map<String, dynamic> map = Map();
     map['date'] = snapshot['date'].toString();
+    map['id'] =snapshot['id'];
+    map['name'] = snapshot['name'];
+    map['image'] = snapshot['image'];
+    map['location'] = snapshot['location'];
+    map['college'] = snapshot['college'];
+    map['society'] = snapshot['society'];
+
     await db.insert(tableName, map,
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
@@ -59,7 +68,8 @@ create table $tableName (
           columnSocietyName,
           columnImage,
           columnDate,
-          columnLocation
+          columnLocation,
+          columnCollege
         ],
         where: '$columnId = ?',
         whereArgs: [id]);
@@ -86,7 +96,8 @@ create table $tableName (
         columnSocietyName,
         columnDate,
         columnImage,
-        columnLocation
+        columnLocation,
+        columnCollege
       ],
       limit: batchSize,
       offset: page * batchSize,
@@ -109,22 +120,6 @@ create table $tableName (
 
   void delete(String id) async {
     await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
-  }
-
-  Future<List<String>> getAllIds() async {
-    List<String> list = [];
-    List<Map> map = await db.query(
-      tableName,
-      columns: [columnId],
-    );
-    print("map: " + map.toString());
-    map.forEach((imap) {
-      imap.forEach((key, object) {
-        list.add(object);
-      });
-    });
-
-    return list;
   }
 
   Future close() async => db.close();

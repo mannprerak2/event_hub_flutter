@@ -43,7 +43,14 @@ create table $tableName (
   }
 
   void insert(Map<String, dynamic> snapshot) async {
-    Map<String, dynamic> map = Map.from(snapshot);
+    Map<String, dynamic> map = Map();
+
+    map['id'] =snapshot['id'];
+    map['name'] =snapshot['name'];
+    map['descp'] =snapshot['descp'];
+    map['image'] =snapshot['image'];
+    map['college'] =snapshot['college'];
+
     await db.insert(tableName, map,
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
