@@ -4,6 +4,7 @@ import 'package:events_flutter/main_screen.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // App is implemented using BLoC pattern..
 // we have only one GlobalBloc for now.. wrapped with GlobalProvider
@@ -30,6 +31,8 @@ class MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    Firestore.instance
+        .settings(persistenceEnabled: true, timestampsInSnapshotsEnabled: true);
     // try login to firebase on app start
     globalBloc.firebase.firebaseLogin(globalBloc);
 
@@ -46,9 +49,7 @@ class MyAppState extends State<MyApp> {
         title: 'EventsFlutter',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          primaryColor: Color(0xffB54646)
-        ),
+            primarySwatch: Colors.red, primaryColor: Color(0xffB54646)),
         home: StreamBuilder(
           // HUB state builder
           stream: globalBloc.hubStateStreamController.stream,

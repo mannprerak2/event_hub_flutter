@@ -56,7 +56,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
               backgroundColor: Colors.blue,
               title: Text(
-                "Discover",
+                "Societies",
               ),
               icon: Icon(
                 Icons.explore,

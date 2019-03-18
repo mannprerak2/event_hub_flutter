@@ -11,36 +11,47 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color(0xffB54646),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text(
-            "EventHub",
-            style: TextStyle(color: Colors.white, fontSize: 40),
-          ),
-          CircularProgressIndicator(),
-          StreamBuilder(
-            stream: globalBloc.splashStateStreamController.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data is LoginInProgress) {
-                  return Text("Please wait...");
-                } else if (snapshot.data is LoginSuccess) {
-                  //show mainscreen here
-                  globalBloc.hubStateStreamController.add(ShowMainState());
-                } else if (snapshot.data is LoginError) {
-                  return Column(
-                    children: <Widget>[
-                      Text((snapshot.data as LoginError).error),
-                      loginButton(globalBloc)
-                    ],
-                  );
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(
+              "EventHub",
+              style: TextStyle(color: Colors.white, fontSize: 45),
+            ),
+            CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+            StreamBuilder(
+              stream: globalBloc.splashStateStreamController.stream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data is LoginInProgress) {
+                    return Text(
+                      "Please wait...",
+                      style: TextStyle(color: Colors.white),
+                    );
+                  } else if (snapshot.data is LoginSuccess) {
+                    //show mainscreen here
+                    globalBloc.hubStateStreamController.add(ShowMainState());
+                  } else if (snapshot.data is LoginError) {
+                    return Column(
+                      children: <Widget>[
+                        Text(
+                          "A network error has occured",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        loginButton(globalBloc)
+                      ],
+                    );
+                  }
                 }
-              }
-              return Container();
-            },
-          )
-        ],
+                return Container();
+              },
+            )
+          ],
+        ),
       ),
     );
   }

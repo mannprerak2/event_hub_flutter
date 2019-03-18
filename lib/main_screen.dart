@@ -34,7 +34,7 @@ class MainScreenState extends State<MainScreen> {
         title: Text("EventHub"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: Icon(Icons.info_outline),
             onPressed: () {},
           )
         ],

@@ -59,7 +59,7 @@ class EventBigTile extends StatelessWidget {
                               color: Colors.grey[800]),
                         ),
                         Text(
-                          "${snapshot['location']} \u25CF ${snapshot['society']} \u25CF ${snapshot['college']}",
+                          "${snapshot['society']} \u25CF ${snapshot['location']} \u25CF ${snapshot['college']}",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(color: Colors.blueGrey),
@@ -75,12 +75,12 @@ class EventBigTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          snapshot['date'].day.toString(),
+                          snapshot['date'].toDate().day.toString(),
                           style:
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
-                          formatter.format(snapshot['date']).toUpperCase(),
+                          formatter.format(snapshot['date'].toDate()).toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
                       ],

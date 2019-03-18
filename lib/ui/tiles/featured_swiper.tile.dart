@@ -38,17 +38,15 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
       fetchEvents(globalBloc);
 
       return Container(
-          color: Colors.grey[200],
-          height: 250,
-          child: Center(
-            child: Text("..."),
-          ));
+        color: Colors.grey[200],
+        height: 250,
+      );
     }
   }
 
   void fetchEvents(GlobalBloc globalBloc) async {
     QuerySnapshot snapshot = await Firestore.instance
-        .collection('events')
+        .collection('events_mini')
         .orderBy('date', descending: true)
         .limit(batchSize)
         .getDocuments();

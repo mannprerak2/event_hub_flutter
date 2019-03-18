@@ -17,6 +17,15 @@ class EventTab extends StatelessWidget {
         SliverToBoxAdapter(
           child: FeaturedSwiper(),
         ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Upcoming Events',
+              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
+            ),
+          ),
+        ),
         PagewiseSliverList(
           pageSize: batchSize,
           pageFuture: (pageIndex) {
@@ -29,9 +38,11 @@ class EventTab extends StatelessWidget {
                   last = globalBloc.eventListCache.last;
                 //fetch
                 QuerySnapshot snapshot = await Firestore.instance
-                    .collection('events')
+                    .collection('events_mini')
+                    .where('date',
+                        isGreaterThan:
+                            last == null ? DateTime.now() : last['date'])
                     .orderBy('date')
-                    .startAfter([last == null ? null : last['date']])
                     .limit(batchSize)
                     .getDocuments();
                 //store it to list
@@ -53,7 +64,18 @@ class EventTab extends StatelessWidget {
             });
           },
           noItemsFoundBuilder: (context) {
-            return Text("No Upcoming Events");
+            return Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("No Upcoming Events"),
+                ),
+                RaisedButton(
+                  child: Text('Show Past Events'),
+                  onPressed: () {},
+                )
+              ],
+            );
           },
           itemBuilder: (context, entry, i) {
             return EventListTile(entry);

@@ -77,7 +77,7 @@ class EventListTile extends StatelessWidget {
                           Text(
                             snapshot['location'],
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey),
                           ),
@@ -85,7 +85,10 @@ class EventListTile extends StatelessWidget {
                             "${snapshot['society']} \u25CF ${snapshot['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: TextStyle(color: Colors.blueGrey),
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 12,
+                            ),
                           )
                         ],
                       ),
@@ -96,12 +99,15 @@ class EventListTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          snapshot['date'].day.toString(),
+                          snapshot['date']
+                              .toDate()
+                              .day
+                              .toString(),
                           style:
-                              TextStyle(fontSize: 28, color: Colors.grey[800]),
+                              TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
-                          formatter.format(snapshot['date']).toUpperCase(),
+                          formatter.format(snapshot['date'].toDate()).toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
                         BookmarkButton(snapshot, GlobalProvider.of(context))

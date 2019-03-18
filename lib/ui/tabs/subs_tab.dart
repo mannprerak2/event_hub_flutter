@@ -81,10 +81,12 @@ class SubsTab extends StatelessWidget {
 
                 //fetch
                 QuerySnapshot snapshot = await Firestore.instance
-                    .collection('events')
+                    .collection('events_mini')
                     .where('society', isEqualTo: lastFetchName)
+                    .where('date',
+                        isGreaterThan:
+                            last == null ? DateTime.now() : last['date'])
                     .orderBy('date')
-                    .startAfter([last == null ? null : last['date']])
                     .limit(batchSize)
                     .getDocuments();
 
@@ -109,7 +111,7 @@ class SubsTab extends StatelessWidget {
           },
           noItemsFoundBuilder: (context) {
             if (globalBloc.subsNameList.length > 0)
-              return Center(child: Text("No Events From any Subscriptions"));
+              return Center(child: Text("No Upcoming Events from Subscriptions"));
             else {
               return Center(
                   child: RaisedButton(
