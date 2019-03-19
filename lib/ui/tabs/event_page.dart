@@ -8,6 +8,9 @@ import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 
 class EventDetailPage extends StatefulWidget {
   final String id;
@@ -107,15 +110,6 @@ class EventDetailPageState extends State<EventDetailPage> {
                     slivers: <Widget>[
                       SliverAppBar(
                         pinned: true,
-                        actions: <Widget>[
-                          IconButton(
-                            icon: Icon(
-                              Icons.share,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          )
-                        ],
                         leading: BackButton(),
                         title: _showTitle ? Text(doc['name']) : null,
                         expandedHeight: kExpandedHeight,
@@ -143,7 +137,9 @@ class EventDetailPageState extends State<EventDetailPage> {
                                   Expanded(
                                       child: Text(
                                     doc['name'],
-                                    style: TextStyle(fontSize: 25, ),
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                    ),
                                   )),
                                   BookmarkButton(
                                       doc.data, GlobalProvider.of(context))
@@ -165,29 +161,38 @@ class EventDetailPageState extends State<EventDetailPage> {
                               height: 90,
                               child: Row(
                                 children: <Widget>[
-                                  Card(
-                                    color: Colors.blue[900],
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Text(
-                                              'f',
+                                  GestureDetector(
+                                    onTap: () async {
+                                      String url =
+                                          "https://www.facebook.com/${doc['id']}";
+                                      if (await canLaunch(url)) {
+                                        launch(url);
+                                      }
+                                    },
+                                    child: Card(
+                                      color: Colors.blue[900],
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Text(
+                                                'f',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 35),
+                                              ),
+                                            ),
+                                            Text(
+                                              'Open on Facebook',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 35),
-                                            ),
-                                          ),
-                                          Text(
-                                            'Open on Facebook',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10),
-                                          )
-                                        ],
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -237,9 +242,28 @@ class EventDetailPageState extends State<EventDetailPage> {
                                             Column(
                                               children: <Widget>[
                                                 Expanded(
-                                                    child: Icon(
-                                                  Icons.calendar_today,
-                                                  color: Colors.green[800],
+                                                    child: GestureDetector(
+                                                  onTap: () {
+                                                    //set reminder
+                                                    final Event event = Event(
+                                                      title:
+                                                          "${doc['name']} (reminder by EventHub)",
+                                                      description:
+                                                          'Event reminder by EventHub',
+                                                      location: doc['location'],
+                                                      startDate:
+                                                          doc['date'].toDate(),
+                                                      endDate:
+                                                          doc['date'].toDate(),
+                                                    );
+                                                    Add2Calendar.addEvent2Cal(
+                                                        event);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.event_available,
+                                                    color: Colors.green[800],
+                                                    size: 40,
+                                                  ),
                                                 )),
                                                 Text(
                                                   'Set Reminder',
@@ -267,9 +291,16 @@ class EventDetailPageState extends State<EventDetailPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text(doc['details']),
-                            ),
+                                padding: const EdgeInsets.all(12.0),
+                                child: Linkify(
+                                  text: doc['details'],
+                                  humanize: true,
+                                  onOpen: (link) async {
+                                    if (await canLaunch(link.url)) {
+                                      await launch(link.url);
+                                    }
+                                  },
+                                )),
                             Container(
                               height: 150,
                             )

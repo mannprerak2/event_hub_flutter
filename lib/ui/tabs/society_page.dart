@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SocietyDetailPage extends StatefulWidget {
   final String id;
@@ -108,20 +109,28 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                             color: Colors.black, fontWeight: FontWeight.w200),
                       ),
                     ),
-                    Card(
-                      color: Colors.blue[900],
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              'Open on Facebook',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () async {
+                        String url = "https://www.facebook.com/${widget.snapshot['id']}";
+                        if (await canLaunch(url)) {
+                          launch(url);
+                        }
+                      },
+                      child: Card(
+                        color: Colors.blue[900],
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Open on Facebook',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
