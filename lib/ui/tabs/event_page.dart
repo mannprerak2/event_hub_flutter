@@ -143,7 +143,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                                   Expanded(
                                       child: Text(
                                     doc['name'],
-                                    style: TextStyle(fontSize: 40),
+                                    style: TextStyle(fontSize: 25, ),
                                   )),
                                   BookmarkButton(
                                       doc.data, GlobalProvider.of(context))

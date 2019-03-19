@@ -42,9 +42,7 @@ class GlobalBloc {
   final List<DocumentSnapshot> subsEventListCache = [];
   // String lastFetchName;
   int lastFetch = 0;
-  bool showPast = false;
   final List<DocumentSnapshot> societyListCache = [];
-  final List<DocumentSnapshot> societyPageCache = [];
 
   //this is filled when app starts
   //used in subscription tabs to show chips and for query in events of subs

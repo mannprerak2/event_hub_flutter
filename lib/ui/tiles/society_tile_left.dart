@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
+import 'package:events_flutter/ui/tabs/society_page.dart';
 import 'package:events_flutter/ui/tiles/subscribe_button.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,11 @@ class SocietyTileLeft extends StatelessWidget {
     return Container(
       height: 160,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => SocietyDetailPage(
+                  snapshot['id'], GlobalProvider.of(context), snapshot)));
+        },
         child: Card(
           elevation: 0.5,
           child: Row(
@@ -56,6 +61,8 @@ class SocietyTileLeft extends StatelessWidget {
                       Expanded(
                           child: Text(
                         snapshot['descp'],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,

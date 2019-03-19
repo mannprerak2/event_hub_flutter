@@ -12,6 +12,8 @@ class EventTab extends StatefulWidget {
 
   static const int pastBatchSize = 3;
   static bool pastMoreAvailable = true;
+  static bool showPast = false;
+
   @override
   _EventTabState createState() => _EventTabState();
 }
@@ -59,7 +61,7 @@ class _EventTabState extends State<EventTab> {
                   EventTab.moreAvailable = false;
 
                   // show past events as no more upcoming are available
-                  globalBloc.showPast = true;
+                  EventTab.showPast = true;
                   if (this.mounted) setState(() {});
                 }
                 globalBloc.eventListCache.addAll(snapshot.documents);
@@ -85,6 +87,7 @@ class _EventTabState extends State<EventTab> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text("No Upcoming Events"),
                 ),
+                Divider()
               ],
             );
           },
@@ -93,7 +96,7 @@ class _EventTabState extends State<EventTab> {
           },
         ),
         SliverToBoxAdapter(
-          child: !globalBloc.showPast
+          child: !EventTab.showPast
               ? Container()
               : Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -104,7 +107,7 @@ class _EventTabState extends State<EventTab> {
                   ),
                 ),
         ),
-        !globalBloc.showPast
+        !EventTab.showPast
             ? SliverToBoxAdapter()
             : PagewiseSliverList(
                 pageSize: EventTab.pastBatchSize,
