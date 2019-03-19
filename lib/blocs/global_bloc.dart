@@ -35,13 +35,14 @@ class GlobalBloc {
   final List<DocumentSnapshot> swiperEventListCache = [];
 
   final List<DocumentSnapshot> eventListCache = [];
+  final List<DocumentSnapshot> pastEventListCache = [];
   final List<DocumentSnapshot> eventPageCache = [];
 
   final Map<String, List<DocumentSnapshot>> subsEventMap = Map();
   final List<DocumentSnapshot> subsEventListCache = [];
   // String lastFetchName;
   int lastFetch = 0;
-
+  bool showPast = false;
   final List<DocumentSnapshot> societyListCache = [];
   final List<DocumentSnapshot> societyPageCache = [];
 
