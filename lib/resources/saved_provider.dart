@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sqflite/sqflite.dart';
 // not to be used directly, will be used from sqlite_db
 
@@ -48,8 +49,8 @@ create table $tableName (
 
   void insert(Map<String, dynamic> snapshot) async {
     Map<String, dynamic> map = Map();
-    map['date'] = snapshot['date'].toString();
-    map['id'] =snapshot['id'];
+    map['date'] = snapshot['date'].toDate().toString();
+    map['id'] = snapshot['id'];
     map['name'] = snapshot['name'];
     map['image'] = snapshot['image'];
     map['location'] = snapshot['location'];
@@ -77,7 +78,7 @@ create table $tableName (
       Map<String, dynamic> snapshot = Map();
       maps.first.forEach((key, object) {
         if (object == 'date')
-          snapshot[key] = DateTime.parse(object);
+          snapshot[key] = Timestamp.fromDate(DateTime.parse(object));
         else
           snapshot[key] = object;
       });
@@ -107,7 +108,7 @@ create table $tableName (
       Map<String, dynamic> snapshot = Map();
       imap.forEach((key, object) {
         if (key == 'date')
-          snapshot[key] = DateTime.parse(object);
+          snapshot[key] = Timestamp.fromDate(DateTime.parse(object));
         else {
           snapshot[key] = object;
         }
