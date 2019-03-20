@@ -1,16 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
-import 'package:events_flutter/blocs/global_provider.dart';
-import 'package:events_flutter/states/event_page_states.dart';
 import 'package:events_flutter/ui/tabs/photo_page.dart';
-import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:events_flutter/ui/tiles/event_list_tile.dart';
 import 'package:events_flutter/ui/tiles/subscribe_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SocietyDetailPage extends StatefulWidget {
