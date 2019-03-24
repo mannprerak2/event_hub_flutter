@@ -31,7 +31,10 @@ class MainScreenState extends State<MainScreen> {
     GlobalBloc globalBloc = GlobalProvider.of(context);
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset('assets/eventhub-logo2.png', scale: 8,),
+        leading: Image.asset(
+          'assets/eventhub-logo2.png',
+          scale: 8,
+        ),
         title: Text("EventHub"),
         actions: <Widget>[
           IconButton(
@@ -44,7 +47,10 @@ class MainScreenState extends State<MainScreen> {
                       color: Colors.red[800],
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset('assets/eventhub-logo2.png', scale: 8,),
+                        child: Image.asset(
+                          'assets/eventhub-logo2.png',
+                          scale: 8,
+                        ),
                       )),
                   applicationName: 'EventHub',
                   children: [
@@ -71,7 +77,13 @@ Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
                               iconSize: 40,
                               color: Colors.blue[800],
                               icon: Icon(Icons.share),
-                              onPressed: () {},
+                              onPressed: () async {
+                                String url =
+                                    'https://play.google.com/store/apps/details?id=com.pkmnapps.eventsflutter';
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                }
+                              },
                             ),
                             Text('Share App')
                           ],
@@ -82,7 +94,13 @@ Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
                               iconSize: 40,
                               color: Colors.yellow[800],
                               icon: Icon(Icons.star),
-                              onPressed: () {},
+                              onPressed: () async {
+                                String url =
+                                    'https://play.google.com/store/apps/details?id=com.pkmnapps.eventsflutter';
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                }
+                              },
                             ),
                             Text('Rate Us')
                           ],

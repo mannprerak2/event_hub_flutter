@@ -1,4 +1,15 @@
-# Event Hub Flutter
+# EventHub
+View Events in Colleges (DTU), Made with Flutter
+
+<a href='https://play.google.com/store/apps/details?id=com.pkmnapps.eventsflutter'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="35%"/></a>
+
+### Screenshots
+<img src="./screenshots/1.jpg" width="180"/>
+<img src="./screenshots/2.jpg" width="180"/>
+<img src="./screenshots/3.jpg" width="180"/>
+<img src="./screenshots/4.jpg" width="180"/>
+<img src="./screenshots/5.jpg" width="180"/>
+<img src="./screenshots/6.jpg" width="180"/>
 
 ### Base Idea
 ```

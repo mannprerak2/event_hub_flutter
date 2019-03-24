@@ -25,8 +25,8 @@ class DiscoverTab extends StatelessWidget {
             //fetch
             QuerySnapshot snapshot = await Firestore.instance
                 .collection('societies')
-                .orderBy('name')
-                .startAfter([last == null ? null : last['name']])
+                .orderBy('pos')
+                .startAfter([last == null ? null : last['pos']])
                 .limit(batchSize)
                 .getDocuments();
             //store it to list
