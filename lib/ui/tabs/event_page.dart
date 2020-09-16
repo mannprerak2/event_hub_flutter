@@ -103,7 +103,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                 );
               } else if (snapshot.data is SucessPage) {
                 DocumentSnapshot doc = (snapshot.data as SucessPage).snap;
-                // doc.data()['id'] = doc.id;
+                // doc.data()['id'] = doc.id; // Doesn't work
                 return Scaffold(
                   body: CustomScrollView(
                     controller: _scrollController,
@@ -142,7 +142,9 @@ class EventDetailPageState extends State<EventDetailPage> {
                                     ),
                                   )),
                                   BookmarkButton(
-                                      doc.data(), GlobalProvider.of(context))
+                                      doc.data()
+                                        ..putIfAbsent('id', () => doc.id),
+                                      GlobalProvider.of(context))
                                 ],
                               ),
                             ),
