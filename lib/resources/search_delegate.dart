@@ -28,7 +28,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     // use the query method here and build results from firebase.
-    Stream stream = Firestore.instance
+    Stream stream = FirebaseFirestore.instance
         .collection('events')
         .where('keywords', arrayContains: query.toLowerCase())
         .limit(5)

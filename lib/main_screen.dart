@@ -130,6 +130,7 @@ Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
             case 3:
               return BookmarkTab();
           }
+          throw Exception('Tab not implemented');
         },
       ),
     );

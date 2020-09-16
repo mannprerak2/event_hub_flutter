@@ -45,12 +45,12 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
   }
 
   void fetchEvents(GlobalBloc globalBloc) async {
-    QuerySnapshot snapshot = await Firestore.instance
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('events_mini')
         .orderBy('date', descending: true)
         .limit(batchSize)
-        .getDocuments();
-    globalBloc.swiperEventListCache.addAll(snapshot.documents);
+        .get();
+    globalBloc.swiperEventListCache.addAll(snapshot.docs);
     if (this.mounted) {
       setState(() {});
     }

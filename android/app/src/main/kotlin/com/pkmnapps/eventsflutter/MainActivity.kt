@@ -1,4 +1,4 @@
-package com.pkmnapps.event_hub_flutter
+package com.pkmnapps.eventsflutter
 
 import io.flutter.embedding.android.FlutterActivity
 

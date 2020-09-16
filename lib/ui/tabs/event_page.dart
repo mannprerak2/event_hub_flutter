@@ -36,16 +36,16 @@ class EventDetailPageState extends State<EventDetailPage> {
 
     //check if document is in cache
     DocumentSnapshot snap = widget.globalBloc.eventPageCache.firstWhere((e) {
-      return (e.documentID == widget.id);
+      return (e.id == widget.id);
     }, orElse: () => null);
 
     if (snap != null) {
       controller.add(SucessPage(snap));
     } else {
       //fetch document here...
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection('events')
-          .document(widget.id)
+          .doc(widget.id)
           .get()
           .then((snapshot) {
         //save to cache
@@ -315,6 +315,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                   ),
                 );
               }
+              throw Exception("Unknown state for event page");
             }));
   }
 }

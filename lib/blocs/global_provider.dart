@@ -18,8 +18,8 @@ class GlobalProvider extends InheritedWidget {
     return true;
   }
 
-  static GlobalBloc of(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(GlobalProvider) as GlobalProvider).globalBloc;
+  static GlobalBloc of(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<GlobalProvider>())
+        .globalBloc;
   }
-
 }
