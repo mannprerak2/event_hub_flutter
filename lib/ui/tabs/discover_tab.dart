@@ -23,17 +23,17 @@ class DiscoverTab extends StatelessWidget {
             if (globalBloc.societyListCache.length > 0)
               last = globalBloc.societyListCache.last;
             //fetch
-            QuerySnapshot snapshot = await Firestore.instance
+            QuerySnapshot snapshot = await FirebaseFirestore.instance
                 .collection('societies')
                 .orderBy('pos')
-                .startAfter([last == null ? null : last['pos']])
+                .startAfter([last == null ? null : last.get('pos')])
                 .limit(batchSize)
-                .getDocuments();
+                .get();
             //store it to list
-            if (snapshot.documents.length < batchSize) moreAvailable = false;
-            globalBloc.societyListCache.addAll(snapshot.documents);
-            print(snapshot.documents.length);
-            return snapshot.documents;
+            if (snapshot.docs.length < batchSize) moreAvailable = false;
+            globalBloc.societyListCache.addAll(snapshot.docs);
+            print(snapshot.docs.length);
+            return snapshot.docs;
           } else {
             print('from list');
             //show from stored list

@@ -60,7 +60,6 @@ Designed and Developed by Prerak Mann https://github.com/mannprerak2
 \n
 Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
 ''',
-                      humanize: true,
                       onOpen: (link) async {
                         if (await canLaunch(link.url)) {
                           await launch(link.url);

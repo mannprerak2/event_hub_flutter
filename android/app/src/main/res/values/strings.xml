@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<resources>
-    <string name="app_name">EventsFlutter</string>
-    <string name="facebook_app_id">284623282171480</string>
-    <string name="fb_login_protocol_scheme">fb284623282171480</string>
-
-
-</resources>

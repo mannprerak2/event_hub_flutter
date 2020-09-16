@@ -107,7 +107,8 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        String url = "https://www.facebook.com/${widget.snapshot['id']}";
+                        String url =
+                            "https://www.facebook.com/${widget.snapshot['id']}";
                         if (await canLaunch(url)) {
                           launch(url);
                         }
@@ -154,27 +155,28 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                       DocumentSnapshot last;
                       if (eventListCache.length > 0) last = eventListCache.last;
                       //fetch
-                      QuerySnapshot snapshot = await Firestore.instance
+                      QuerySnapshot snapshot = await FirebaseFirestore.instance
                           .collection('events_mini')
                           .where('date',
-                              isGreaterThan:
-                                  last == null ? DateTime.now() : last['date'])
+                              isGreaterThan: last == null
+                                  ? DateTime.now()
+                                  : last.get('date'))
                           .where('society', isEqualTo: widget.snapshot['name'])
                           .orderBy('date')
                           .limit(batchSize)
-                          .getDocuments();
+                          .get();
                       //store it to list
-                      if (snapshot.documents.length < batchSize) {
+                      if (snapshot.docs.length < batchSize) {
                         moreAvailable = false;
 
                         // show past events as no more upcoming are available
                         showPast = true;
                         if (this.mounted) setState(() {});
                       }
-                      eventListCache.addAll(snapshot.documents);
-                      print(snapshot.documents.length);
+                      eventListCache.addAll(snapshot.docs);
+                      print(snapshot.docs.length);
 
-                      return snapshot.documents;
+                      return snapshot.docs;
                     } else {
                       print('from list');
                       //show from stored list
@@ -229,25 +231,26 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                             if (pastEventListCache.length > 0)
                               last = pastEventListCache.last;
                             //fetch
-                            QuerySnapshot snapshot = await Firestore.instance
+                            QuerySnapshot snapshot = await FirebaseFirestore
+                                .instance
                                 .collection('events_mini')
                                 .where('date',
                                     isLessThan: last == null
                                         ? DateTime.now()
-                                        : last['date'])
+                                        : last.get('date'))
                                 .where('society',
                                     isEqualTo: widget.snapshot['name'])
                                 .orderBy('date', descending: true)
                                 .limit(pastBatchSize)
-                                .getDocuments();
+                                .get();
                             //store it to list
-                            if (snapshot.documents.length < pastBatchSize) {
+                            if (snapshot.docs.length < pastBatchSize) {
                               pastMoreAvailable = false;
                             }
-                            pastEventListCache.addAll(snapshot.documents);
-                            print(snapshot.documents.length);
+                            pastEventListCache.addAll(snapshot.docs);
+                            print(snapshot.docs.length);
 
-                            return snapshot.documents;
+                            return snapshot.docs;
                           } else {
                             print('from list');
                             //show from stored list

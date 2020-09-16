@@ -12,9 +12,9 @@ class EventBigTile extends StatelessWidget {
   final DateFormat formatter = DateFormat('MMM');
 
   EventBigTile(DocumentSnapshot snapshot, {Key key})
-      : this.snapshot = snapshot.data,
+      : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.documentID;
+    this.snapshot['id'] = snapshot.id;
   }
 
   EventBigTile.fromMap(Map<String, dynamic> snapshot, {Key key})
@@ -80,7 +80,9 @@ class EventBigTile extends StatelessWidget {
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
-                          formatter.format(snapshot['date'].toDate()).toUpperCase(),
+                          formatter
+                              .format(snapshot['date'].toDate())
+                              .toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
                       ],

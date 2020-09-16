@@ -80,23 +80,22 @@ class SubsTab extends StatelessWidget {
                   last = globalBloc.subsEventListCache.last;
 
                 //fetch
-                QuerySnapshot snapshot = await Firestore.instance
+                QuerySnapshot snapshot = await FirebaseFirestore.instance
                     .collection('events_mini')
                     .where('society', isEqualTo: lastFetchName)
                     .where('date',
                         isGreaterThan:
-                            last == null ? DateTime.now() : last['date'])
+                            last == null ? DateTime.now() : last.get('date'))
                     .orderBy('date')
                     .limit(batchSize)
-                    .getDocuments();
+                    .get();
 
                 //store it to list
-                if (snapshot.documents.length < batchSize)
-                  globalBloc.lastFetch++;
+                if (snapshot.docs.length < batchSize) globalBloc.lastFetch++;
 
-                globalBloc.subsEventListCache.addAll(snapshot.documents);
-                print(snapshot.documents.length);
-                return snapshot.documents;
+                globalBloc.subsEventListCache.addAll(snapshot.docs);
+                print(snapshot.docs.length);
+                return snapshot.docs;
               } else {
                 print('from list');
                 //show from stored list
@@ -111,7 +110,8 @@ class SubsTab extends StatelessWidget {
           },
           noItemsFoundBuilder: (context) {
             if (globalBloc.subsNameList.length > 0)
-              return Center(child: Text("No Upcoming Events from Subscriptions"));
+              return Center(
+                  child: Text("No Upcoming Events from Subscriptions"));
             else {
               return Center(
                   child: RaisedButton(

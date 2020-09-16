@@ -103,7 +103,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                 );
               } else if (snapshot.data is SucessPage) {
                 DocumentSnapshot doc = (snapshot.data as SucessPage).snap;
-                doc.data['id'] = doc.documentID;
+                // doc.data()['id'] = doc.id;
                 return Scaffold(
                   body: CustomScrollView(
                     controller: _scrollController,
@@ -111,17 +111,17 @@ class EventDetailPageState extends State<EventDetailPage> {
                       SliverAppBar(
                         pinned: true,
                         leading: BackButton(),
-                        title: _showTitle ? Text(doc['name']) : null,
+                        title: _showTitle ? Text(doc.get('name')) : null,
                         expandedHeight: kExpandedHeight,
                         flexibleSpace: FlexibleSpaceBar(
                           background: GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      PhotoPage(doc['image'])));
+                                      PhotoPage(doc.get('image'))));
                             },
                             child: CachedNetworkImage(
-                              imageUrl: doc['image'],
+                              imageUrl: doc.get('image'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -136,13 +136,13 @@ class EventDetailPageState extends State<EventDetailPage> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Text(
-                                    doc['name'],
+                                    doc.get('name'),
                                     style: TextStyle(
                                       fontSize: 25,
                                     ),
                                   )),
                                   BookmarkButton(
-                                      doc.data, GlobalProvider.of(context))
+                                      doc.data(), GlobalProvider.of(context))
                                 ],
                               ),
                             ),
@@ -150,7 +150,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 25),
                               child: Text(
-                                "Organised by ${doc['society_fullname']} at ${doc['location']}",
+                                "Organised by ${doc.get('society_fullname')} at ${doc.get('location')}",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w200),
@@ -164,7 +164,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                                   GestureDetector(
                                     onTap: () async {
                                       String url =
-                                          "https://www.facebook.com/${doc['id']}";
+                                          "https://www.facebook.com/${doc.id}";
                                       if (await canLaunch(url)) {
                                         launch(url);
                                       }
@@ -211,8 +211,9 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                         .spaceEvenly,
                                                 children: <Widget>[
                                                   Text(
-                                                    formatter.format(
-                                                        doc['date'].toDate()),
+                                                    formatter.format(doc
+                                                        .get('date')
+                                                        .toDate()),
                                                     maxLines: 1,
                                                     style: TextStyle(
                                                         color:
@@ -222,8 +223,9 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                         fontSize: 30),
                                                   ),
                                                   Text(
-                                                    formatterTime.format(
-                                                        doc['date'].toDate()),
+                                                    formatterTime.format(doc
+                                                        .get('date')
+                                                        .toDate()),
                                                     maxLines: 1,
                                                     style: TextStyle(
                                                         color:
@@ -247,14 +249,17 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                     //set reminder
                                                     final Event event = Event(
                                                       title:
-                                                          "${doc['name']} (reminder by EventHub)",
+                                                          "${doc.get('name')} (reminder by EventHub)",
                                                       description:
                                                           'Event reminder by EventHub',
-                                                      location: doc['location'],
-                                                      startDate:
-                                                          doc['date'].toDate(),
-                                                      endDate:
-                                                          doc['date'].toDate(),
+                                                      location:
+                                                          doc.get('location'),
+                                                      startDate: doc
+                                                          .get('date')
+                                                          .toDate(),
+                                                      endDate: doc
+                                                          .get('date')
+                                                          .toDate(),
                                                     );
                                                     Add2Calendar.addEvent2Cal(
                                                         event);
@@ -293,8 +298,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                             Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Linkify(
-                                  text: doc['details'],
-                                  humanize: true,
+                                  text: doc.get('details'),
                                   onOpen: (link) async {
                                     if (await canLaunch(link.url)) {
                                       await launch(link.url);

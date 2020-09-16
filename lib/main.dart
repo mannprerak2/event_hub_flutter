@@ -4,7 +4,6 @@ import 'package:events_flutter/main_screen.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // App is implemented using BLoC pattern..
 // we have only one GlobalBloc for now.. wrapped with GlobalProvider
@@ -31,9 +30,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    Firestore.instance
-        .settings(persistenceEnabled: true, timestampsInSnapshotsEnabled: true);
-    // try login to firebase on app start
+    // try login to firebase on app start, also initializes firebase.
     globalBloc.firebase.firebaseLogin(globalBloc);
 
     // add subscriptions to list
@@ -55,12 +52,11 @@ class MyAppState extends State<MyApp> {
           stream: globalBloc.hubStateStreamController.stream,
           initialData: ShowSplashState(),
           builder: (context, snapshot) {
-            if (snapshot.data is ShowSplashState) {
-              return SplashScreen();
-            } else if (snapshot.data is ShowMainState) {
+            if (snapshot.data is ShowMainState) {
               globalBloc.disposeSplashController();
               return MainScreen();
             }
+            return SplashScreen();
           },
         ),
       ),

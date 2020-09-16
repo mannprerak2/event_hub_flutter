@@ -12,9 +12,9 @@ class EventListTile extends StatelessWidget {
   final DateFormat formatter = DateFormat('MMM');
 
   EventListTile(DocumentSnapshot snapshot, {Key key})
-      : this.snapshot = snapshot.data,
+      : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.documentID;
+    this.snapshot['id'] = snapshot.id;
   }
 
   EventListTile.bookmark(Map<String, dynamic> snapshot, {Key key})
@@ -99,15 +99,14 @@ class EventListTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          snapshot['date']
-                              .toDate()
-                              .day
-                              .toString(),
+                          snapshot['date'].toDate().day.toString(),
                           style:
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
-                          formatter.format(snapshot['date'].toDate()).toUpperCase(),
+                          formatter
+                              .format(snapshot['date'].toDate())
+                              .toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
                         BookmarkButton(snapshot, GlobalProvider.of(context))

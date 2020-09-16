@@ -9,9 +9,9 @@ class SocietyTileLeft extends StatelessWidget {
   final Map<String, dynamic> snapshot;
 
   SocietyTileLeft(DocumentSnapshot snapshot, {Key key})
-      : this.snapshot = snapshot.data,
+      : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.documentID;
+    this.snapshot['id'] = snapshot.id;
   }
   SocietyTileLeft.fromMap(Map<String, dynamic> snapshot, {Key key})
       : this.snapshot = snapshot,

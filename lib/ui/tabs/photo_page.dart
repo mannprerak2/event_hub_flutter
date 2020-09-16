@@ -31,7 +31,7 @@ class PhotoPage extends StatelessWidget {
       },
       child: Container(
         child: PhotoView(
-          heroTag: url,
+          heroAttributes: PhotoViewHeroAttributes(tag: url),
           imageProvider: CachedNetworkImageProvider(url),
           minScale: PhotoViewComputedScale.contained,
           maxScale: PhotoViewComputedScale.covered,

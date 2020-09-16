@@ -5,7 +5,7 @@ import 'package:events_flutter/resources/sqlite_db.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:events_flutter/states/main_states.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fa;
 
 // all streamcontrollers are 'sinks' to which network or i/o service add data to
 // widgets listen to these streamcontrollers ONLY
@@ -47,7 +47,7 @@ class GlobalBloc {
   //used in subscription tabs to show chips and for query in events of subs
   final List<String> subsNameList = [];
 
-  FirebaseUser user;
+  fa.User user;
   // final List<String> savedEvents = [];
   final SQLite sqlite = SQLite();
 

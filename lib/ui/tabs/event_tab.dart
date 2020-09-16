@@ -48,26 +48,25 @@ class _EventTabState extends State<EventTab> {
                 if (globalBloc.eventListCache.length > 0)
                   last = globalBloc.eventListCache.last;
                 //fetch
-                QuerySnapshot snapshot = await Firestore.instance
+                QuerySnapshot snapshot = await FirebaseFirestore.instance
                     .collection('events_mini')
                     .where('date',
                         isGreaterThan:
-                            last == null ? DateTime.now() : last['date'])
+                            last == null ? DateTime.now() : last.get('date'))
                     .orderBy('date')
                     .limit(EventTab.batchSize)
-                    .getDocuments();
+                    .get();
                 //store it to list
-                if (snapshot.documents.length < EventTab.batchSize) {
+                if (snapshot.docs.length < EventTab.batchSize) {
                   EventTab.moreAvailable = false;
 
                   // show past events as no more upcoming are available
                   EventTab.showPast = true;
                   if (this.mounted) setState(() {});
                 }
-                globalBloc.eventListCache.addAll(snapshot.documents);
-                print(snapshot.documents.length);
+                globalBloc.eventListCache.addAll(snapshot.docs);
 
-                return snapshot.documents;
+                return snapshot.docs;
               } else {
                 print('from list');
                 //show from stored list
@@ -122,22 +121,23 @@ class _EventTabState extends State<EventTab> {
                       if (globalBloc.pastEventListCache.length > 0)
                         last = globalBloc.pastEventListCache.last;
                       //fetch
-                      QuerySnapshot snapshot = await Firestore.instance
+                      QuerySnapshot snapshot = await FirebaseFirestore.instance
                           .collection('events_mini')
                           .where('date',
-                              isLessThan:
-                                  last == null ? DateTime.now() : last['date'])
+                              isLessThan: last == null
+                                  ? DateTime.now()
+                                  : last.get('date'))
                           .orderBy('date', descending: true)
                           .limit(EventTab.pastBatchSize)
-                          .getDocuments();
+                          .get();
                       //store it to list
-                      if (snapshot.documents.length < EventTab.pastBatchSize) {
+                      if (snapshot.docs.length < EventTab.pastBatchSize) {
                         EventTab.pastMoreAvailable = false;
                       }
-                      globalBloc.pastEventListCache.addAll(snapshot.documents);
-                      print(snapshot.documents.length);
+                      globalBloc.pastEventListCache.addAll(snapshot.docs);
+                      print(snapshot.docs.length);
 
-                      return snapshot.documents;
+                      return snapshot.docs;
                     } else {
                       print('from list');
                       //show from stored list
