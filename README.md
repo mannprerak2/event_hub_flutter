@@ -4,12 +4,10 @@ View Events in Colleges (DTU), Made with Flutter
 <a href='https://play.google.com/store/apps/details?id=com.pkmnapps.eventsflutter'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="35%"/></a>
 
 ### Screenshots
-<img src="./screenshots/1.jpg" width="180"/>
-<img src="./screenshots/2.jpg" width="180"/>
-<img src="./screenshots/3.jpg" width="180"/>
-<img src="./screenshots/4.jpg" width="180"/>
-<img src="./screenshots/5.jpg" width="180"/>
-<img src="./screenshots/6.jpg" width="180"/>
+
+|<img src="./screenshots/1.jpg" width="180"/>|<img src="./screenshots/2.jpg" width="180"/> | <img src="./screenshots/3.jpg" width="180"/>|
+---
+|<img src="./screenshots/4.jpg" width="180"/> | <img src="./screenshots/5.jpg" width="180"/> | <img src="./screenshots/6.jpg" width="180"/>|
 
 ### Base Idea
 ```
@@ -33,16 +31,6 @@ A Firebase app for
     * Stored bookmarks in SQLite 
         > Converted documentSnapshot to map, with *documentId* mapped as *id* 
 
-## Screens
-
-* Login screen----------------( with facebook only )
-* MainScreen----------------( 5 tabs at bottom, content area, top bar )
-    * Events Tab----------------( All events from following colleges first and then others )
-    * Subscription Tab----------------( Events from subscriptions only)
-    * Discover Tab----------------( Manage what you follow )
-    * Saved Tab----------------( Saved things ) 
-
-
 ## App Flow
 
 ```
@@ -56,6 +44,4 @@ A Firebase app for
                     yes -> MainScreen
 3.MainScreen
     layout: Tabs as in screens section ^^
-
-
 ```
