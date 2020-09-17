@@ -2,6 +2,7 @@
 View Events in Colleges (DTU), Made with Flutter
 
 <a href='https://play.google.com/store/apps/details?id=com.pkmnapps.eventsflutter'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="35%"/></a>
+<h3>View online <a href="https://mannprerak2.github.io/event_hub_flutter/">mannprerak2.github.io/event_hub_flutter</a></h3>
 
 ### Screenshots
 
