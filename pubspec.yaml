@@ -44,7 +44,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
 
 flutter_icons:
-  android: true
+  android: "launcher_icon"
   image_path: "assets/eventhub-icon.png"
 
 # For information on the generic Dart part of this file, see the
