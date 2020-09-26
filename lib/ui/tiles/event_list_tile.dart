@@ -53,48 +53,26 @@ class _EventListTileState extends State<EventListTile> {
                               PhotoPage(widget.snapshot['image'])));
                     },
                     child: Hero(
-                        tag: widget.snapshot['image'],
-                        child: Container(
-                          width: 70,
-                          height: 70,
-                          child: CircleAvatar(
-                            maxRadius: 10.0,
-                            child: Text(''),
-                            // CachedNetworkImage(
-                            //   imageUrl:
-                            //       CachedNetworkImageProvider(snapshot['image'])
-                            //           .url,
-                            //   placeholder: (context, url) => Image.asset(
-                            //     'assets/false.png',
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            //   fit: BoxFit.cover,
-                            // ),
-                            backgroundImage: eventImage
-                                ? CachedNetworkImageProvider(
-                                    widget.snapshot['image'])
-                                : AssetImage('assets/false.png'),
-                            onBackgroundImageError: (exception, stackTrace) {
-                              setState(() {
-                                eventImage = !eventImage;
-                              });
-                            },
-                            backgroundColor: Colors.white,
-                          ),
-                        )
-                        // Container(
-                        //   width: 70,
-                        //   height: 70,
-                        //   decoration: BoxDecoration(
-                        //     shape: BoxShape.circle,
-                        //     image: DecorationImage(
-                        //         image:
-                        //             CachedNetworkImageProvider(snapshot['image'])
-                        //                 .url,
-                        //         fit: BoxFit.cover),
-                        //   ),
-                        // ),
+                      tag: widget.snapshot['image'],
+                      child: Container(
+                        width: 70,
+                        height: 70,
+                        child: CircleAvatar(
+                          maxRadius: 10.0,
+                          child: Text(''),
+                          backgroundImage: eventImage
+                              ? CachedNetworkImageProvider(
+                                  widget.snapshot['image'])
+                              : AssetImage('assets/false.png'),
+                          onBackgroundImageError: (exception, stackTrace) {
+                            setState(() {
+                              eventImage = !eventImage;
+                            });
+                          },
+                          backgroundColor: Colors.white,
                         ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Padding(
