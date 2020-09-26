@@ -37,6 +37,10 @@ class SocietyTileLeft extends StatelessWidget {
                 padding: EdgeInsets.all(5),
                 child: CachedNetworkImage(
                   imageUrl: snapshot['image'],
+                  placeholder: (context, url) => Image.asset(
+                    'assets/false.png',
+                    fit: BoxFit.cover,
+                  ),
                   fit: BoxFit.fitHeight,
                 ),
               ),

@@ -76,6 +76,10 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     },
                     child: CachedNetworkImage(
                       imageUrl: widget.snapshot['image'],
+                      placeholder: (context, url) => Image.asset(
+                        'assets/false.png',
+                        fit: BoxFit.cover,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
