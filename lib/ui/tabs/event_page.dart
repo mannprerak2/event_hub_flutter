@@ -122,6 +122,10 @@ class EventDetailPageState extends State<EventDetailPage> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: doc.get('image'),
+                              placeholder: (context, url) => Image.asset(
+                                'assets/false.png',
+                                fit: BoxFit.cover,
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
