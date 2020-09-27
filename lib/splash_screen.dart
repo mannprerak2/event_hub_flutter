@@ -3,6 +3,7 @@ import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -20,17 +21,14 @@ class SplashScreen extends StatelessWidget {
               "EventHub",
               style: TextStyle(color: Colors.white, fontSize: 45),
             ),
-            CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
             StreamBuilder(
               stream: globalBloc.splashStateStreamController.stream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data is LoginInProgress) {
-                    return Text(
-                      "Please wait...",
-                      style: TextStyle(color: Colors.white),
+                    return SpinKitFadingCube(
+                      color: Colors.white,
+                      size: 50.0,
                     );
                   } else if (snapshot.data is LoginSuccess) {
                     //show mainscreen here
