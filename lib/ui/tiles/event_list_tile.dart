@@ -23,6 +23,20 @@ class EventListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _noImage() {
+      return Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/no-img.png"),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -46,16 +60,19 @@ class EventListTile extends StatelessWidget {
                     },
                     child: Hero(
                       tag: snapshot['image'],
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image:
-                                  CachedNetworkImageProvider(snapshot['image']),
-                              fit: BoxFit.cover),
+                      child: CachedNetworkImage(
+                        imageUrl: snapshot['image'],
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
                         ),
+                        placeholder: (context, url) => _noImage(),
+                        errorWidget: (context, url, error) => _noImage(),
                       ),
                     ),
                   ),

@@ -19,6 +19,17 @@ class SocietyTileLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _noImage() {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/no-img.png"),
+          ),
+        ),
+      );
+    }
+
     return Container(
       height: 160,
       child: GestureDetector(
@@ -37,8 +48,19 @@ class SocietyTileLeft extends StatelessWidget {
                 padding: EdgeInsets.all(5),
                 child: CachedNetworkImage(
                   imageUrl: snapshot['image'],
-                  fit: BoxFit.fitHeight,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fitHeight),
+                    ),
+                  ),
+                  placeholder: (context, url) => _noImage(),
+                  errorWidget: (context, url, error) => _noImage(),
                 ),
+                // child: CachedNetworkImage(
+                //   imageUrl: snapshot['image'],
+                //   fit: BoxFit.fitHeight,
+                // ),
               ),
               Expanded(
                 child: Padding(

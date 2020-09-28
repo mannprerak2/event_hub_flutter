@@ -47,6 +47,17 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _noImage() {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/no-img.png"),
+          ),
+        ),
+      );
+    }
+
     return Container(
         color: Colors.white,
         child: Scaffold(
@@ -76,7 +87,14 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     },
                     child: CachedNetworkImage(
                       imageUrl: widget.snapshot['image'],
-                      fit: BoxFit.cover,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      placeholder: (context, url) => _noImage(),
+                      errorWidget: (context, url, error) => _noImage(),
                     ),
                   ),
                 ),

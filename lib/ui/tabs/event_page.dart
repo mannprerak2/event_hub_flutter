@@ -69,6 +69,17 @@ class EventDetailPageState extends State<EventDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _noImage() {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/no-img.png"),
+          ),
+        ),
+      );
+    }
+
     return Container(
         color: Colors.white,
         child: StreamBuilder<Object>(
@@ -122,7 +133,15 @@ class EventDetailPageState extends State<EventDetailPage> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: doc.get('image'),
-                              fit: BoxFit.cover,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                              placeholder: (context, url) => _noImage(),
+                              errorWidget: (context, url, error) => _noImage(),
                             ),
                           ),
                         ),
