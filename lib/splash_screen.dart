@@ -4,6 +4,7 @@ import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -15,12 +16,20 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              "EventHub",
-              style: TextStyle(color: Colors.white, fontSize: 45),
-            ),
+            TyperAnimatedTextKit(
+                speed: Duration(milliseconds: 100),
+                pause: Duration(seconds: 3),
+                text: [
+                  "EventHub",
+                ],
+                textStyle: TextStyle(
+                    fontSize: 45.0, fontFamily: "Agne", color: Colors.white),
+                textAlign: TextAlign.start,
+                alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                ),
+            SizedBox(height: 30),
             StreamBuilder(
               stream: globalBloc.splashStateStreamController.stream,
               builder: (context, snapshot) {
