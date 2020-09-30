@@ -39,7 +39,7 @@ class SocietyTileLeft extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: snapshot['image'],
                     placeholder: (context, url) => FittedBox(
-                      child: Icon(
+                      child: const Icon(
                         Icons.broken_image,
                         color: Colors.grey,
                       ),

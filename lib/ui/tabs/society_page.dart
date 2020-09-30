@@ -76,7 +76,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     },
                     child: CachedNetworkImage(
                       imageUrl: widget.snapshot['image'],
-                      errorWidget: (context, url, error) => Icon(
+                      errorWidget: (context, url, error) => const Icon(
                         Icons.broken_image,
                         color: Colors.grey,
                       ),

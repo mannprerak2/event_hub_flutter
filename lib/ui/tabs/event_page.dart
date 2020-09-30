@@ -122,7 +122,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: doc.get('image'),
-                              errorWidget: (context, url, error) => Icon(
+                              errorWidget: (context, url, error) => const Icon(
                                 Icons.broken_image,
                                 color: Colors.grey,
                               ),
