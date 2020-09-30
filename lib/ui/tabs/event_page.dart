@@ -122,6 +122,10 @@ class EventDetailPageState extends State<EventDetailPage> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: doc.get('image'),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.broken_image,
+                                color: Colors.grey,
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -212,17 +216,19 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: <Widget>[
-                                                  Text(
-                                                    formatter.format(doc
-                                                        .get('date')
-                                                        .toDate()),
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.green[600],
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize: 30),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      formatter.format(doc
+                                                          .get('date')
+                                                          .toDate()),
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.green[600],
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontSize: 30),
+                                                    ),
                                                   ),
                                                   Text(
                                                     formatterTime.format(doc

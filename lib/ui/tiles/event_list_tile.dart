@@ -7,9 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:events_flutter/ui/tabs/event_page.dart';
 
-class EventListTile extends StatelessWidget {
+class EventListTile extends StatefulWidget {
   final Map<String, dynamic> snapshot;
-  final DateFormat formatter = DateFormat('MMM');
 
   EventListTile(DocumentSnapshot snapshot, {Key key})
       : this.snapshot = snapshot.data(),
@@ -22,12 +21,20 @@ class EventListTile extends StatelessWidget {
         super(key: key);
 
   @override
+  _EventListTileState createState() => _EventListTileState();
+}
+
+class _EventListTileState extends State<EventListTile> {
+  final DateFormat formatter = DateFormat('MMM');
+  bool eventImage = true;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                EventDetailPage(snapshot['id'], GlobalProvider.of(context))));
+            builder: (context) => EventDetailPage(
+                widget.snapshot['id'], GlobalProvider.of(context))));
       },
       child: Card(
           elevation: 0.5,
@@ -42,19 +49,29 @@ class EventListTile extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PhotoPage(snapshot['image'])));
+                          builder: (context) =>
+                              PhotoPage(widget.snapshot['image'])));
                     },
                     child: Hero(
-                      tag: snapshot['image'],
+                      tag: widget.snapshot['image'],
                       child: Container(
                         width: 70,
                         height: 70,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image:
-                                  CachedNetworkImageProvider(snapshot['image']),
-                              fit: BoxFit.cover),
+                        child: CircleAvatar(
+                          maxRadius: 20.0,
+                          child: eventImage
+                              ? null
+                              : Image.asset('assets/error.png'),
+                          backgroundImage: CachedNetworkImageProvider(
+                              widget.snapshot['image']),
+                          onBackgroundImageError: (exception, stackTrace) {
+                            if (eventImage) {
+                              setState(() {
+                                eventImage = !eventImage;
+                              });
+                            }
+                          },
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     ),
@@ -68,21 +85,21 @@ class EventListTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            snapshot['name'],
+                            widget.snapshot['name'],
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[800]),
                           ),
                           Text(
-                            snapshot['location'],
+                            widget.snapshot['location'],
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${snapshot['society']} \u25CF ${snapshot['college']}",
+                            "${widget.snapshot['society']} \u25CF ${widget.snapshot['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -99,17 +116,18 @@ class EventListTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          snapshot['date'].toDate().day.toString(),
+                          widget.snapshot['date'].toDate().day.toString(),
                           style:
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
                           formatter
-                              .format(snapshot['date'].toDate())
+                              .format(widget.snapshot['date'].toDate())
                               .toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),
-                        BookmarkButton(snapshot, GlobalProvider.of(context))
+                        BookmarkButton(
+                            widget.snapshot, GlobalProvider.of(context))
                       ]),
                 ],
               ),

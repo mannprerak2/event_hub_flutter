@@ -35,9 +35,24 @@ class SocietyTileLeft extends StatelessWidget {
               Container(
                 width: 160,
                 padding: EdgeInsets.all(5),
-                child: CachedNetworkImage(
-                  imageUrl: snapshot['image'],
-                  fit: BoxFit.fitHeight,
+                child: FittedBox(
+                  child: CachedNetworkImage(
+                    imageUrl: snapshot['image'],
+                    placeholder: (context, url) => FittedBox(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => FittedBox(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: 80.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
               Expanded(
@@ -46,17 +61,20 @@ class SocietyTileLeft extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            snapshot['name'],
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w600),
-                          ),
-                          SubscribeButton(snapshot, GlobalProvider.of(context))
-                        ],
+                      FittedBox(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              snapshot['name'],
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w600),
+                            ),
+                            SubscribeButton(
+                                snapshot, GlobalProvider.of(context))
+                          ],
+                        ),
                       ),
                       Expanded(
                           child: Text(
