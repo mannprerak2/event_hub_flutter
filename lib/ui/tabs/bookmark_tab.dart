@@ -10,48 +10,41 @@ class BookmarkTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalBloc globalBloc = GlobalProvider.of(context);
-    return kIsWeb
-        ? Center(
-            child: Text(
-              "This feature not available on web",
-              style: TextStyle(fontSize: 20),
-            ),
-          )
-        : PagewiseListView(
-            padding: EdgeInsets.all(8.0),
-            pageSize: batchSize,
-            pageFuture: (pageIndex) {
-              return Future<List<Map<String, dynamic>>>(() async {
-                print('db fetch...');
-                //fetch
-                List<Map<String, dynamic>> documents = await globalBloc.sqlite
-                    .getSavedEvents(batchSize, pageIndex);
+    return PagewiseListView(
+      padding: EdgeInsets.all(8.0),
+      pageSize: batchSize,
+      pageFuture: (pageIndex) {
+        return Future<List<Map<String, dynamic>>>(() async {
+          print('db fetch...');
+          //fetch
+          List<Map<String, dynamic>> documents =
+              await globalBloc.sqlite.getSavedEvents(batchSize, pageIndex);
 
-                return documents;
-              });
-            },
-            noItemsFoundBuilder: (context) {
-              return Column(
-                children: <Widget>[
-                  Text(
-                    "No Bookmarks",
-                    style: TextStyle(
-                      fontSize: 26.0,
-                    ),
-                  ),
-                  Divider(),
-                  Text("\nClick on"),
-                  Icon(
-                    Icons.bookmark_border,
-                    color: Colors.yellow[800],
-                  ),
-                  Text("to bookmark events")
-                ],
-              );
-            },
-            itemBuilder: (context, entry, i) {
-              return EventListTile.bookmark(entry);
-            },
-          );
+          return documents;
+        });
+      },
+      noItemsFoundBuilder: (context) {
+        return Column(
+          children: <Widget>[
+            Text(
+              "No Bookmarks",
+              style: TextStyle(
+                fontSize: 26.0,
+              ),
+            ),
+            Divider(),
+            Text("\nClick on"),
+            Icon(
+              Icons.bookmark_border,
+              color: Colors.yellow[800],
+            ),
+            Text("to bookmark events")
+          ],
+        );
+      },
+      itemBuilder: (context, entry, i) {
+        return EventListTile.bookmark(entry);
+      },
+    );
   }
 }
