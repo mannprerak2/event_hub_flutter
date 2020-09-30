@@ -30,7 +30,7 @@ jobs:
           echo "============"
           # change this remote url for examle your remote url is https://github.com/onatcipli/flutter_web.git then the following:
           git add --all
-          git remote set-url origin https://${{secrets.commit_secret}}@github.com/mannprerak2/flutter_project_portfolio.git
+          git remote set-url origin https://${{secrets.commit_secret}}@github.com/mannprerak2/event_hub_flutter.git
           echo "============"
           git commit -m "auto gh-action, build web"
           echo "============"
