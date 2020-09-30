@@ -13,8 +13,8 @@ class BookmarkTab extends StatelessWidget {
     return kIsWeb
         ? Center(
             child: Text(
-              "This feature not available on web",
-              style: TextStyle(fontSize: 15),
+              "Bookmarks are not available on web",
+              style: TextStyle(fontSize: 25),
             ),
           )
         : PagewiseListView(
