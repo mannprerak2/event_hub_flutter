@@ -122,6 +122,16 @@ class EventDetailPageState extends State<EventDetailPage> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: doc.get('image'),
+                              placeholder: (context, url) => const Icon(
+                                Icons.image_not_supported_sharp,
+                                color: Color(0xFFEF9A9A),
+                                size: 100.0,
+                              ),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.image_not_supported_sharp,
+                                color: Color(0xFFEF9A9A),
+                                size: 100.0,
+                              ),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -160,7 +170,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                             ),
                             Divider(),
                             Container(
-                              height: 90,
+                              height: 100,
                               child: Row(
                                 children: <Widget>[
                                   GestureDetector(
@@ -212,29 +222,33 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: <Widget>[
-                                                  Text(
-                                                    formatter.format(doc
-                                                        .get('date')
-                                                        .toDate()),
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.green[600],
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize: 30),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      formatter.format(doc
+                                                          .get('date')
+                                                          .toDate()),
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.green[600],
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontSize: 30),
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    formatterTime.format(doc
-                                                        .get('date')
-                                                        .toDate()),
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.green[300],
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize: 20),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      formatterTime.format(doc
+                                                          .get('date')
+                                                          .toDate()),
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.green[300],
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontSize: 20),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
