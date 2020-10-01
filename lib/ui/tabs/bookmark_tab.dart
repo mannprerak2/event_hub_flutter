@@ -11,11 +11,25 @@ class BookmarkTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalBloc globalBloc = GlobalProvider.of(context);
     return kIsWeb
-        ? Center(
-            child: Text(
-              "Bookmarks are not available on web",
-              style: TextStyle(fontSize: 25),
-            ),
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.bookmark_border,
+                size: 30,
+                color: Colors.grey,
+              ),
+              Center(
+                child: Text(
+                  "Bookmarks are not available on web",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ],
           )
         : PagewiseListView(
             padding: EdgeInsets.all(8.0),
