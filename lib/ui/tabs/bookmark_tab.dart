@@ -10,41 +10,62 @@ class BookmarkTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalBloc globalBloc = GlobalProvider.of(context);
-    return PagewiseListView(
-      padding: EdgeInsets.all(8.0),
-      pageSize: batchSize,
-      pageFuture: (pageIndex) {
-        return Future<List<Map<String, dynamic>>>(() async {
-          print('db fetch...');
-          //fetch
-          List<Map<String, dynamic>> documents =
-              await globalBloc.sqlite.getSavedEvents(batchSize, pageIndex);
-
-          return documents;
-        });
-      },
-      noItemsFoundBuilder: (context) {
-        return Column(
-          children: <Widget>[
-            Text(
-              "No Bookmarks",
-              style: TextStyle(
-                fontSize: 26.0,
+    return kIsWeb
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.bookmark_border,
+                size: 35,
+                color: Colors.grey,
               ),
-            ),
-            Divider(),
-            Text("\nClick on"),
-            Icon(
-              Icons.bookmark_border,
-              color: Colors.yellow[800],
-            ),
-            Text("to bookmark events")
-          ],
-        );
-      },
-      itemBuilder: (context, entry, i) {
-        return EventListTile.bookmark(entry);
-      },
-    );
+              Center(
+                child: Text(
+                  "Bookmarks are not available on web",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ],
+          )
+        : PagewiseListView(
+            padding: EdgeInsets.all(8.0),
+            pageSize: batchSize,
+            pageFuture: (pageIndex) {
+              return Future<List<Map<String, dynamic>>>(() async {
+                print('db fetch...');
+                //fetch
+                List<Map<String, dynamic>> documents = await globalBloc.sqlite
+                    .getSavedEvents(batchSize, pageIndex);
+
+                return documents;
+              });
+            },
+            noItemsFoundBuilder: (context) {
+              return Column(
+                children: <Widget>[
+                  Text(
+                    "No Bookmarks",
+                    style: TextStyle(
+                      fontSize: 26.0,
+                    ),
+                  ),
+                  Divider(),
+                  Text("\nClick on"),
+                  Icon(
+                    Icons.bookmark_border,
+                    color: Colors.yellow[800],
+                  ),
+                  Text("to bookmark events")
+                ],
+              );
+            },
+            itemBuilder: (context, entry, i) {
+              return EventListTile.bookmark(entry);
+            },
+          );
   }
 }
