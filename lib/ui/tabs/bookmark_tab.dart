@@ -17,7 +17,7 @@ class BookmarkTab extends StatelessWidget {
             children: [
               Icon(
                 Icons.bookmark_border,
-                size: 30,
+                size: 35,
                 color: Colors.grey,
               ),
               Center(
