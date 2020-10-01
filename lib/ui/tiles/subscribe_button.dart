@@ -1,5 +1,6 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SubscribeButton extends StatefulWidget {
   final Map<String, dynamic> snapshot;
@@ -12,7 +13,17 @@ class SubscribeButton extends StatefulWidget {
 
 class _SubscribeButtonState extends State<SubscribeButton> {
   bool marked;
-
+  final _snackBar = SnackBar(
+      content: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('Subscribing is not supported on web'),
+      Icon(
+        Icons.notifications_none_sharp,
+        color: Colors.red,
+      )
+    ],
+  ));
   _SubscribeButtonState();
 
   @override
@@ -34,20 +45,25 @@ class _SubscribeButtonState extends State<SubscribeButton> {
       ),
       onPressed: () {
         //save this to sqlite here
-        if (marked) {
-          widget.globalBloc.sqlite
-              .removeSub(widget.snapshot, widget.globalBloc);
-          setState(() {
-            marked = false;
-            // invalidate the subscription eventlist here
-            widget.globalBloc.lastFetch = 0;
-            widget.globalBloc.subsEventListCache.clear();
-          });
+        if (kIsWeb) {
+          Scaffold.of(context).showSnackBar(_snackBar);
         } else {
-          widget.globalBloc.sqlite.saveSub(widget.snapshot, widget.globalBloc);
-          setState(() {
-            marked = true;
-          });
+          if (marked) {
+            widget.globalBloc.sqlite
+                .removeSub(widget.snapshot, widget.globalBloc);
+            setState(() {
+              marked = false;
+              // invalidate the subscription eventlist here
+              widget.globalBloc.lastFetch = 0;
+              widget.globalBloc.subsEventListCache.clear();
+            });
+          } else {
+            widget.globalBloc.sqlite
+                .saveSub(widget.snapshot, widget.globalBloc);
+            setState(() {
+              marked = true;
+            });
+          }
         }
       },
     );

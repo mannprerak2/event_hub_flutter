@@ -1,5 +1,6 @@
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class BookmarkButton extends StatefulWidget {
   final Map<String, dynamic> snapshot;
@@ -12,7 +13,18 @@ class BookmarkButton extends StatefulWidget {
 
 class _BookmarkButtonState extends State<BookmarkButton> {
   bool marked;
-
+  final _snackBar = SnackBar(
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('Bookmarking is not supported on web'),
+        Icon(
+          Icons.bookmark_border_sharp,
+          color: Colors.red,
+        )
+      ],
+    ),
+  );
   _BookmarkButtonState();
 
   @override
@@ -34,16 +46,20 @@ class _BookmarkButtonState extends State<BookmarkButton> {
       ),
       onPressed: () {
         //save this to sqlite here
-        if (marked) {
-          widget.globalBloc.sqlite.removeEvent(widget.snapshot['id']);
-          setState(() {
-            marked = false;
-          });
+        if (kIsWeb) {
+          Scaffold.of(context).showSnackBar(_snackBar);
         } else {
-          widget.globalBloc.sqlite.saveEvent(widget.snapshot);
-          setState(() {
-            marked = true;
-          });
+          if (marked) {
+            widget.globalBloc.sqlite.removeEvent(widget.snapshot['id']);
+            setState(() {
+              marked = false;
+            });
+          } else {
+            widget.globalBloc.sqlite.saveEvent(widget.snapshot);
+            setState(() {
+              marked = true;
+            });
+          }
         }
       },
     );
