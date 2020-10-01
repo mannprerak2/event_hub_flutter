@@ -4,7 +4,7 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf",
-"main.dart.js": "e985be351febf84d6351f4fc8ad7f35c",
+"main.dart.js": "cca3f517ac777e25edd59121f2cb1d87",
 "assets/NOTICES": "b1096a7aa8dae8e8e4a2cd0ff07ba8cd",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
@@ -14,8 +14,8 @@ const RESOURCES = {
 "assets/assets/eventhub-logo2.png": "b2282c0a79de8b3db9e0a38544a27bb1",
 "assets/AssetManifest.json": "ed4bf31e47538ce607a4084f5a41a92f",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"index.html": "e711a90264969ccd279ab99aea4d651c",
-"/": "e711a90264969ccd279ab99aea4d651c",
+"index.html": "343da744ff0b54618c750e0a0f01b507",
+"/": "343da744ff0b54618c750e0a0f01b507",
 "manifest.json": "b4931f7b7c51a2047f3affab278235f2",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1"
