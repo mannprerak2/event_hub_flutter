@@ -28,72 +28,69 @@ class _EventTabState extends State<EventTab> {
           child: FeaturedSwiper(),
         ),
         SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Upcoming Events',
-              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
-            ),
-          ),
-        ),
-        PagewiseSliverList(
-          pageSize: EventTab.batchSize,
-          pageFuture: (pageIndex) {
-            return Future<List<DocumentSnapshot>>(() async {
-              if (globalBloc.eventListCache.length <=
-                  pageIndex * EventTab.batchSize) {
-                if (!EventTab.moreAvailable) return List<DocumentSnapshot>();
-                print('fetching...');
-                DocumentSnapshot last;
-                if (globalBloc.eventListCache.length > 0)
-                  last = globalBloc.eventListCache.last;
-                //fetch
-                QuerySnapshot snapshot = await FirebaseFirestore.instance
-                    .collection('events_mini')
-                    .where('date',
-                        isGreaterThan:
-                            last == null ? DateTime.now() : last.get('date'))
-                    .orderBy('date')
-                    .limit(EventTab.batchSize)
-                    .get();
-                //store it to list
-                if (snapshot.docs.length < EventTab.batchSize) {
-                  EventTab.moreAvailable = false;
-
-                  // show past events as no more upcoming are available
-                  EventTab.showPast = true;
-                  if (this.mounted) setState(() {});
-                }
-                globalBloc.eventListCache.addAll(snapshot.docs);
-
-                return snapshot.docs;
-              } else {
-                print('from list');
-                //show from stored list
-                int end = pageIndex * EventTab.batchSize + EventTab.batchSize;
-                if (globalBloc.eventListCache.length < end)
-                  end = globalBloc.eventListCache.length;
-                return globalBloc.eventListCache
-                    .getRange(pageIndex * EventTab.batchSize, end)
-                    .toList();
-              }
-            });
-          },
-          noItemsFoundBuilder: (context) {
-            return Column(
-              children: <Widget>[
-                Padding(
+          child: !EventTab.moreAvailable
+              ? Container()
+              : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("No Upcoming Events"),
+                  child: Text(
+                    'Upcoming Events',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
+                  ),
                 ),
-                Divider()
-              ],
-            );
-          },
-          itemBuilder: (context, entry, i) {
-            return EventListTile(entry);
-          },
         ),
+        !EventTab.moreAvailable
+            ? SliverToBoxAdapter()
+            : PagewiseSliverList(
+                pageSize: EventTab.batchSize,
+                pageFuture: (pageIndex) {
+                  return Future<List<DocumentSnapshot>>(() async {
+                    if (globalBloc.eventListCache.length <=
+                        pageIndex * EventTab.batchSize) {
+                      if (!EventTab.moreAvailable)
+                        return List<DocumentSnapshot>();
+                      print('fetching...');
+                      DocumentSnapshot last;
+                      if (globalBloc.eventListCache.length > 0)
+                        last = globalBloc.eventListCache.last;
+                      //fetch
+                      QuerySnapshot snapshot = await FirebaseFirestore.instance
+                          .collection('events_mini')
+                          .where('date',
+                              isGreaterThan: last == null
+                                  ? DateTime.now()
+                                  : last.get('date'))
+                          .orderBy('date')
+                          .limit(EventTab.batchSize)
+                          .get();
+                      //store it to list
+                      if (snapshot.docs.length < EventTab.batchSize) {
+                        EventTab.moreAvailable = false;
+
+                        // show past events as no more upcoming are available
+                        EventTab.showPast = true;
+                        if (this.mounted) setState(() {});
+                      }
+                      globalBloc.eventListCache.addAll(snapshot.docs);
+
+                      return snapshot.docs;
+                    } else {
+                      print('from list');
+                      //show from stored list
+                      int end =
+                          pageIndex * EventTab.batchSize + EventTab.batchSize;
+                      if (globalBloc.eventListCache.length < end)
+                        end = globalBloc.eventListCache.length;
+                      return globalBloc.eventListCache
+                          .getRange(pageIndex * EventTab.batchSize, end)
+                          .toList();
+                    }
+                  });
+                },
+                itemBuilder: (context, entry, i) {
+                  return EventListTile(entry);
+                },
+              ),
         SliverToBoxAdapter(
           child: !EventTab.showPast
               ? Container()
