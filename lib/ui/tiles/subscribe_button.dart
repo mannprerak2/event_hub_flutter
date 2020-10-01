@@ -13,8 +13,17 @@ class SubscribeButton extends StatefulWidget {
 
 class _SubscribeButtonState extends State<SubscribeButton> {
   bool marked;
-  final _snackBar =
-      SnackBar(content: Text('Web does not support this feature'));
+  final _snackBar = SnackBar(
+      content: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('Subscribing is not supported on web'),
+      Icon(
+        Icons.notifications_none_sharp,
+        color: Colors.red,
+      )
+    ],
+  ));
   _SubscribeButtonState();
 
   @override
