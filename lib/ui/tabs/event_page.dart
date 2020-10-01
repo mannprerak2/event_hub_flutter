@@ -164,7 +164,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                             ),
                             Divider(),
                             Container(
-                              height: 90,
+                              height: 100,
                               child: Row(
                                 children: <Widget>[
                                   GestureDetector(
@@ -230,17 +230,19 @@ class EventDetailPageState extends State<EventDetailPage> {
                                                           fontSize: 30),
                                                     ),
                                                   ),
-                                                  Text(
-                                                    formatterTime.format(doc
-                                                        .get('date')
-                                                        .toDate()),
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.green[300],
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize: 20),
+                                                  FittedBox(
+                                                    child: Text(
+                                                      formatterTime.format(doc
+                                                          .get('date')
+                                                          .toDate()),
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.green[300],
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontSize: 20),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
