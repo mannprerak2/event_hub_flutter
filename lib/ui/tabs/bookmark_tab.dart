@@ -15,14 +15,19 @@ class BookmarkTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.bookmark_border,
-                size: 35,
-                color: Colors.grey,
+              IconButton(
+                icon: Icon(
+                  Icons.bookmark_rounded,
+                  size: 50,
+                  color: Colors.yellow,
+                ),
+                onPressed: () {
+                  // Do nothing, just for effect.
+                },
               ),
               Center(
                 child: Text(
-                  "Bookmarks are not available on web",
+                  "Bookmarks are not available\non web",
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.grey,
