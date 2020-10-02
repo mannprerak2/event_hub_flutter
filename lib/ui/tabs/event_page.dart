@@ -6,6 +6,7 @@ import 'package:events_flutter/states/event_page_states.dart';
 import 'package:events_flutter/ui/tabs/photo_page.dart';
 import 'package:events_flutter/ui/tiles/bookmark_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,7 +86,10 @@ class EventDetailPageState extends State<EventDetailPage> {
                     ),
                   ),
                   body: Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitFadingCube(
+                      color: Theme.of(context).primaryColor,
+                      size: 50.0,
+                    ),
                   ),
                 );
               } else if (snapshot.data is ErrorPage) {

@@ -4,6 +4,7 @@ import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/ui/tiles/society_tile_left.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DiscoverTab extends StatelessWidget {
   static const int batchSize = 3;
@@ -45,6 +46,12 @@ class DiscoverTab extends StatelessWidget {
                 .toList();
           }
         });
+      },
+      loadingBuilder: (context) {
+        return SpinKitFadingCube(
+          color: Theme.of(context).primaryColor,
+          size: 40.0,
+        );
       },
       noItemsFoundBuilder: (context) {
         return Text("Its Empty In Here...");
