@@ -52,7 +52,7 @@ class MySearchDelegate extends SearchDelegate {
         }
 
         return SpinKitFadingCube(
-          color: Color(0xffB54646),
+          color: Theme.of(context).primaryColor,
           size: 50.0,
         );
       },

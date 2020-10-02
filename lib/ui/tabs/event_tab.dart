@@ -46,7 +46,7 @@ class _EventTabState extends State<EventTab> {
                 pageSize: EventTab.batchSize,
                 loadingBuilder: (context) {
                   return SpinKitFadingCube(
-                    color: Color(0xffB54646),
+                    color: Theme.of(context).primaryColor,
                     size: 40.0,
                   );
                 },
@@ -116,7 +116,7 @@ class _EventTabState extends State<EventTab> {
                 pageSize: EventTab.pastBatchSize,
                 loadingBuilder: (context) {
                   return SpinKitFadingCube(
-                    color: Color(0xffB54646),
+                    color: Theme.of(context).primaryColor,
                     size: 40.0,
                   );
                 },
