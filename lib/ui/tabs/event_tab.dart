@@ -3,6 +3,7 @@ import 'package:events_flutter/ui/tiles/featured_swiper.tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../blocs/global_provider.dart';
 import '../../blocs/global_bloc.dart';
 
@@ -43,6 +44,12 @@ class _EventTabState extends State<EventTab> {
             ? SliverToBoxAdapter()
             : PagewiseSliverList(
                 pageSize: EventTab.batchSize,
+                loadingBuilder: (context) {
+                  return SpinKitFadingCube(
+                    color: Color(0xffB54646),
+                    size: 40.0,
+                  );
+                },
                 pageFuture: (pageIndex) {
                   return Future<List<DocumentSnapshot>>(() async {
                     if (globalBloc.eventListCache.length <=
@@ -107,6 +114,12 @@ class _EventTabState extends State<EventTab> {
             ? SliverToBoxAdapter()
             : PagewiseSliverList(
                 pageSize: EventTab.pastBatchSize,
+                loadingBuilder: (context) {
+                  return SpinKitFadingCube(
+                    color: Color(0xffB54646),
+                    size: 40.0,
+                  );
+                },
                 pageFuture: (pageIndex) {
                   return Future<List<DocumentSnapshot>>(() async {
                     if (globalBloc.pastEventListCache.length <=
