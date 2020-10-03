@@ -3,8 +3,22 @@ import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/states/hub_states.dart';
 import 'package:events_flutter/states/splash_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatelessWidget {
+  /// When this turns "2", we push the main screen.
+  static var animationAndLoginSync = 0;
+
+  /// Only pushes main screen if [animationAndLoginSync] is 2.
+  void canPushMainScreen(GlobalBloc globalBloc) {
+    animationAndLoginSync++;
+    if (animationAndLoginSync >= 2) {
+      globalBloc.hubStateStreamController.add(ShowMainState());
+      animationAndLoginSync = 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final globalBloc = GlobalProvider.of(context);
@@ -14,27 +28,33 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              "EventHub",
-              style: TextStyle(color: Colors.white, fontSize: 45),
-            ),
-            CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            TyperAnimatedTextKit(
+                speed: Duration(milliseconds: 100),
+                text: [
+                  "EventHub",
+                ],
+                isRepeatingAnimation: false,
+                onFinished: () => canPushMainScreen(globalBloc),
+                textStyle: TextStyle(
+                    fontSize: 45.0, fontFamily: "Agne", color: Colors.white),
+                textAlign: TextAlign.start,
+                alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                ),
+            SizedBox(height: 30),
+            SpinKitFadingCube(
+              color: Colors.white,
+              size: 50.0,
             ),
             StreamBuilder(
               stream: globalBloc.splashStateStreamController.stream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data is LoginInProgress) {
-                    return Text(
-                      "Please wait...",
-                      style: TextStyle(color: Colors.white),
-                    );
                   } else if (snapshot.data is LoginSuccess) {
                     //show mainscreen here
-                    globalBloc.hubStateStreamController.add(ShowMainState());
+                    canPushMainScreen(globalBloc);
                   } else if (snapshot.data is LoginError) {
                     return Column(
                       children: <Widget>[

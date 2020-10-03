@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "388456173313",
+    "firebase_url": "https://eventsflutter.firebaseio.com",
+    "project_id": "eventsflutter",
+    "storage_bucket": "eventsflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388456173313:android:b005901d176f1a27",
+        "android_client_info": {
+          "package_name": "com.pkmnapps.eventsflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388456173313-0df2cfcpjuadn97tonjq586dppu8upe1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmUGxVUeVg2CJ96e2gmbKSIWkgyrnrWCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388456173313-0df2cfcpjuadn97tonjq586dppu8upe1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

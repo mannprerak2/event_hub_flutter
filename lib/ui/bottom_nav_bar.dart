@@ -46,37 +46,25 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         items: [
           BottomNavigationBarItem(
-              backgroundColor: Colors.blue,
-              title: Text(
-                "Events",
-              ),
-              icon: Icon(
-                Icons.event,
-              )),
+            backgroundColor: Colors.blue,
+            label: "Events",
+            icon: Icon(Icons.event),
+          ),
           BottomNavigationBarItem(
-              backgroundColor: Colors.blue,
-              title: Text(
-                "Societies",
-              ),
-              icon: Icon(
-                Icons.explore,
-              )),
+            backgroundColor: Colors.blue,
+            label: "Societies",
+            icon: Icon(Icons.explore),
+          ),
           BottomNavigationBarItem(
-              backgroundColor: Colors.blue,
-              title: Text(
-                "Subscription",
-              ),
-              icon: Icon(
-                Icons.subscriptions,
-              )),
+            backgroundColor: Colors.blue,
+            label: "Subscription",
+            icon: Icon(Icons.subscriptions),
+          ),
           BottomNavigationBarItem(
-              backgroundColor: Colors.blue,
-              title: Text(
-                "Saved",
-              ),
-              icon: Icon(
-                Icons.bookmark,
-              )),
+            backgroundColor: Colors.blue,
+            label: "Saved",
+            icon: Icon(Icons.bookmark),
+          ),
         ]);
   }
 }

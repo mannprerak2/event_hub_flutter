@@ -6,6 +6,7 @@ import 'package:events_flutter/ui/tabs/subs_societies_page.dart';
 import 'package:events_flutter/ui/tiles/event_big_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class SubsTab extends StatelessWidget {
   static const int batchSize = 3;
@@ -17,10 +18,35 @@ class SubsTab extends StatelessWidget {
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: Container(
-            height: 50,
             child: globalBloc.subsNameList.length == 0
-                ? Center(
-                    child: Text("No Society Subscribed"),
+                ? Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: 350,
+                          width: 400,
+                          child: FlareActor(
+                            'assets/subscription.flr',
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
+                            animation: "nosubs",
+                            // nosubs is an animation defination inside flare editor
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          'No society subscribed',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
                   )
                 : Row(
                     crossAxisAlignment: CrossAxisAlignment.end,

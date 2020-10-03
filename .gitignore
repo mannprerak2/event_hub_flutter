@@ -1,6 +1,7 @@
 #keystore and google services
-**/android/app/google-services.json
 **/android/key.properties
+# Commented out, only read access is available for applications.
+# **/android/app/google-services.json
 
 # Miscellaneous
 *.class

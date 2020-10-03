@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events_flutter/ui/tiles/event_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override
@@ -50,9 +51,14 @@ class MySearchDelegate extends SearchDelegate {
           );
         }
 
+
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: CircularProgressIndicator(),
+          child: 
+        SpinKitFadingCube(
+          color: Theme.of(context).primaryColor,
+          size: 50.0,)
+
         );
       },
     );
