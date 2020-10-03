@@ -26,7 +26,7 @@ class SubsTab extends StatelessWidget {
                     children: [
                       Center(
                         child: Container(
-                          height: 400,
+                          height: 350,
                           width: 400,
                           child: FlareActor(
                             'assets/subscription.flr',
