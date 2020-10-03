@@ -50,7 +50,10 @@ class MySearchDelegate extends SearchDelegate {
           );
         }
 
-        return CircularProgressIndicator();
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

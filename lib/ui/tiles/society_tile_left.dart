@@ -47,7 +47,7 @@ class SocietyTileLeft extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
@@ -55,6 +55,7 @@ class SocietyTileLeft extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w600),
                           ),
+                          Spacer(),
                           SubscribeButton(snapshot, GlobalProvider.of(context))
                         ],
                       ),
