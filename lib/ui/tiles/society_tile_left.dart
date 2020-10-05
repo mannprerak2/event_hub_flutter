@@ -61,6 +61,7 @@ class SocietyTileLeft extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
                       FittedBox(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,6 +76,7 @@ class SocietyTileLeft extends StatelessWidget {
                                 snapshot, GlobalProvider.of(context))
                           ],
                         ),
+
                       ),
                       Expanded(
                           child: Text(

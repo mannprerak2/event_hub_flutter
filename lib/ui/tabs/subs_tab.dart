@@ -142,6 +142,7 @@ class SubsTab extends StatelessWidget {
               return Center(
                   child: RaisedButton(
                 child: Text("View All Societies"),
+                color: Theme.of(context).primaryColor,
                 onPressed: () {
                   globalBloc.mainStateStreamController
                       .add(TabState(1, true)); // 1 is for discover tab

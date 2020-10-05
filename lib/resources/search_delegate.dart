@@ -51,9 +51,14 @@ class MySearchDelegate extends SearchDelegate {
           );
         }
 
-        return SpinKitFadingCube(
+
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: 
+        SpinKitFadingCube(
           color: Theme.of(context).primaryColor,
-          size: 50.0,
+          size: 50.0,)
+
         );
       },
     );
