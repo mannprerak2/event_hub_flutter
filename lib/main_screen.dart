@@ -1,3 +1,4 @@
+import 'package:events_flutter/blocs/ThemeSwitch.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/states/main_states.dart';
@@ -37,6 +38,25 @@ class MainScreenState extends State<MainScreen> {
         ),
         title: Text("EventHub"),
         actions: <Widget>[
+          Container(
+            child: StreamBuilder(
+              stream: themeSwitch.themeModeStream,
+              initialData: ThemeMode.system,
+              builder:
+                  (BuildContext context, AsyncSnapshot<ThemeMode> snapshot) {
+                return Switch(
+                    activeColor: Theme.of(context).primaryColorLight,
+                    value: snapshot.data == ThemeMode.dark ? true : false,
+                    onChanged: (value) {
+                      if (value) {
+                        themeSwitch.addThemeMode(ThemeMode.dark);
+                      } else {
+                        themeSwitch.addThemeMode(ThemeMode.light);
+                      }
+                    });
+              },
+            ),
+          ),
           IconButton(
             icon: Icon(Icons.info_outline),
             onPressed: () {

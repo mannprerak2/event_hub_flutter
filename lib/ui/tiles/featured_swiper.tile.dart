@@ -20,7 +20,7 @@ class _FeaturedSwiperState extends State<FeaturedSwiper> {
     if (globalBloc.swiperEventListCache.isNotEmpty) {
       print("from list..");
       return Container(
-        color: Colors.grey[200],
+        color: Theme.of(context).primaryColorLight,
         height: 250,
         child: Swiper.list(
           autoplay: true,

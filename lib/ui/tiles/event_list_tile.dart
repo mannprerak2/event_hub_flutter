@@ -86,6 +86,8 @@ class _EventListTileState extends State<EventListTile> {
                         children: <Widget>[
                           Text(
                             widget.snapshot['name'],
+                            //TODO: edit this style
+
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -93,6 +95,8 @@ class _EventListTileState extends State<EventListTile> {
                           ),
                           Text(
                             widget.snapshot['location'],
+                            //TODO: edit this style
+
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -102,6 +106,7 @@ class _EventListTileState extends State<EventListTile> {
                             "${widget.snapshot['society']} \u25CF ${widget.snapshot['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
+                            //TODO: edit this style
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 12,

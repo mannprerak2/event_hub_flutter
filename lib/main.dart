@@ -1,3 +1,4 @@
+import 'package:events_flutter/blocs/ThemeSwitch.dart';
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/main_screen.dart';
@@ -42,23 +43,35 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GlobalProvider(
       globalBloc: globalBloc,
-      child: MaterialApp(
-        title: 'EventsFlutter',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primarySwatch: Colors.red, primaryColor: Color(0xffB54646)),
-        home: StreamBuilder(
-          // HUB state builder
-          stream: globalBloc.hubStateStreamController.stream,
-          initialData: ShowSplashState(),
-          builder: (context, snapshot) {
-            if (snapshot.data is ShowMainState) {
-              globalBloc.disposeSplashController();
-              return MainScreen();
-            }
-            return SplashScreen();
-          },
-        ),
+      child: StreamBuilder(
+        stream: themeSwitch.themeModeStream,
+        initialData: ThemeMode.system,
+        builder: (BuildContext context, AsyncSnapshot<ThemeMode> snapshot) {
+          return MaterialApp(
+            title: 'EventsFlutter',
+            debugShowCheckedModeBanner: false,
+            themeMode: snapshot.data,
+            theme: ThemeData.light().copyWith(
+                primaryColor: Color(0xFFB54646),
+                primaryColorLight: Color(0xFFEEEEEE)),
+            darkTheme: ThemeData.dark().copyWith(
+                primaryColor: Color(0xFFB54646),
+                accentColor: Color(0xFFB54646),
+                primaryColorLight: Color(0xFF444444)),
+            home: StreamBuilder(
+              // HUB state builder
+              stream: globalBloc.hubStateStreamController.stream,
+              initialData: ShowSplashState(),
+              builder: (context, snapshot) {
+                if (snapshot.data is ShowMainState) {
+                  globalBloc.disposeSplashController();
+                  return MainScreen();
+                }
+                return SplashScreen();
+              },
+            ),
+          );
+        },
       ),
     );
   }
