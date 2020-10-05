@@ -52,12 +52,56 @@ class MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             themeMode: snapshot.data,
             theme: ThemeData.light().copyWith(
-                primaryColor: Color(0xFFB54646),
-                primaryColorLight: Color(0xFFEEEEEE)),
+              primaryColor: Color(0xFFB54646),
+              primaryColorLight: Color(0xFFEEEEEE),
+              textTheme: TextTheme(
+                headline1: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xFF444444),
+                    fontWeight: FontWeight.bold),
+                headline2: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF444444),
+                  fontWeight: FontWeight.normal,
+                ),
+                headline3: TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF444444),
+                  fontWeight: FontWeight.normal,
+                ),
+                headline4: TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF444444),
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
             darkTheme: ThemeData.dark().copyWith(
-                primaryColor: Color(0xFFB54646),
-                accentColor: Color(0xFFB54646),
-                primaryColorLight: Color(0xFF444444)),
+              primaryColor: Color(0xFFB54646),
+              accentColor: Color(0xFFB54646),
+              primaryColorLight: Color(0xFF444444),
+              textTheme: TextTheme(
+                headline1: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                headline2: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                ),
+                headline3: TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                ),
+                headline4: TextStyle(
+                  fontSize: 11,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
             home: StreamBuilder(
               // HUB state builder
               stream: globalBloc.hubStateStreamController.stream,

@@ -86,31 +86,17 @@ class _EventListTileState extends State<EventListTile> {
                         children: <Widget>[
                           Text(
                             widget.snapshot['name'],
-                            //TODO: edit this style
-
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey[800]),
+                            style: Theme.of(context).textTheme.headline1,
                           ),
                           Text(
                             widget.snapshot['location'],
-                            //TODO: edit this style
-
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
+                            style: Theme.of(context).textTheme.headline3,
                           ),
                           Text(
                             "${widget.snapshot['society']} \u25CF ${widget.snapshot['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            //TODO: edit this style
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 12,
-                            ),
+                            style: Theme.of(context).textTheme.headline4,
                           )
                         ],
                       ),
@@ -120,11 +106,8 @@ class _EventListTileState extends State<EventListTile> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text(
-                          widget.snapshot['date'].toDate().day.toString(),
-                          style:
-                              TextStyle(fontSize: 18, color: Colors.grey[800]),
-                        ),
+                        Text(widget.snapshot['date'].toDate().day.toString(),
+                            style: Theme.of(context).textTheme.headline2),
                         Text(
                           formatter
                               .format(widget.snapshot['date'].toDate())
