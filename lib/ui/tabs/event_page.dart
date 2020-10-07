@@ -70,272 +70,297 @@ class EventDetailPageState extends State<EventDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        child: StreamBuilder<Object>(
-            initialData: LoadingPage(),
-            stream: controller.stream,
-            builder: (context, snapshot) {
-              if (snapshot.data is LoadingPage) {
-                return Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    leading: BackButton(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  body: Center(
-                    child: SpinKitFadingCube(
-                      color: Theme.of(context).primaryColor,
-                      size: 50.0,
-                    ),
-                  ),
-                );
-              } else if (snapshot.data is ErrorPage) {
-                return Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    leading: BackButton(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  body: Center(
-                    child: Text('Some Error Occured'),
-                  ),
-                );
-              } else if (snapshot.data is SucessPage) {
-                DocumentSnapshot doc = (snapshot.data as SucessPage).snap;
-                // doc.data()['id'] = doc.id; // Doesn't work
-                return Scaffold(
-                  body: CustomScrollView(
-                    controller: _scrollController,
-                    slivers: <Widget>[
-                      SliverAppBar(
-                        pinned: true,
-                        leading: BackButton(),
-                        title: _showTitle ? Text(doc.get('name')) : null,
-                        expandedHeight: kExpandedHeight,
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      PhotoPage(doc.get('image'))));
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: doc.get('image'),
-                              placeholder: (context, url) => const Icon(
-                                Icons.image_not_supported_sharp,
-                                color: Color(0xFFEF9A9A),
-                                size: 100.0,
-                              ),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.image_not_supported_sharp,
-                                color: Color(0xFFEF9A9A),
-                                size: 100.0,
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: Color(0xffB54646),
+      body: Center(
+        child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black38,
+                  blurRadius: 12.0,
+                  spreadRadius: 4.0,
+                )
+              ],
+            ),
+            width: width > 600 ? 600 : width,
+            child: StreamBuilder<Object>(
+                initialData: LoadingPage(),
+                stream: controller.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.data is LoadingPage) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        leading: BackButton(
+                          color: Colors.grey,
                         ),
                       ),
-                      SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      child: Text(
-                                    doc.get('name'),
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                    ),
-                                  )),
-                                  BookmarkButton(
-                                      doc.data()
-                                        ..putIfAbsent('id', () => doc.id),
-                                      GlobalProvider.of(context))
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
-                              child: Text(
-                                "Organised by ${doc.get('society_fullname')} at ${doc.get('location')}",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w200),
-                              ),
-                            ),
-                            Divider(),
-                            Container(
-                              height: 100,
-                              child: Row(
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: () async {
-                                      String url =
-                                          "https://www.facebook.com/${doc.id}";
-                                      if (await canLaunch(url)) {
-                                        launch(url);
-                                      }
-                                    },
-                                    child: Card(
-                                      color: Colors.blue[900],
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Text(
-                                                'f',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 35),
-                                              ),
-                                            ),
-                                            Text(
-                                              'Open on Facebook',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 10),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                      body: Center(
+                        child: SpinKitFadingCube(
+                          color: Theme.of(context).primaryColor,
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.data is ErrorPage) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        leading: BackButton(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      body: Center(
+                        child: Text('Some Error Occured'),
+                      ),
+                    );
+                  } else if (snapshot.data is SucessPage) {
+                    DocumentSnapshot doc = (snapshot.data as SucessPage).snap;
+                    // doc.data()['id'] = doc.id; // Doesn't work
+                    return Scaffold(
+                      body: CustomScrollView(
+                        controller: _scrollController,
+                        slivers: <Widget>[
+                          SliverAppBar(
+                            pinned: true,
+                            leading: BackButton(),
+                            title: _showTitle ? Text(doc.get('name')) : null,
+                            expandedHeight: kExpandedHeight,
+                            flexibleSpace: FlexibleSpaceBar(
+                              background: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          PhotoPage(doc.get('image'))));
+                                },
+                                child: CachedNetworkImage(
+                                  imageUrl: doc.get('image'),
+                                  placeholder: (context, url) => const Icon(
+                                    Icons.image_not_supported_sharp,
+                                    color: Color(0xFFEF9A9A),
+                                    size: 100.0,
                                   ),
-                                  Expanded(
-                                    child: Card(
-                                      color: Colors.white,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: <Widget>[
-                                                  FittedBox(
-                                                    child: Text(
-                                                      formatter.format(doc
-                                                          .get('date')
-                                                          .toDate()),
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.green[600],
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          fontSize: 30),
-                                                    ),
-                                                  ),
-                                                  FittedBox(
-                                                    child: Text(
-                                                      formatterTime.format(doc
-                                                          .get('date')
-                                                          .toDate()),
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.green[300],
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          fontSize: 20),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            RotatedBox(
-                                              quarterTurns: 1,
-                                              child: Divider(),
-                                            ),
-                                            Column(
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
+                                    Icons.image_not_supported_sharp,
+                                    color: Color(0xFFEF9A9A),
+                                    size: 100.0,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SliverList(
+                            delegate: SliverChildListDelegate(
+                              [
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: Text(
+                                        doc.get('name'),
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                        ),
+                                      )),
+                                      BookmarkButton(
+                                          doc.data()
+                                            ..putIfAbsent('id', () => doc.id),
+                                          GlobalProvider.of(context))
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                  child: Text(
+                                    "Organised by ${doc.get('society_fullname')} at ${doc.get('location')}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w200),
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                  height: 100,
+                                  child: Row(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: () async {
+                                          String url =
+                                              "https://www.facebook.com/${doc.id}";
+                                          if (await canLaunch(url)) {
+                                            launch(url);
+                                          }
+                                        },
+                                        child: Card(
+                                          color: Colors.blue[900],
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
                                               children: <Widget>[
                                                 Expanded(
-                                                    child: GestureDetector(
-                                                  onTap: () {
-                                                    //set reminder
-                                                    final Event event = Event(
-                                                      title:
-                                                          "${doc.get('name')} (reminder by EventHub)",
-                                                      description:
-                                                          'Event reminder by EventHub',
-                                                      location:
-                                                          doc.get('location'),
-                                                      startDate: doc
-                                                          .get('date')
-                                                          .toDate(),
-                                                      endDate: doc
-                                                          .get('date')
-                                                          .toDate(),
-                                                    );
-                                                    Add2Calendar.addEvent2Cal(
-                                                        event);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.event_available,
-                                                    color: Colors.green[800],
-                                                    size: 40,
+                                                  child: Text(
+                                                    'f',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 35),
                                                   ),
-                                                )),
-                                                Text(
-                                                  'Set Reminder',
-                                                  style:
-                                                      TextStyle(fontSize: 10),
                                                 ),
+                                                Text(
+                                                  'Open on Facebook',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 10),
+                                                )
                                               ],
-                                            )
-                                          ],
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Expanded(
+                                        child: Card(
+                                          color: Colors.white,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: <Widget>[
+                                                      FittedBox(
+                                                        child: Text(
+                                                          formatter.format(doc
+                                                              .get('date')
+                                                              .toDate()),
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .green[600],
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              fontSize: 30),
+                                                        ),
+                                                      ),
+                                                      FittedBox(
+                                                        child: Text(
+                                                          formatterTime.format(
+                                                              doc
+                                                                  .get('date')
+                                                                  .toDate()),
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .green[300],
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              fontSize: 20),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                RotatedBox(
+                                                  quarterTurns: 1,
+                                                  child: Divider(),
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        child: GestureDetector(
+                                                      onTap: () {
+                                                        //set reminder
+                                                        final Event event =
+                                                            Event(
+                                                          title:
+                                                              "${doc.get('name')} (reminder by EventHub)",
+                                                          description:
+                                                              'Event reminder by EventHub',
+                                                          location: doc
+                                                              .get('location'),
+                                                          startDate: doc
+                                                              .get('date')
+                                                              .toDate(),
+                                                          endDate: doc
+                                                              .get('date')
+                                                              .toDate(),
+                                                        );
+                                                        Add2Calendar
+                                                            .addEvent2Cal(
+                                                                event);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.event_available,
+                                                        color:
+                                                            Colors.green[800],
+                                                        size: 40,
+                                                      ),
+                                                    )),
+                                                    Text(
+                                                      'Set Reminder',
+                                                      style: TextStyle(
+                                                          fontSize: 10),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                Divider(),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Details',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 20.0),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Linkify(
+                                      text: doc.get('details'),
+                                      onOpen: (link) async {
+                                        if (await canLaunch(link.url)) {
+                                          await launch(link.url);
+                                        }
+                                      },
+                                    )),
+                                Container(
+                                  height: 150,
+                                )
+                              ],
                             ),
-                            Divider(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Details',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 20.0),
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Linkify(
-                                  text: doc.get('details'),
-                                  onOpen: (link) async {
-                                    if (await canLaunch(link.url)) {
-                                      await launch(link.url);
-                                    }
-                                  },
-                                )),
-                            Container(
-                              height: 150,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }
-              throw Exception("Unknown state for event page");
-            }));
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  throw Exception("Unknown state for event page");
+                })),
+      ),
+    );
   }
 }
