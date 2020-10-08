@@ -61,8 +61,10 @@ class SocietyTileLeft extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
                       Container(
                         width: MediaQuery.of(context).size.width,
+
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,6 +78,7 @@ class SocietyTileLeft extends StatelessWidget {
                                 snapshot, GlobalProvider.of(context))
                           ],
                         ),
+
                       ),
                       Expanded(
                           child: Text(
