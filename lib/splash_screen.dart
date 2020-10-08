@@ -43,9 +43,15 @@ class SplashScreen extends StatelessWidget {
                 alignment: AlignmentDirectional.topStart // or Alignment.topLeft
                 ),
             SizedBox(height: 30),
-            SpinKitFadingCube(
-              color: Colors.white,
-              size: 50.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SpinKitFadingCube(
+                  color: Colors.white,
+                  size: 50.0,
+                ),
+              ),
             ),
             StreamBuilder(
               stream: globalBloc.splashStateStreamController.stream,

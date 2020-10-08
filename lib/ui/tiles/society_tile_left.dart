@@ -57,12 +57,12 @@ class SocietyTileLeft extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-
-                      FittedBox(
+                      Container(
+                        width: MediaQuery.of(context).size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +76,6 @@ class SocietyTileLeft extends StatelessWidget {
                                 snapshot, GlobalProvider.of(context))
                           ],
                         ),
-
                       ),
                       Expanded(
                           child: Text(
