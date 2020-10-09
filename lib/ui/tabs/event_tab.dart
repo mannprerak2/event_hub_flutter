@@ -45,9 +45,12 @@ class _EventTabState extends State<EventTab> {
             : PagewiseSliverList(
                 pageSize: EventTab.batchSize,
                 loadingBuilder: (context) {
-                  return SpinKitFadingCube(
-                    color: Theme.of(context).primaryColor,
-                    size: 40.0,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SpinKitFadingCube(
+                      color: Theme.of(context).primaryColor,
+                      size: 40.0,
+                    ),
                   );
                 },
                 pageFuture: (pageIndex) {
@@ -115,9 +118,12 @@ class _EventTabState extends State<EventTab> {
             : PagewiseSliverList(
                 pageSize: EventTab.pastBatchSize,
                 loadingBuilder: (context) {
-                  return SpinKitFadingCube(
-                    color: Theme.of(context).primaryColor,
-                    size: 40.0,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SpinKitFadingCube(
+                      color: Theme.of(context).primaryColor,
+                      size: 40.0,
+                    ),
                   );
                 },
                 pageFuture: (pageIndex) {

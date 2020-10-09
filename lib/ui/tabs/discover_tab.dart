@@ -48,9 +48,12 @@ class DiscoverTab extends StatelessWidget {
         });
       },
       loadingBuilder: (context) {
-        return SpinKitFadingCube(
-          color: Theme.of(context).primaryColor,
-          size: 40.0,
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SpinKitFadingCube(
+            color: Theme.of(context).primaryColor,
+            size: 40.0,
+          ),
         );
       },
       noItemsFoundBuilder: (context) {

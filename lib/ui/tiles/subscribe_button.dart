@@ -38,12 +38,12 @@ class _SubscribeButtonState extends State<SubscribeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
+    return GestureDetector(
+      child: Icon(
         marked ? Icons.notifications : Icons.notifications_none,
         color: Colors.red[800],
       ),
-      onPressed: () {
+      onTap: () {
         //save this to sqlite here
         if (kIsWeb) {
           Scaffold.of(context).showSnackBar(_snackBar);

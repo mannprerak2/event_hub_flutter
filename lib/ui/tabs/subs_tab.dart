@@ -141,7 +141,12 @@ class SubsTab extends StatelessWidget {
             else {
               return Center(
                   child: RaisedButton(
-                child: Text("View All Societies"),
+
+                child: Text(
+                  "View All Societies",
+                  style: TextStyle(color: Colors.white),
+                ),
+
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   globalBloc.mainStateStreamController

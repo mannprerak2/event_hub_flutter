@@ -86,9 +86,12 @@ class EventDetailPageState extends State<EventDetailPage> {
                     ),
                   ),
                   body: Center(
-                    child: SpinKitFadingCube(
-                      color: Theme.of(context).primaryColor,
-                      size: 50.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SpinKitFadingCube(
+                        color: Theme.of(context).primaryColor,
+                        size: 50.0,
+                      ),
                     ),
                   ),
                 );
