@@ -14,10 +14,10 @@ const RESOURCES = {
 "assets/NOTICES": "6ed60c8eeaa1112421c73b43d458589b",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf",
-"main.dart.js": "1735f1f12e0a7fb4650cfe971ecd2973",
+"main.dart.js": "c6481a6eccb4824781ef144594143247",
 "manifest.json": "b4931f7b7c51a2047f3affab278235f2",
-"index.html": "7a050753827ebcccd98c7f155b6f574d",
-"/": "7a050753827ebcccd98c7f155b6f574d",
+"index.html": "878994ed8958e4359cf78a63d3879199",
+"/": "878994ed8958e4359cf78a63d3879199",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1"
 };
