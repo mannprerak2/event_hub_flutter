@@ -56,51 +56,46 @@ class SocietyTileLeft extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              snapshot['name'],
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.w600),
-                            ),
-                            SubscribeButton(
-                                snapshot, GlobalProvider.of(context))
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                          child: Text(
-                        snapshot['descp'],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      )),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            snapshot['college'],
+                            snapshot['name'],
                             style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.green[800],
-                            ),
+                                fontSize: 22, fontWeight: FontWeight.w600),
                           ),
+                          SubscribeButton(snapshot, GlobalProvider.of(context))
                         ],
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    Expanded(
+                        child: Text(
+                      snapshot['descp'],
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          snapshot['college'],
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.green[800],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               )
             ],

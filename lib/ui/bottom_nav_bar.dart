@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:events_flutter/states/main_states.dart';
 import 'package:flutter/material.dart';
 
