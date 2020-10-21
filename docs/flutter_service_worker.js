@@ -3,23 +3,24 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/assets/eventhub-logo2.png": "b2282c0a79de8b3db9e0a38544a27bb1",
-"assets/assets/eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf",
-"assets/assets/error.png": "a0379c128abaca4faaf08e3ac6fd5498",
+  "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "assets/assets/subscription.flr": "e8ca4b654bc82b01d9f2c1d5e8b73cd7",
-"assets/AssetManifest.json": "98a8c2edfb9f98f7ef06076b7a960a79",
+"assets/assets/error.png": "a0379c128abaca4faaf08e3ac6fd5498",
+"assets/assets/eventhub-logo2.png": "b2282c0a79de8b3db9e0a38544a27bb1",
+"assets/assets/eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
+"assets/NOTICES": "fe5ab7f2de9115e92938298a9b7ea17f",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/NOTICES": "6ed60c8eeaa1112421c73b43d458589b",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf",
-"main.dart.js": "c6481a6eccb4824781ef144594143247",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
+"assets/AssetManifest.json": "98a8c2edfb9f98f7ef06076b7a960a79",
 "manifest.json": "b4931f7b7c51a2047f3affab278235f2",
-"index.html": "878994ed8958e4359cf78a63d3879199",
-"/": "878994ed8958e4359cf78a63d3879199",
+"main.dart.js": "59febabee6f8c61eeeaf0ffbf69cca38",
+"version.json": "c646238d2ff592d142a5e1fc2dc4280d",
+"index.html": "9d6cb959d1fde6cd0f8709855467d597",
+"/": "9d6cb959d1fde6cd0f8709855467d597",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1"
+"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"eventhub-icon.png": "090f97290177774b467fcc1ccdae4daf"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -33,6 +34,7 @@ const CORE = [
 "assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
@@ -101,6 +103,9 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
   var origin = self.location.origin;
   var key = event.request.url.substring(origin.length + 1);
   // Redirect URLs to the index.html
@@ -110,9 +115,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#') || key == '') {
     key = '/';
   }
-  // If the URL is not the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list then return to signal that the
+  // browser should take over.
   if (!RESOURCES[key]) {
-    return event.respondWith(fetch(event.request));
+    return;
   }
   // If the URL is the index.html, perform an online-first request.
   if (key == '/') {
@@ -136,10 +142,12 @@ self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
   if (event.data === 'skipWaiting') {
-    return self.skipWaiting();
+    self.skipWaiting();
+    return;
   }
-  if (event.message === 'downloadOffline') {
+  if (event.data === 'downloadOffline') {
     downloadOffline();
+    return;
   }
 });
 
