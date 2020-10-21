@@ -34,6 +34,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
   bool pastMoreAvailable = true;
 
   bool showPast = false;
+  bool upcomingVisibility = false;
   @override
   void initState() {
     _scrollController = ScrollController()..addListener(() => setState(() {}));
@@ -146,14 +147,19 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Padding(
+                child: !moreAvailable
+                    ? Container()
+                    : Visibility(
+                      visible: upcomingVisibility,
+                      child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Upcoming Events',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
+                      'Upcoming Events',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
                   ),
                 ),
+                    ),
               ),
               PagewiseSliverList(
                 pageSize: batchSize,
@@ -188,6 +194,11 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
 
                       return snapshot.docs;
                     } else {
+                      if(this.mounted) {
+                        setState(() {
+                          upcomingVisibility = true;
+                        });
+                      }
                       print('from list');
                       //show from stored list
                       int end = pageIndex * batchSize + batchSize;
@@ -199,17 +210,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     }
                   });
                 },
-                noItemsFoundBuilder: (context) {
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("No Upcoming Events"),
-                      ),
-                      Divider()
-                    ],
-                  );
-                },
+
                 itemBuilder: (context, entry, i) {
                   return EventListTile(entry);
                 },
