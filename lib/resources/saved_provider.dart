@@ -14,11 +14,11 @@ final String columnCollege = 'college';
 // get method returns a document snapshot with no ID as its only setter..
 // id is set as a field in snapshot.data only
 class SavedEventProvider {
-  Database db;
+  Database? db;
 
-  Future open(String path) async {
-    if (db == null || !db.isOpen) {
-      db = await openDatabase(path, version: 1,
+  Future open(String? path) async {
+    if (db == null || !db!.isOpen) {
+      db = await openDatabase(path!, version: 1,
           onCreate: (Database db, int version) async {
         await db.execute('''
 create table $tableName ( 
@@ -34,8 +34,8 @@ create table $tableName (
     }
   }
 
-  Future<bool> exists(String id) async {
-    List<Map> maps = await db.query(tableName,
+  Future<bool> exists(String? id) async {
+    List<Map> maps = await db!.query(tableName,
         columns: [
           columnId,
         ],
@@ -57,12 +57,12 @@ create table $tableName (
     map['college'] = snapshot['college'];
     map['society'] = snapshot['society'];
 
-    await db.insert(tableName, map,
+    await db!.insert(tableName, map,
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
-  Future<Map<String, dynamic>> getEvent(String id) async {
-    List<Map> maps = await db.query(tableName,
+  Future<Map<String, dynamic>?> getEvent(String id) async {
+    List<Map> maps = await db!.query(tableName,
         columns: [
           columnId,
           columnName,
@@ -89,7 +89,7 @@ create table $tableName (
 
   Future<List<Map<String, dynamic>>> getEvents(int batchSize, int page) async {
     List<Map<String, dynamic>> list = [];
-    List<Map> map = await db.query(
+    List<Map> map = await db!.query(
       tableName,
       columns: [
         columnId,
@@ -119,9 +119,9 @@ create table $tableName (
     return list;
   }
 
-  void delete(String id) async {
-    await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
+  void delete(String? id) async {
+    await db!.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  Future close() async => db.close();
+  Future close() async => db!.close();
 }

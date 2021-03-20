@@ -29,37 +29,34 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     // use the query method here and build results from firebase.
-    Stream stream = FirebaseFirestore.instance
+    final stream = FirebaseFirestore.instance
         .collection('events')
         .where('keywords', arrayContains: query.toLowerCase())
         .limit(5)
         .snapshots();
 
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.documents.length == 0) {
+          if (snapshot.data!.docs.length == 0) {
             return Center(child: Text("No results"));
           }
 
           return ListView.builder(
-            itemCount: snapshot.data.documents.length,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, i) {
-              return EventListTile(snapshot.data.documents[i]);
+              return EventListTile(snapshot.data!.docs[i]);
             },
           );
         }
 
-
         return Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: 
-        SpinKitFadingCube(
-          color: Theme.of(context).primaryColor,
-          size: 50.0,)
-
-        );
+            padding: const EdgeInsets.all(10.0),
+            child: SpinKitFadingCube(
+              color: Theme.of(context).primaryColor,
+              size: 50.0,
+            ));
       },
     );
   }

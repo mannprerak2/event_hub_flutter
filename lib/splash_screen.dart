@@ -31,17 +31,18 @@ class SplashScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TyperAnimatedTextKit(
-                speed: Duration(milliseconds: 100),
-                text: [
-                  "EventHub",
-                ],
-                isRepeatingAnimation: false,
-                onFinished: () => canPushMainScreen(globalBloc),
-                textStyle: TextStyle(
-                    fontSize: 45.0, fontFamily: "Agne", color: Colors.white),
-                textAlign: TextAlign.start,
-                alignment: AlignmentDirectional.topStart // or Alignment.topLeft
-                ),
+              speed: Duration(milliseconds: 100),
+              text: [
+                "EventHub",
+              ],
+              repeatForever: false,
+              isRepeatingAnimation: false,
+              onFinished: () => canPushMainScreen(globalBloc),
+              textStyle: TextStyle(
+                  fontSize: 45.0, fontFamily: "Agne", color: Colors.white),
+              textAlign: TextAlign.start,
+              // alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+            ),
             SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(8.0),

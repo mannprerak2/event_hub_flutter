@@ -8,15 +8,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:events_flutter/ui/tabs/event_page.dart';
 
 class EventListTile extends StatefulWidget {
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
 
-  EventListTile(DocumentSnapshot snapshot, {Key key})
+  EventListTile(DocumentSnapshot snapshot, {Key? key})
       : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.id;
+    this.snapshot!['id'] = snapshot.id;
   }
 
-  EventListTile.bookmark(Map<String, dynamic> snapshot, {Key key})
+  EventListTile.bookmark(Map<String, dynamic> snapshot, {Key? key})
       : this.snapshot = snapshot,
         super(key: key);
 
@@ -34,7 +34,7 @@ class _EventListTileState extends State<EventListTile> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => EventDetailPage(
-                widget.snapshot['id'], GlobalProvider.of(context))));
+                widget.snapshot!['id'], GlobalProvider.of(context))));
       },
       child: Card(
           elevation: 0.5,
@@ -50,10 +50,10 @@ class _EventListTileState extends State<EventListTile> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              PhotoPage(widget.snapshot['image'])));
+                              PhotoPage(widget.snapshot!['image'])));
                     },
                     child: Hero(
-                      tag: widget.snapshot['image'],
+                      tag: widget.snapshot!['image'],
                       child: Container(
                         width: 70,
                         height: 70,
@@ -63,7 +63,7 @@ class _EventListTileState extends State<EventListTile> {
                               ? null
                               : Image.asset('assets/error.png'),
                           backgroundImage: CachedNetworkImageProvider(
-                              widget.snapshot['image']),
+                              widget.snapshot!['image']),
                           onBackgroundImageError: (exception, stackTrace) {
                             if (eventImage) {
                               setState(() {
@@ -85,21 +85,21 @@ class _EventListTileState extends State<EventListTile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.snapshot['name'],
+                            widget.snapshot!['name'],
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[800]),
                           ),
                           Text(
-                            widget.snapshot['location'],
+                            widget.snapshot!['location'],
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey),
                           ),
                           Text(
-                            "${widget.snapshot['society']} \u25CF ${widget.snapshot['college']}",
+                            "${widget.snapshot!['society']} \u25CF ${widget.snapshot!['college']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -116,13 +116,13 @@ class _EventListTileState extends State<EventListTile> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          widget.snapshot['date'].toDate().day.toString(),
+                          widget.snapshot!['date'].toDate().day.toString(),
                           style:
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
                           formatter
-                              .format(widget.snapshot['date'].toDate())
+                              .format(widget.snapshot!['date'].toDate())
                               .toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),

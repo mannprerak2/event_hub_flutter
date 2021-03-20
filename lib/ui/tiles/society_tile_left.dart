@@ -6,14 +6,14 @@ import 'package:events_flutter/ui/tiles/subscribe_button.dart';
 import 'package:flutter/material.dart';
 
 class SocietyTileLeft extends StatelessWidget {
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
 
-  SocietyTileLeft(DocumentSnapshot snapshot, {Key key})
+  SocietyTileLeft(DocumentSnapshot snapshot, {Key? key})
       : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.id;
+    this.snapshot!['id'] = snapshot.id;
   }
-  SocietyTileLeft.fromMap(Map<String, dynamic> snapshot, {Key key})
+  SocietyTileLeft.fromMap(Map<String, dynamic> snapshot, {Key? key})
       : this.snapshot = snapshot,
         super(key: key);
 
@@ -25,7 +25,7 @@ class SocietyTileLeft extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => SocietyDetailPage(
-                  snapshot['id'], GlobalProvider.of(context), snapshot)));
+                  snapshot!['id'], GlobalProvider.of(context), snapshot)));
         },
         child: Card(
           elevation: 0.5,
@@ -37,7 +37,7 @@ class SocietyTileLeft extends StatelessWidget {
                 padding: EdgeInsets.all(5),
                 child: FittedBox(
                   child: CachedNetworkImage(
-                    imageUrl: snapshot['image'],
+                    imageUrl: snapshot!['image'],
                     placeholder: (context, url) => FittedBox(
                       child: const Icon(
                         Icons.broken_image,
@@ -64,7 +64,7 @@ class SocietyTileLeft extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          snapshot['name'],
+                          snapshot!['name'],
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w600),
                         ),
@@ -73,7 +73,7 @@ class SocietyTileLeft extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      snapshot['descp'],
+                      snapshot!['descp'],
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                       style: TextStyle(
@@ -85,7 +85,7 @@ class SocietyTileLeft extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          snapshot['college'],
+                          snapshot!['college'],
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.green[800],

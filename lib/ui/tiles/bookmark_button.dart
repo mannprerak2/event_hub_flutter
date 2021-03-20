@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class BookmarkButton extends StatefulWidget {
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
   final GlobalBloc globalBloc;
   BookmarkButton(this.snapshot, this.globalBloc);
 
@@ -12,7 +12,7 @@ class BookmarkButton extends StatefulWidget {
 }
 
 class _BookmarkButtonState extends State<BookmarkButton> {
-  bool marked;
+  late bool marked;
   final _snackBar = SnackBar(
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,7 +31,7 @@ class _BookmarkButtonState extends State<BookmarkButton> {
   void initState() {
     marked = false;
     () async {
-      marked = await widget.globalBloc.sqlite.hasEvent(widget.snapshot['id']);
+      marked = await widget.globalBloc.sqlite.hasEvent(widget.snapshot!['id']);
       if (marked && this.mounted) setState(() {});
     }();
     super.initState();
@@ -50,12 +50,12 @@ class _BookmarkButtonState extends State<BookmarkButton> {
           Scaffold.of(context).showSnackBar(_snackBar);
         } else {
           if (marked) {
-            widget.globalBloc.sqlite.removeEvent(widget.snapshot['id']);
+            widget.globalBloc.sqlite.removeEvent(widget.snapshot!['id']);
             setState(() {
               marked = false;
             });
           } else {
-            widget.globalBloc.sqlite.saveEvent(widget.snapshot);
+            widget.globalBloc.sqlite.saveEvent(widget.snapshot!);
             setState(() {
               marked = true;
             });

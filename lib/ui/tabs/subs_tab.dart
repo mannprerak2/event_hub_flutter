@@ -60,7 +60,7 @@ class SubsTab extends StatelessWidget {
                               padding: const EdgeInsets.all(3),
                               child: Chip(
                                 label: Text(
-                                  globalBloc.subsNameList[i],
+                                  globalBloc.subsNameList[i]!,
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 backgroundColor: Colors.blueGrey,
@@ -90,18 +90,18 @@ class SubsTab extends StatelessWidget {
             return Future<List<DocumentSnapshot>>(() async {
               print('in future');
               if (globalBloc.subsEventListCache.length <=
-                  pageIndex * batchSize) {
-                String lastFetchName;
+                  pageIndex! * batchSize) {
+                String? lastFetchName;
                 if (globalBloc.subsNameList.length > globalBloc.lastFetch)
                   lastFetchName = globalBloc.subsNameList[globalBloc.lastFetch];
 
                 if (lastFetchName == null) {
-                  return List<DocumentSnapshot>();
+                  return [];
                 }
 
                 print('fetching...');
 
-                DocumentSnapshot last;
+                DocumentSnapshot? last;
                 if (globalBloc.subsEventListCache.length > 0)
                   last = globalBloc.subsEventListCache.last;
 
@@ -141,12 +141,10 @@ class SubsTab extends StatelessWidget {
             else {
               return Center(
                   child: RaisedButton(
-
                 child: Text(
                   "View All Societies",
                   style: TextStyle(color: Colors.white),
                 ),
-
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   globalBloc.mainStateStreamController
@@ -155,7 +153,7 @@ class SubsTab extends StatelessWidget {
               ));
             }
           },
-          itemBuilder: (context, entry, i) {
+          itemBuilder: (context, dynamic entry, i) {
             return Container(
               height: 250,
               child: EventBigTile(entry),

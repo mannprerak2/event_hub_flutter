@@ -20,7 +20,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       if (snapshot != null) {
         setState(() {
           currentItem = (snapshot as TabState).tabIndex;
-          if ((snapshot as TabState).animate) {
+          if (snapshot.animate) {
             widget.animateTo(currentItem,
                 duration: Duration(milliseconds: 500),
                 curve: Curves.fastOutSlowIn);
@@ -48,25 +48,25 @@ class _BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
             backgroundColor: Colors.blue,
             // label: "Events",
-            title: Text("Events"),
+            label: "Events",
             icon: Icon(Icons.event),
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.blue,
             // label: "Societies",
-            title: Text("Societies"),
+            label: "Societies",
             icon: Icon(Icons.explore),
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.blue,
             // label: "Subscription",
-            title: Text("Subscription"),
+            label: "Subscription",
             icon: Icon(Icons.subscriptions),
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.blue,
             // label: "Saved",
-            title: Text("Saved"),
+            label: "Saved",
             icon: Icon(Icons.bookmark),
           ),
         ]);

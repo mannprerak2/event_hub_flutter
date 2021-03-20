@@ -8,9 +8,9 @@ class GlobalProvider extends InheritedWidget {
   final GlobalBloc globalBloc;
 
   GlobalProvider({
-    Key key,
-    @required this.globalBloc,
-    Widget child,
+    Key? key,
+    required this.globalBloc,
+    required Widget child,
   }) : super(key: key, child: child);
 
   @override
@@ -19,7 +19,7 @@ class GlobalProvider extends InheritedWidget {
   }
 
   static GlobalBloc of(BuildContext context) {
-    return (context.dependOnInheritedWidgetOfExactType<GlobalProvider>())
+    return context.dependOnInheritedWidgetOfExactType<GlobalProvider>()!
         .globalBloc;
   }
 }

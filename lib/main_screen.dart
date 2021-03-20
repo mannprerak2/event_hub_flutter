@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  PageController controller;
+  PageController? controller;
   @override
   void initState() {
     controller = PageController();
@@ -111,7 +111,7 @@ Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
           )
         ],
       ),
-      bottomNavigationBar: BottomNavBar(controller.animateToPage,
+      bottomNavigationBar: BottomNavBar(controller!.animateToPage,
           globalBloc.mainStateStreamController.stream),
       body: PageView.builder(
         itemCount: 4,
@@ -138,7 +138,7 @@ Events Data and Scraping by Saurabh Mittal https://github.com/saurabhmittal16
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 }

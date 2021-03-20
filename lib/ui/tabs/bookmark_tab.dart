@@ -48,7 +48,7 @@ class BookmarkTab extends StatelessWidget {
                 print('db fetch...');
                 //fetch
                 List<Map<String, dynamic>> documents = await globalBloc.sqlite
-                    .getSavedEvents(batchSize, pageIndex);
+                    .getSavedEvents(batchSize, pageIndex!);
 
                 return documents;
               });
@@ -72,7 +72,7 @@ class BookmarkTab extends StatelessWidget {
                 ],
               );
             },
-            itemBuilder: (context, entry, i) {
+            itemBuilder: (context, dynamic entry, i) {
               return EventListTile.bookmark(entry);
             },
           );

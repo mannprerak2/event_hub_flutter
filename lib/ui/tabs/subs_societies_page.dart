@@ -24,7 +24,7 @@ class SubsSocietiesPage extends StatelessWidget {
               print('db fetch...');
               //fetch
               List<Map<String, dynamic>> documents =
-                  await globalBloc.sqlite.getSubs(batchSize, pageIndex);
+                  await globalBloc.sqlite.getSubs(batchSize, pageIndex!);
 
               return documents;
             });
@@ -32,7 +32,7 @@ class SubsSocietiesPage extends StatelessWidget {
           noItemsFoundBuilder: (context) {
             return Text("No Subscribed Socieites");
           },
-          itemBuilder: (context, entry, i) {
+          itemBuilder: (context, dynamic entry, i) {
             return SocietyTileLeft.fromMap(entry);
           },
         ),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:events_flutter/blocs/global_bloc.dart';
 import 'package:events_flutter/blocs/global_provider.dart';
 import 'package:events_flutter/states/event_page_states.dart';
@@ -14,7 +15,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 
 class EventDetailPage extends StatefulWidget {
-  final String id;
+  final String? id;
   final GlobalBloc globalBloc;
 
   EventDetailPage(this.id, this.globalBloc);
@@ -24,8 +25,8 @@ class EventDetailPage extends StatefulWidget {
 }
 
 class EventDetailPageState extends State<EventDetailPage> {
-  StreamController<EventPageStates> controller;
-  ScrollController _scrollController;
+  late StreamController<EventPageStates> controller;
+  ScrollController? _scrollController;
   static const kExpandedHeight = 220.0;
   final DateFormat formatter = DateFormat("EEE, MMM d");
   final DateFormat formatterTime = DateFormat("h:mm a");
@@ -36,9 +37,10 @@ class EventDetailPageState extends State<EventDetailPage> {
     _scrollController = ScrollController()..addListener(() => setState(() {}));
 
     //check if document is in cache
-    DocumentSnapshot snap = widget.globalBloc.eventPageCache.firstWhere((e) {
+    DocumentSnapshot? snap =
+        widget.globalBloc.eventPageCache.firstWhereOrNull((e) {
       return (e.id == widget.id);
-    }, orElse: () => null);
+    });
 
     if (snap != null) {
       controller.add(SucessPage(snap));
@@ -64,8 +66,8 @@ class EventDetailPageState extends State<EventDetailPage> {
   }
 
   bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+    return _scrollController!.hasClients &&
+        _scrollController!.offset > kExpandedHeight - kToolbarHeight;
   }
 
   @override
@@ -159,7 +161,7 @@ class EventDetailPageState extends State<EventDetailPage> {
                                     ),
                                   )),
                                   BookmarkButton(
-                                      doc.data()
+                                      doc.data()!
                                         ..putIfAbsent('id', () => doc.id),
                                       GlobalProvider.of(context))
                                 ],

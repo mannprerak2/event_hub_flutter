@@ -8,43 +8,43 @@ import 'package:sqflite/sqflite.dart';
 // 1. Saving bookmarks, subscriptions
 
 class SQLite {
-  String eventsDbPath, subsDbPath;
-  SavedEventProvider eventsProvider;
-  SubsProvider subsProvider;
+  String? eventsDbPath, subsDbPath;
+  SavedEventProvider? eventsProvider;
+  SubsProvider? subsProvider;
   // for bookmarks
 
   void saveEvent(Map<String, dynamic> snapshot) async {
     eventsProvider ??= SavedEventProvider();
     eventsDbPath ??= await getDatabasesPath() + "saved.db";
-    await eventsProvider.open(eventsDbPath);
+    await eventsProvider!.open(eventsDbPath);
 
-    eventsProvider.insert(snapshot);
+    eventsProvider!.insert(snapshot);
   }
 
-  void removeEvent(String id) async {
+  void removeEvent(String? id) async {
     eventsProvider ??= SavedEventProvider();
     eventsDbPath ??= await getDatabasesPath() + "saved.db";
-    await eventsProvider.open(eventsDbPath);
+    await eventsProvider!.open(eventsDbPath);
 
-    eventsProvider.delete(id);
+    eventsProvider!.delete(id);
   }
 
-  Future<bool> hasEvent(String id) async {
+  Future<bool> hasEvent(String? id) async {
     eventsProvider ??= SavedEventProvider();
     eventsDbPath ??= await getDatabasesPath() + "saved.db";
-    await eventsProvider.open(eventsDbPath);
+    await eventsProvider!.open(eventsDbPath);
 
-    return await eventsProvider.exists(id);
+    return await eventsProvider!.exists(id);
   }
 
   Future<List<Map<String, dynamic>>> getSavedEvents(
       int batchSize, int page) async {
     eventsProvider ??= SavedEventProvider();
     eventsDbPath ??= await getDatabasesPath() + "saved.db";
-    await eventsProvider.open(eventsDbPath);
+    await eventsProvider!.open(eventsDbPath);
 
     List<Map<String, dynamic>> list =
-        await eventsProvider.getEvents(batchSize, page);
+        await eventsProvider!.getEvents(batchSize, page);
     return list;
   }
 
@@ -53,19 +53,19 @@ class SQLite {
   Future<List<Map<String, dynamic>>> getSubs(int batchSize, int page) async {
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(subsDbPath);
+    await subsProvider!.open(subsDbPath);
 
     List<Map<String, dynamic>> list =
-        await subsProvider.getSubs(batchSize, page);
+        await subsProvider!.getSubs(batchSize, page);
     return list;
   }
 
   void getAllSubsNames(GlobalBloc globalbloc) async {
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(subsDbPath);
+    await subsProvider!.open(subsDbPath);
 
-    List<String> list = await subsProvider.getAllNames();
+    List<String?> list = await subsProvider!.getAllNames();
 
     globalbloc.subsNameList.clear();
     globalbloc.subsNameList.addAll(list);
@@ -76,9 +76,9 @@ class SQLite {
 
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(subsDbPath);
+    await subsProvider!.open(subsDbPath);
 
-    subsProvider.insert(snapshot);
+    subsProvider!.insert(snapshot);
   }
 
   void removeSub(Map<String, dynamic> snapshot, GlobalBloc globalBloc) async {
@@ -86,16 +86,16 @@ class SQLite {
 
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(subsDbPath);
+    await subsProvider!.open(subsDbPath);
 
-    subsProvider.delete(snapshot['id']);
+    subsProvider!.delete(snapshot['id']);
   }
 
-  Future<bool> hasSub(String id) async {
+  Future<bool> hasSub(String? id) async {
     subsProvider ??= SubsProvider();
     subsDbPath ??= await getDatabasesPath() + "subs.db";
-    await subsProvider.open(subsDbPath);
+    await subsProvider!.open(subsDbPath);
 
-    return await subsProvider.exists(id);
+    return await subsProvider!.exists(id);
   }
 }

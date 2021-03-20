@@ -45,9 +45,9 @@ class GlobalBloc {
 
   //this is filled when app starts
   //used in subscription tabs to show chips and for query in events of subs
-  final List<String> subsNameList = [];
+  final List<String?> subsNameList = [];
 
-  fa.User user;
+  fa.User? user;
   // final List<String> savedEvents = [];
   final SQLite sqlite = SQLite();
 
@@ -55,8 +55,8 @@ class GlobalBloc {
   void dispose() {
     hubStateStreamController.close();
     mainStateStreamController.close();
-    sqlite.eventsProvider.close();
-    sqlite.subsProvider.close();
+    sqlite.eventsProvider!.close();
+    sqlite.subsProvider!.close();
   }
 
   void disposeSplashController() {

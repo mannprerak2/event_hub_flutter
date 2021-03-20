@@ -3,7 +3,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PhotoPage extends StatelessWidget {
-  final String url;
+  final String? url;
 
   PhotoPage(this.url);
 
@@ -31,8 +31,8 @@ class PhotoPage extends StatelessWidget {
       },
       child: Container(
         child: PhotoView(
-          heroAttributes: PhotoViewHeroAttributes(tag: url),
-          imageProvider: CachedNetworkImageProvider(url),
+          heroAttributes: PhotoViewHeroAttributes(tag: url!),
+          imageProvider: CachedNetworkImageProvider(url!),
           minScale: PhotoViewComputedScale.contained,
           maxScale: PhotoViewComputedScale.covered,
         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SubscribeButton extends StatefulWidget {
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
   final GlobalBloc globalBloc;
   SubscribeButton(this.snapshot, this.globalBloc);
 
@@ -12,7 +12,7 @@ class SubscribeButton extends StatefulWidget {
 }
 
 class _SubscribeButtonState extends State<SubscribeButton> {
-  bool marked;
+  late bool marked;
   final _snackBar = SnackBar(
       content: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,7 +30,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
   void initState() {
     marked = false;
     () async {
-      marked = await widget.globalBloc.sqlite.hasSub(widget.snapshot['id']);
+      marked = await widget.globalBloc.sqlite.hasSub(widget.snapshot!['id']);
       if (marked && this.mounted) setState(() {});
     }();
     super.initState();
@@ -50,7 +50,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
         } else {
           if (marked) {
             widget.globalBloc.sqlite
-                .removeSub(widget.snapshot, widget.globalBloc);
+                .removeSub(widget.snapshot!, widget.globalBloc);
             setState(() {
               marked = false;
               // invalidate the subscription eventlist here
@@ -59,7 +59,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
             });
           } else {
             widget.globalBloc.sqlite
-                .saveSub(widget.snapshot, widget.globalBloc);
+                .saveSub(widget.snapshot!, widget.globalBloc);
             setState(() {
               marked = true;
             });

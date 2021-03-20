@@ -8,16 +8,16 @@ import 'package:intl/intl.dart';
 
 //to be used inside a container because this tile has no height contraint
 class EventBigTile extends StatelessWidget {
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
   final DateFormat formatter = DateFormat('MMM');
 
-  EventBigTile(DocumentSnapshot snapshot, {Key key})
+  EventBigTile(DocumentSnapshot snapshot, {Key? key})
       : this.snapshot = snapshot.data(),
         super(key: key) {
-    this.snapshot['id'] = snapshot.id;
+    this.snapshot!['id'] = snapshot.id;
   }
 
-  EventBigTile.fromMap(Map<String, dynamic> snapshot, {Key key})
+  EventBigTile.fromMap(Map<String, dynamic> snapshot, {Key? key})
       : this.snapshot = snapshot,
         super(key: key);
 
@@ -27,7 +27,7 @@ class EventBigTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                EventDetailPage(snapshot['id'], GlobalProvider.of(context))));
+                EventDetailPage(snapshot!['id'], GlobalProvider.of(context))));
       },
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
@@ -37,7 +37,7 @@ class EventBigTile extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: CachedNetworkImage(
-                imageUrl: snapshot['image'],
+                imageUrl: snapshot!['image'],
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,7 +50,7 @@ class EventBigTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          snapshot['name'],
+                          snapshot!['name'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -59,7 +59,7 @@ class EventBigTile extends StatelessWidget {
                               color: Colors.grey[800]),
                         ),
                         Text(
-                          "${snapshot['society']} \u25CF ${snapshot['location']} \u25CF ${snapshot['college']}",
+                          "${snapshot!['society']} \u25CF ${snapshot!['location']} \u25CF ${snapshot!['college']}",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(color: Colors.blueGrey),
@@ -75,13 +75,13 @@ class EventBigTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          snapshot['date'].toDate().day.toString(),
+                          snapshot!['date'].toDate().day.toString(),
                           style:
                               TextStyle(fontSize: 18, color: Colors.grey[800]),
                         ),
                         Text(
                           formatter
-                              .format(snapshot['date'].toDate())
+                              .format(snapshot!['date'].toDate())
                               .toUpperCase(),
                           style: TextStyle(color: Colors.green),
                         ),

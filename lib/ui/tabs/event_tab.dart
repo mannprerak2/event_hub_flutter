@@ -56,11 +56,10 @@ class _EventTabState extends State<EventTab> {
                 pageFuture: (pageIndex) {
                   return Future<List<DocumentSnapshot>>(() async {
                     if (globalBloc.eventListCache.length <=
-                        pageIndex * EventTab.batchSize) {
-                      if (!EventTab.moreAvailable)
-                        return List<DocumentSnapshot>();
+                        pageIndex! * EventTab.batchSize) {
+                      if (!EventTab.moreAvailable) return [];
                       print('fetching...');
-                      DocumentSnapshot last;
+                      DocumentSnapshot? last;
                       if (globalBloc.eventListCache.length > 0)
                         last = globalBloc.eventListCache.last;
                       //fetch
@@ -97,7 +96,7 @@ class _EventTabState extends State<EventTab> {
                     }
                   });
                 },
-                itemBuilder: (context, entry, i) {
+                itemBuilder: (context, DocumentSnapshot entry, i) {
                   return EventListTile(entry);
                 },
               ),
@@ -129,11 +128,10 @@ class _EventTabState extends State<EventTab> {
                 pageFuture: (pageIndex) {
                   return Future<List<DocumentSnapshot>>(() async {
                     if (globalBloc.pastEventListCache.length <=
-                        pageIndex * EventTab.pastBatchSize) {
-                      if (!EventTab.pastMoreAvailable)
-                        return List<DocumentSnapshot>();
+                        pageIndex! * EventTab.pastBatchSize) {
+                      if (!EventTab.pastMoreAvailable) return [];
                       print('fetching...');
-                      DocumentSnapshot last;
+                      DocumentSnapshot? last;
                       if (globalBloc.pastEventListCache.length > 0)
                         last = globalBloc.pastEventListCache.last;
                       //fetch
@@ -177,7 +175,7 @@ class _EventTabState extends State<EventTab> {
                     ],
                   );
                 },
-                itemBuilder: (context, entry, i) {
+                itemBuilder: (context, dynamic entry, i) {
                   return EventListTile(entry);
                 },
               ),

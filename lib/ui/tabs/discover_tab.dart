@@ -17,10 +17,10 @@ class DiscoverTab extends StatelessWidget {
       pageSize: batchSize,
       pageFuture: (pageIndex) {
         return Future<List<DocumentSnapshot>>(() async {
-          if (globalBloc.societyListCache.length <= pageIndex * batchSize) {
-            if (!moreAvailable) return List<DocumentSnapshot>();
+          if (globalBloc.societyListCache.length <= pageIndex! * batchSize) {
+            if (!moreAvailable) return [];
             print('fetching...');
-            DocumentSnapshot last;
+            DocumentSnapshot? last;
             if (globalBloc.societyListCache.length > 0)
               last = globalBloc.societyListCache.last;
             //fetch
@@ -59,7 +59,7 @@ class DiscoverTab extends StatelessWidget {
       noItemsFoundBuilder: (context) {
         return Text("Its Empty In Here...");
       },
-      itemBuilder: (context, entry, i) {
+      itemBuilder: (context, dynamic entry, i) {
         return SocietyTileLeft(entry);
       },
     );

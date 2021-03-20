@@ -10,9 +10,9 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
 class SocietyDetailPage extends StatefulWidget {
-  final String id;
+  final String? id;
   final GlobalBloc globalBloc;
-  final Map<String, dynamic> snapshot;
+  final Map<String, dynamic>? snapshot;
 
   SocietyDetailPage(this.id, this.globalBloc, this.snapshot);
 
@@ -21,7 +21,7 @@ class SocietyDetailPage extends StatefulWidget {
 }
 
 class SocietyDetailPageState extends State<SocietyDetailPage> {
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   static const kExpandedHeight = 220.0;
 
   final List<DocumentSnapshot> eventListCache = [];
@@ -42,8 +42,8 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
   }
 
   bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+    return _scrollController!.hasClients &&
+        _scrollController!.offset > kExpandedHeight - kToolbarHeight;
   }
 
   @override
@@ -66,17 +66,17 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                   )
                 ],
                 leading: BackButton(),
-                title: _showTitle ? Text(widget.snapshot['name']) : null,
+                title: _showTitle ? Text(widget.snapshot!['name']) : null,
                 expandedHeight: kExpandedHeight,
                 flexibleSpace: FlexibleSpaceBar(
                   background: GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              PhotoPage(widget.snapshot['image'])));
+                              PhotoPage(widget.snapshot!['image'])));
                     },
                     child: CachedNetworkImage(
-                      imageUrl: widget.snapshot['image'],
+                      imageUrl: widget.snapshot!['image'],
                       placeholder: (context, url) => const Icon(
                         Icons.image_not_supported_sharp,
                         color: Color(0xFFEF9A9A),
@@ -101,7 +101,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                         children: <Widget>[
                           Expanded(
                               child: Text(
-                            widget.snapshot['fullName'],
+                            widget.snapshot!['fullName'],
                             style: TextStyle(fontSize: 25),
                           )),
                           SubscribeButton(widget.snapshot, widget.globalBloc)
@@ -111,7 +111,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: Text(
-                        "${widget.snapshot['descp']}",
+                        "${widget.snapshot!['descp']}",
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w200),
                       ),
@@ -119,7 +119,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     GestureDetector(
                       onTap: () async {
                         String url =
-                            "https://www.facebook.com/${widget.snapshot['id']}";
+                            "https://www.facebook.com/${widget.snapshot!['id']}";
                         if (await canLaunch(url)) {
                           launch(url);
                         }
@@ -150,25 +150,25 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                 child: !moreAvailable
                     ? Container()
                     : Visibility(
-                      visible: upcomingVisibility,
-                      child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Upcoming Events',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 20.0),
-                  ),
-                ),
-                    ),
+                        visible: upcomingVisibility,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Upcoming Events',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
               ),
               PagewiseSliverList(
                 pageSize: batchSize,
                 pageFuture: (pageIndex) {
                   return Future<List<DocumentSnapshot>>(() async {
-                    if (eventListCache.length <= pageIndex * batchSize) {
-                      if (!moreAvailable) return List<DocumentSnapshot>();
+                    if (eventListCache.length <= pageIndex! * batchSize) {
+                      if (!moreAvailable) return [];
                       print('fetching...');
-                      DocumentSnapshot last;
+                      DocumentSnapshot? last;
                       if (eventListCache.length > 0) last = eventListCache.last;
                       //fetch
                       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -177,7 +177,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                               isGreaterThan: last == null
                                   ? DateTime.now()
                                   : last.get('date'))
-                          .where('society', isEqualTo: widget.snapshot['name'])
+                          .where('society', isEqualTo: widget.snapshot!['name'])
                           .orderBy('date')
                           .limit(batchSize)
                           .get();
@@ -194,7 +194,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
 
                       return snapshot.docs;
                     } else {
-                      if(this.mounted) {
+                      if (this.mounted) {
                         setState(() {
                           upcomingVisibility = true;
                         });
@@ -210,8 +210,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                     }
                   });
                 },
-
-                itemBuilder: (context, entry, i) {
+                itemBuilder: (context, dynamic entry, i) {
                   return EventListTile(entry);
                 },
               ),
@@ -234,11 +233,10 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                       pageFuture: (pageIndex) {
                         return Future<List<DocumentSnapshot>>(() async {
                           if (pastEventListCache.length <=
-                              pageIndex * pastBatchSize) {
-                            if (!pastMoreAvailable)
-                              return List<DocumentSnapshot>();
+                              pageIndex! * pastBatchSize) {
+                            if (!pastMoreAvailable) return [];
                             print('fetching...');
-                            DocumentSnapshot last;
+                            DocumentSnapshot? last;
                             if (pastEventListCache.length > 0)
                               last = pastEventListCache.last;
                             //fetch
@@ -250,7 +248,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                                         ? DateTime.now()
                                         : last.get('date'))
                                 .where('society',
-                                    isEqualTo: widget.snapshot['name'])
+                                    isEqualTo: widget.snapshot!['name'])
                                 .orderBy('date', descending: true)
                                 .limit(pastBatchSize)
                                 .get();
@@ -284,7 +282,7 @@ class SocietyDetailPageState extends State<SocietyDetailPage> {
                           ],
                         );
                       },
-                      itemBuilder: (context, entry, i) {
+                      itemBuilder: (context, dynamic entry, i) {
                         return EventListTile(entry);
                       },
                     ),
